@@ -42,6 +42,7 @@ function App() {
       },
       scrollback: 10000,
       allowProposedApi: true,
+      cols: 160, // 设置最大列数，适配 1400px 宽度
     });
 
     // 创建 fit addon
@@ -160,27 +161,38 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* 头部 */}
-      <div className="app-header">
-        <div className="header-left">
-          <h1 className="app-title">Claude CLI Terminal</h1>
-          <div className="connection-status">
-            <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
-            <span>{isConnected ? '已连接' : '未连接'}</span>
+      {/* Mac 风格窗口 */}
+      <div className="terminal-window">
+        {/* 头部 */}
+        <div className="app-header">
+          {/* Mac 三色按钮 */}
+          <div className="window-controls">
+            <div className="window-control close" title="关闭"></div>
+            <div className="window-control minimize" title="最小化"></div>
+            <div className="window-control maximize" title="最大化"></div>
+          </div>
+
+          <div className="header-left">
+            <h1 className="app-title">Claude CLI Terminal</h1>
+            <div className="connection-status">
+              <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
+              <span>{isConnected ? '已连接' : '未连接'}</span>
+            </div>
+          </div>
+
+          <div className="header-buttons">
+            <button onClick={clearTerminal} className="header-button">
+              清空终端
+            </button>
+            <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
+              重启 CLI
+            </button>
           </div>
         </div>
-        <div className="header-buttons">
-          <button onClick={clearTerminal} className="header-button">
-            清空终端
-          </button>
-          <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
-            重启 CLI
-          </button>
-        </div>
-      </div>
 
-      {/* 终端区域 */}
-      <div ref={terminalRef} className="terminal-container" />
+        {/* 终端区域 */}
+        <div ref={terminalRef} className="terminal-container" />
+      </div>
     </div>
   );
 }
