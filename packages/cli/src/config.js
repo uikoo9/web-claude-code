@@ -80,6 +80,18 @@ async function promptConfig() {
     },
     {
       type: 'input',
+      name: 'anthropicModel',
+      message: 'Claude 模型:',
+      default: 'claude-sonnet-4-5-20250929',
+    },
+    {
+      type: 'input',
+      name: 'anthropicSmallFastModel',
+      message: '小型快速模型:',
+      default: 'claude-sonnet-4-5-20250929',
+    },
+    {
+      type: 'input',
       name: 'port',
       message: '服务器端口:',
       default: '4000',
@@ -105,8 +117,8 @@ async function promptConfig() {
     claudePath: answers.claudePath,
     anthropicBaseUrl: answers.anthropicBaseUrl,
     anthropicAuthToken: answers.anthropicAuthToken,
-    anthropicModel: 'claude-sonnet-4-5-20250929',
-    anthropicSmallFastModel: 'claude-sonnet-4-5-20250929',
+    anthropicModel: answers.anthropicModel,
+    anthropicSmallFastModel: answers.anthropicSmallFastModel,
   };
 }
 
