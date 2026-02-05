@@ -58,6 +58,7 @@ function App() {
 
     // 写入欢迎消息
     term.writeln('\x1b[1;36m欢迎使用 webcc.dev: web-claude-code\x1b[0m');
+    term.writeln('');
     term.writeln('\x1b[90m正在连接到服务器...\x1b[0m\n');
 
     // 监听终端输入 - 直接发送所有按键到服务器
