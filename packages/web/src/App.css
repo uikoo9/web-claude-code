@@ -32,6 +32,7 @@ body {
 .terminal-window {
   width: 100%;
   max-width: 1400px;
+  min-width: 1378px;
   height: 90vh;
   max-height: 900px;
   display: flex;
@@ -196,6 +197,23 @@ body {
   height: 100%;
   overflow: hidden;
   background-color: #1e1e1e;
+  padding: 0;
+  margin: 0;
+}
+
+/* 确保 xterm 完全填充容器 */
+.terminal-container .xterm {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0;
+}
+
+.terminal-container .xterm-viewport {
+  width: 100% !important;
+}
+
+.terminal-container .xterm-screen {
+  width: 100% !important;
 }
 
 /* 响应式调整 */
