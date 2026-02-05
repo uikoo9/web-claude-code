@@ -14,7 +14,7 @@
   },
   "files": [
     "views",
-    "index.js",
+    "src",
     "server.js",
     ".env.example"
   ],

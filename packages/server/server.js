@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { startClaudeCodeServer } = require('./index');
+const { startClaudeCodeServer } = require('./src/index');
 
 // 从环境变量读取配置
 const config = {
