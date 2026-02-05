@@ -26,7 +26,9 @@
     "update": "qpro ncu u && npm --workspaces exec -- qpro ncu u",
     "pkg": "qpro pkg ./packages",
     "dpkg": "qpro pkg ./packages dev",
-    "clean": "nx reset"
+    "clean": "nx reset",
+    "web:dev": "npm run dev --workspace=@webccc/web",
+    "web:build": "npm run build --workspace=@webccc/web"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.3.0",
