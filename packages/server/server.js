@@ -5,6 +5,7 @@ const { startClaudeCodeServer } = require('./src/index');
 const config = {
   port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
   claudePath: process.env.CLAUDE_PATH,
+  workDir: process.env.WORK_DIR,
   anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
   anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
   anthropicModel: process.env.ANTHROPIC_MODEL,
