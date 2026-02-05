@@ -21,6 +21,6 @@ export default defineConfig({
     // 构建产物输出到 server/views 目录
     outDir: resolve(__dirname, '../server/views'),
     emptyOutDir: true, // 构建前清空目录
-    assetsDir: '', // 资源文件直接放在 views 根目录，不放到 assets 子目录
+    assetsDir: 'assets', // 资源文件放到 assets 子目录
   },
 });
