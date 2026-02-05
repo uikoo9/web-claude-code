@@ -8,7 +8,7 @@ Web Claude Code CLI - 让你可以在浏览器中使用 Claude Code 的命令行
 
 `@webccc/cli` 是一个命令行工具，让你可以直接在浏览器中使用 Claude Code，通过便捷的 Web 终端界面与 Claude CLI 交互。
 
-![演示截图](./demo.png)
+![演示截图](https://static-small.vincentqiao.com/webcc.png)
 
 功能特性：
 
