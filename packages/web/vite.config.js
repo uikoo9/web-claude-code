@@ -1,8 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
+  base: '/static/',
   server: {
     port: 3000,
     open: true,
@@ -14,5 +16,11 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  build: {
+    // 构建产物输出到 server/views 目录
+    outDir: resolve(__dirname, '../server/views'),
+    emptyOutDir: true, // 构建前清空目录
+    assetsDir: '', // 资源文件直接放在 views 根目录，不放到 assets 子目录
   },
 });

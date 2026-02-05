@@ -13,10 +13,17 @@
     "url": "https://github.com/uikoo9/web-claude-code/issues"
   },
   "files": [
-    "server",
-    "app.js"
+    "views",
+    "server.js"
   ],
-  "dependencies": {},
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3",
+    "cors": "^2.8.6"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

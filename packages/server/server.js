@@ -1,13 +1,9 @@
-import express from 'express';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import cors from 'cors';
-import { spawn } from 'child_process';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+const { spawn } = require('child_process');
+const path = require('path');
 
 const app = express();
 const httpServer = createServer(app);
@@ -15,8 +11,31 @@ const httpServer = createServer(app);
 // 配置 CORS
 app.use(cors());
 
+// 配置静态文件服务 - /static 路径指向 views 目录
+app.use(
+  '/static',
+  express.static(path.join(__dirname, 'views'), {
+    setHeaders: (res, filePath) => {
+      // 为 .js 文件设置正确的 Content-Type
+      if (filePath.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
+      }
+      // 为 .css 文件设置正确的 Content-Type
+      if (filePath.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css; charset=UTF-8');
+      }
+    },
+  }),
+);
+
+// 根路径返回 index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+
 // 创建 Socket.IO 服务器
 const io = new Server(httpServer, {
+  path: '/ws',
   cors: {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
@@ -31,7 +50,7 @@ function startCLI() {
 
   try {
     // 使用 expect 脚本来运行 claude，这样可以创建真正的 PTY
-    const expectScript = join(__dirname, 'run-claude.exp');
+    const expectScript = path.join(__dirname, 'run-claude.exp');
 
     cliProcess = spawn(expectScript, [], {
       cwd: process.env.HOME,
