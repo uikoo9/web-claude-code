@@ -10,19 +10,39 @@ const path = require('path');
  * @param {Object} options - 配置选项
  * @param {number} options.port - 服务器端口，默认 4000
  * @param {string} options.host - 服务器主机，默认 '0.0.0.0'
- * @param {string} options.viewsDir - views 目录路径，默认为当前目录下的 views
- * @param {string} options.expectScript - expect 脚本路径，默认为当前目录下的 run-claude.exp
- * @param {string} options.corsOrigin - CORS 允许的源，默认 'http://localhost:3000'
+ * @param {string} options.anthropicBaseUrl - Anthropic API Base URL（必填）
+ * @param {string} options.anthropicAuthToken - Anthropic Auth Token（必填）
+ * @param {string} options.anthropicModel - Anthropic Model，默认 'claude-sonnet-4-5-20250929'
+ * @param {string} options.anthropicSmallFastModel - Anthropic Small Fast Model，默认 'claude-sonnet-4-5-20250929'
  * @returns {Object} 返回服务器实例和控制方法
  */
 function startClaudeCodeServer(options = {}) {
   const {
     port = 4000,
     host = '0.0.0.0',
-    viewsDir = path.join(__dirname, 'views'),
-    expectScript = path.join(__dirname, 'run-claude.exp'),
-    corsOrigin = 'http://localhost:3000',
+    anthropicBaseUrl,
+    anthropicAuthToken,
+    anthropicModel = 'claude-sonnet-4-5-20250929',
+    anthropicSmallFastModel = 'claude-sonnet-4-5-20250929',
   } = options;
+
+  // 内部固定配置
+  const viewsDir = path.join(__dirname, 'views');
+  const expectScript = path.join(__dirname, 'run-claude.exp');
+  const corsOrigin = 'http://localhost:3000';
+
+  // 验证必填参数
+  if (!anthropicBaseUrl) {
+    console.error('❌ 错误: anthropicBaseUrl 参数是必填的');
+    console.error('请在启动时提供 Anthropic API Base URL');
+    process.exit(1);
+  }
+
+  if (!anthropicAuthToken) {
+    console.error('❌ 错误: anthropicAuthToken 参数是必填的');
+    console.error('请在启动时提供 Anthropic Auth Token');
+    process.exit(1);
+  }
 
   const app = express();
   const httpServer = createServer(app);
@@ -72,6 +92,10 @@ function startClaudeCodeServer(options = {}) {
         env: {
           ...process.env,
           TERM: 'xterm-256color',
+          ANTHROPIC_BASE_URL: anthropicBaseUrl,
+          ANTHROPIC_AUTH_TOKEN: anthropicAuthToken,
+          ANTHROPIC_MODEL: anthropicModel,
+          ANTHROPIC_SMALL_FAST_MODEL: anthropicSmallFastModel,
         },
         stdio: ['pipe', 'pipe', 'pipe'],
       });

@@ -21,19 +21,53 @@ npm install @webccc/server
 ```javascript
 const { startClaudeCodeServer } = require('@webccc/server');
 
-// 使用默认配置启动服务器（推荐）
-const server = startClaudeCodeServer();
-
-// 或者自定义端口和主机
+// 启动服务器（需要提供 Claude 配置）
 const server = startClaudeCodeServer({
-  port: 8080, // 自定义端口
-  host: '0.0.0.0', // 监听所有网络接口
+  anthropicBaseUrl: 'http://your-api-url:3000/api', // 必填
+  anthropicAuthToken: 'your_auth_token_here', // 必填
+  anthropicModel: 'claude-sonnet-4-5-20250929', // 可选，默认值
+  anthropicSmallFastModel: 'claude-sonnet-4-5-20250929', // 可选，默认值
+  port: 4000, // 可选，默认 4000
+  host: '0.0.0.0', // 可选，默认 '0.0.0.0'
 });
 
 // 在需要时停止服务器
 process.on('SIGINT', () => {
   server.stop();
   process.exit(0);
+});
+```
+
+### 使用环境变量（推荐）
+
+创建 `.env` 文件：
+
+```bash
+# Anthropic API 配置（必填）
+ANTHROPIC_BASE_URL=http://your-api-url:3000/api
+ANTHROPIC_AUTH_TOKEN=your_auth_token_here
+
+# Claude 模型配置（可选）
+ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
+ANTHROPIC_SMALL_FAST_MODEL=claude-sonnet-4-5-20250929
+
+# 服务器配置（可选）
+PORT=4000
+```
+
+然后使用 `server.js` 启动：
+
+```javascript
+// server.js 会自动读取 .env 文件
+require('dotenv').config();
+const { startClaudeCodeServer } = require('@webccc/server');
+
+const server = startClaudeCodeServer({
+  anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
+  anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
+  anthropicModel: process.env.ANTHROPIC_MODEL,
+  anthropicSmallFastModel: process.env.ANTHROPIC_SMALL_FAST_MODEL,
+  port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
 });
 ```
 
@@ -46,8 +80,12 @@ process.on('SIGINT', () => {
 **参数：**
 
 - `options` (Object) - 可选配置对象
-  - `port` (number) - 服务器端口，默认 `4000`
-  - `host` (string) - 服务器主机，默认 `'0.0.0.0'`
+  - `anthropicBaseUrl` (string) - **必填** Anthropic API Base URL
+  - `anthropicAuthToken` (string) - **必填** Anthropic Auth Token
+  - `anthropicModel` (string) - 可选，Claude 模型，默认 `'claude-sonnet-4-5-20250929'`
+  - `anthropicSmallFastModel` (string) - 可选，小型快速模型，默认 `'claude-sonnet-4-5-20250929'`
+  - `port` (number) - 可选，服务器端口，默认 `4000`
+  - `host` (string) - 可选，服务器主机，默认 `'0.0.0.0'`
 
 **返回值：**
 

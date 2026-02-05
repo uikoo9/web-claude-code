@@ -16,12 +16,14 @@
     "views",
     "index.js",
     "server.js",
-    "run-claude.exp"
+    "run-claude.exp",
+    ".env.example"
   ],
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^5.2.1",
     "socket.io": "^4.8.3",
     "cors": "^2.8.6"
