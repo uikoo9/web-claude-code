@@ -50,7 +50,7 @@ function createCLIManager(options) {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
-      logger.success('Claude CLI 已启动（通过 expect），PID:', cliProcess.pid);
+      logger.success('Claude CLI 已启动');
 
       // 设置编码
       if (cliProcess.stdout) {
@@ -62,9 +62,6 @@ function createCLIManager(options) {
 
       // 监听标准输出
       cliProcess.stdout.on('data', (data) => {
-        logger.divider('CLI 输出');
-        logger.cli(data);
-        logger.divider();
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -77,9 +74,6 @@ function createCLIManager(options) {
 
       // 监听错误输出
       cliProcess.stderr.on('data', (data) => {
-        logger.divider('CLI 错误');
-        logger.error(data);
-        logger.divider();
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -139,7 +133,6 @@ function createCLIManager(options) {
     if (tempExpectScript && fs.existsSync(tempExpectScript)) {
       try {
         fs.unlinkSync(tempExpectScript);
-        logger.success('已清理临时 expect 脚本');
       } catch (err) {
         logger.error('清理临时文件失败:', err.message);
       }
