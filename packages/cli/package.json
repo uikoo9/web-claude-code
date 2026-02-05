@@ -1,11 +1,7 @@
 {
   "name": "@webccc/cli",
   "version": "0.0.1",
-  "description": "web claude code cli",
-  "keywords": [
-    "web claude code",
-    "cli"
-  ],
+  "description": "CLI tool to start web-claude-code server",
   "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
   "homepage": "https://github.com/uikoo9/web-claude-code",
@@ -17,12 +13,24 @@
     "url": "https://github.com/uikoo9/web-claude-code/issues"
   },
   "bin": {
-    "shunjs": "./bin/webcc.js"
+    "webcc": "./bin/webcc.js"
   },
   "files": [
-    "bin"
+    "bin",
+    "src",
+    "README.md"
   ],
-  "dependencies": {},
+  "scripts": {
+    "start": "node bin/webcc.js"
+  },
+  "dependencies": {
+    "@webccc/server": "*",
+    "chalk": "^4.1.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.7",
+    "figlet": "^1.8.0",
+    "inquirer": "^8.2.6"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
