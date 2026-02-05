@@ -35,6 +35,7 @@ function loadEnvConfig(cwd) {
     port: parsed.PORT ? parseInt(parsed.PORT) : 4000,
     host: parsed.HOST || '0.0.0.0',
     claudePath: parsed.CLAUDE_PATH || 'claude',
+    workDir: parsed.WORK_DIR || process.cwd(),
     anthropicBaseUrl: parsed.ANTHROPIC_BASE_URL,
     anthropicAuthToken: parsed.ANTHROPIC_AUTH_TOKEN,
     anthropicModel: parsed.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929',
@@ -80,6 +81,12 @@ async function promptConfig() {
     },
     {
       type: 'input',
+      name: 'workDir',
+      message: 'Claude 工作目录:',
+      default: process.cwd(),
+    },
+    {
+      type: 'input',
       name: 'anthropicModel',
       message: 'Claude 模型:',
       default: 'claude-sonnet-4-5-20250929',
@@ -115,6 +122,7 @@ async function promptConfig() {
     port: parseInt(answers.port),
     host: answers.host,
     claudePath: answers.claudePath,
+    workDir: answers.workDir,
     anthropicBaseUrl: answers.anthropicBaseUrl,
     anthropicAuthToken: answers.anthropicAuthToken,
     anthropicModel: answers.anthropicModel,

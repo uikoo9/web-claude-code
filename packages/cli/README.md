@@ -69,6 +69,7 @@ ANTHROPIC_AUTH_TOKEN=your_auth_token_here
 
 # Claude CLI Configuration (Optional)
 CLAUDE_PATH=claude
+WORK_DIR=/path/to/your/project
 
 # Claude Model Configuration (Optional)
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
@@ -92,10 +93,11 @@ If no `.env` file exists, running `webcc` will prompt you to enter:
 1. Anthropic API Base URL (Required)
 2. Anthropic Auth Token (Required)
 3. Claude CLI Path (Optional, default: `claude`)
-4. Claude Model (Optional, default: `claude-sonnet-4-5-20250929`)
-5. Small Fast Model (Optional, default: `claude-sonnet-4-5-20250929`)
-6. Server Port (Optional, default: `4000`)
-7. Server Host (Optional, default: `0.0.0.0`)
+4. Working Directory (Optional, default: current directory)
+5. Claude Model (Optional, default: `claude-sonnet-4-5-20250929`)
+6. Small Fast Model (Optional, default: `claude-sonnet-4-5-20250929`)
+7. Server Port (Optional, default: `4000`)
+8. Server Host (Optional, default: `0.0.0.0`)
 
 ## Configuration Details
 
@@ -108,13 +110,14 @@ If no `.env` file exists, running `webcc` will prompt you to enter:
 
 ### Optional Configuration
 
-| Config Item      | Environment Variable         | Default Value                | Description                      |
-| ---------------- | ---------------------------- | ---------------------------- | -------------------------------- |
-| Claude CLI Path  | `CLAUDE_PATH`                | `claude`                     | Path to Claude CLI executable    |
-| Claude Model     | `ANTHROPIC_MODEL`            | `claude-sonnet-4-5-20250929` | Main Claude model to use         |
-| Small Fast Model | `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | Small fast model for quick tasks |
-| Server Port      | `PORT`                       | `4000`                       | Web server listening port        |
-| Server Host      | `HOST`                       | `0.0.0.0`                    | Web server listening host        |
+| Config Item       | Environment Variable         | Default Value                | Description                      |
+| ----------------- | ---------------------------- | ---------------------------- | -------------------------------- |
+| Claude CLI Path   | `CLAUDE_PATH`                | `claude`                     | Path to Claude CLI executable    |
+| Working Directory | `WORK_DIR`                   | Current directory            | Claude CLI working directory     |
+| Claude Model      | `ANTHROPIC_MODEL`            | `claude-sonnet-4-5-20250929` | Main Claude model to use         |
+| Small Fast Model  | `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | Small fast model for quick tasks |
+| Server Port       | `PORT`                       | `4000`                       | Web server listening port        |
+| Server Host       | `HOST`                       | `0.0.0.0`                    | Web server listening host        |
 
 ## Usage Examples
 

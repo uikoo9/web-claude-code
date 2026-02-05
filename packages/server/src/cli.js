@@ -9,6 +9,7 @@ const { logger } = require('./logger');
  * 创建 Claude CLI 管理器
  * @param {Object} options - 配置选项
  * @param {string} options.claudePath - Claude CLI 路径
+ * @param {string} options.workDir - Claude CLI 工作目录
  * @param {string} options.anthropicBaseUrl - Anthropic API Base URL
  * @param {string} options.anthropicAuthToken - Anthropic Auth Token
  * @param {string} options.anthropicModel - Anthropic Model
@@ -17,7 +18,8 @@ const { logger } = require('./logger');
  * @returns {Object} CLI 管理器对象
  */
 function createCLIManager(options) {
-  const { claudePath, anthropicBaseUrl, anthropicAuthToken, anthropicModel, anthropicSmallFastModel, getIO } = options;
+  const { claudePath, workDir, anthropicBaseUrl, anthropicAuthToken, anthropicModel, anthropicSmallFastModel, getIO } =
+    options;
 
   let cliProcess = null;
   let tempExpectScript = null;
@@ -38,7 +40,7 @@ function createCLIManager(options) {
 
       // 启动进程
       cliProcess = spawn(tempExpectScript, [], {
-        cwd: process.env.HOME,
+        cwd: workDir,
         env: {
           ...process.env,
           TERM: 'xterm-256color',

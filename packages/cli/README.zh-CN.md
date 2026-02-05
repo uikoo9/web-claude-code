@@ -69,6 +69,7 @@ ANTHROPIC_AUTH_TOKEN=your_auth_token_here
 
 # Claude CLI 配置（可选）
 CLAUDE_PATH=claude
+WORK_DIR=/path/to/your/project
 
 # Claude 模型配置（可选）
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
@@ -92,10 +93,11 @@ webcc
 1. Anthropic API Base URL（必填）
 2. Anthropic Auth Token（必填）
 3. Claude CLI 路径（可选，默认：`claude`）
-4. Claude 模型（可选，默认：`claude-sonnet-4-5-20250929`）
-5. 小型快速模型（可选，默认：`claude-sonnet-4-5-20250929`）
-6. 服务器端口（可选，默认：`4000`）
-7. 服务器主机（可选，默认：`0.0.0.0`）
+4. 工作目录（可选，默认：当前目录）
+5. Claude 模型（可选，默认：`claude-sonnet-4-5-20250929`��
+6. 小型快速模型（可选，默认：`claude-sonnet-4-5-20250929`）
+7. 服务器端口（可选，默认：`4000`）
+8. 服务器主机（可选，默认：`0.0.0.0`）
 
 ## 配置项详情
 
@@ -111,8 +113,9 @@ webcc
 | 配置项          | 环境变量                     | 默认值                       | 说明                      |
 | --------------- | ---------------------------- | ---------------------------- | ------------------------- |
 | Claude CLI 路径 | `CLAUDE_PATH`                | `claude`                     | Claude CLI 可执行文件路径 |
+| 工作目录        | `WORK_DIR`                   | 当前目录                     | Claude CLI 工作目录       |
 | Claude 模型     | `ANTHROPIC_MODEL`            | `claude-sonnet-4-5-20250929` | 主要使用的 Claude 模型    |
-| 小型��速模型    | `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | 用于快速任务的小型模型    |
+| 小型快速模型    | `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | 用于快速任务的小型模型    |
 | 服务器端口      | `PORT`                       | `4000`                       | Web 服务器监听端口        |
 | 服务器主机      | `HOST`                       | `0.0.0.0`                    | Web 服务器监听主机        |
 

@@ -11,6 +11,7 @@ const { logger } = require('./logger');
  * @param {number} options.port - 服务器端口，默认 4000
  * @param {string} options.host - 服务器主机，默认 '0.0.0.0'
  * @param {string} options.claudePath - Claude CLI 路径，默认 'claude'（从 PATH 查找）
+ * @param {string} options.workDir - Claude CLI 工作目录，默认用户 HOME 目录
  * @param {string} options.anthropicBaseUrl - Anthropic API Base URL（必填）
  * @param {string} options.anthropicAuthToken - Anthropic Auth Token（必填）
  * @param {string} options.anthropicModel - Anthropic Model，默认 'claude-sonnet-4-5-20250929'
@@ -22,6 +23,7 @@ function startClaudeCodeServer(options = {}) {
     port = 4000,
     host = '0.0.0.0',
     claudePath = 'claude',
+    workDir = process.env.HOME,
     anthropicBaseUrl,
     anthropicAuthToken,
     anthropicModel = 'claude-sonnet-4-5-20250929',
@@ -57,6 +59,7 @@ function startClaudeCodeServer(options = {}) {
   // 创建 CLI 管理器
   const cliManager = createCLIManager({
     claudePath,
+    workDir,
     anthropicBaseUrl,
     anthropicAuthToken,
     anthropicModel,
