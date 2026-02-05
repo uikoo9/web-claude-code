@@ -32,12 +32,12 @@
     "server:start": "npm run web:build && npm run start --workspace=@webccc/server"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
     "husky": "^9.1.7",
     "lerna": "^9.0.3",
     "lint-staged": "^16.2.7",
-    "nx": "^22.3.3",
+    "nx": "^22.4.5",
     "qiao-project": "^5.0.6"
   }
 }
