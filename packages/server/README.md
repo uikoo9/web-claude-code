@@ -48,9 +48,6 @@ process.on('SIGINT', () => {
 - `options` (Object) - 可选配置对象
   - `port` (number) - 服务器端口，默认 `4000`
   - `host` (string) - 服务器主机，默认 `'0.0.0.0'`
-  - `viewsDir` (string) - [高级] Web 界面文件目录，默认为模块目录下的 `views`，通常无需修改
-  - `expectScript` (string) - [高级] expect 脚本路径，默认为模块目录下的 `run-claude.exp`，通常无需修改
-  - `corsOrigin` (string) - [开发] CORS 允许的源，默认 `'http://localhost:3000'`，用于 Web 开发调试
 
 **返回值：**
 
@@ -129,24 +126,6 @@ packages/server/
 - `express` - Web 框架
 - `socket.io` - WebSocket 通信
 - `cors` - 跨域资源共享
-
-## 开发
-
-### 本地运行
-
-```bash
-# 在项目根目录
-npm run server:start
-```
-
-### 构建 Web 界面
-
-```bash
-# 在项目根目录
-npm run web:build
-```
-
-这会将 Web 界面构建到 `packages/server/views` 目录。
 
 ## License
 
