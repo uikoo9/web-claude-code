@@ -263,11 +263,6 @@ npm start
 - Linux: `sudo apt-get install expect`
 - Windows: 使用 WSL
 
-## 相关包
-
-- [@webccc/server](../server) - 在浏览器中运行 Claude Code 的后端服务器
-- [@webccc/web](../web) - Web 终端界面
-
 ## 许可证
 
 MIT

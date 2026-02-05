@@ -263,11 +263,6 @@ npm start
 - Linux: `sudo apt-get install expect`
 - Windows: Use WSL
 
-## Related Packages
-
-- [@webccc/server](../server) - Backend server for running Claude Code in browser
-- [@webccc/web](../web) - Web-based terminal interface
-
 ## License
 
 MIT
