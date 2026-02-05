@@ -39,43 +39,6 @@ process.on('SIGINT', () => {
 });
 ```
 
-### 使用环境变量（推荐）
-
-创建 `.env` 文件：
-
-```bash
-# Claude CLI 配置
-CLAUDE_PATH=claude
-
-# Anthropic API 配置（必填）
-ANTHROPIC_BASE_URL=http://your-api-url:3000/api
-ANTHROPIC_AUTH_TOKEN=your_auth_token_here
-
-# Claude 模型配置（可选）
-ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
-ANTHROPIC_SMALL_FAST_MODEL=claude-sonnet-4-5-20250929
-
-# 服务器配置（可选）
-PORT=4000
-```
-
-然后使用 `server.js` 启动：
-
-```javascript
-// server.js 会自动读取 .env 文件
-require('dotenv').config();
-const { startClaudeCodeServer } = require('@webccc/server');
-
-const server = startClaudeCodeServer({
-  claudePath: process.env.CLAUDE_PATH,
-  anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
-  anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
-  anthropicModel: process.env.ANTHROPIC_MODEL,
-  anthropicSmallFastModel: process.env.ANTHROPIC_SMALL_FAST_MODEL,
-  port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
-});
-```
-
 ## API 接口
 
 ### startClaudeCodeServer(options)
@@ -133,7 +96,6 @@ const server = startClaudeCodeServer({
 packages/server/
 ├── index.js           # 主模块，导出 startClaudeCodeServer
 ├── server.js          # 独立运行的服务器入口
-├── .env.example       # 环境变量配置示例
 ├── views/             # Web 界面静态文件（构建产物）
 │   ├── index.html
 │   └── assets/

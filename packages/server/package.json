@@ -15,8 +15,7 @@
   "files": [
     "views",
     "src",
-    "server.js",
-    ".env.example"
+    "server.js"
   ],
   "scripts": {
     "start": "node server.js"
