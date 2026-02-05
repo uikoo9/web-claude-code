@@ -18,14 +18,6 @@ npm install @webccc/server
 
 ## 使用方法
 
-### 方式一：直接运行（推荐用于开发）
-
-```bash
-node server.js
-```
-
-### 方式二：作为模块引入（推荐用于集成）
-
 ```javascript
 const { startClaudeCodeServer } = require('@webccc/server');
 
