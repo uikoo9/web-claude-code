@@ -263,6 +263,3 @@ yarn.lock
 ## -- project --
 .nx
 .npmrc
-
-packages/server/views/*
-!packages/server/views/.gitkeep

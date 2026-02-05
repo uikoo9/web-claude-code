@@ -6,4 +6,4 @@ package-lock.json
 
 # packages
 
-packages/server/views
+packages/server/views/assets

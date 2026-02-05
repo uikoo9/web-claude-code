@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/static/',
+  base: '/',
   server: {
     port: 3000,
     open: true,

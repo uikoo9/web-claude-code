@@ -30,9 +30,8 @@ function startClaudeCodeServer(options = {}) {
   // 配置 CORS
   app.use(cors());
 
-  // 配置静态文件服务 - /static 路径指向 views 目录
+  // 配置静态文件服务 - 直接将 views 目录作为根静态目录
   app.use(
-    '/static',
     express.static(viewsDir, {
       setHeaders: (res, filePath) => {
         // 为 .js 文件设置正确的 Content-Type
@@ -47,7 +46,7 @@ function startClaudeCodeServer(options = {}) {
     }),
   );
 
-  // 根路径返回 index.html
+  // 根路径返回 index.html（确保 SPA 路由正常工作）
   app.get('/', (req, res) => {
     res.sendFile(path.join(viewsDir, 'index.html'));
   });
