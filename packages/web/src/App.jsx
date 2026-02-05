@@ -3,12 +3,14 @@ import { io } from 'socket.io-client';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';
+import './App.css';
 
 function App() {
   const terminalRef = useRef(null);
   const xtermRef = useRef(null);
   const fitAddonRef = useRef(null);
   const socketRef = useRef(null);
+  const resizeObserverRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
@@ -65,40 +67,78 @@ function App() {
       }
     });
 
-    // 连接到 Socket.IO 服务器
-    const socket = io('http://localhost:4000');
+    // 连接到 Socket.IO 服务器（使用相对路径 /ws，自动适配域名/IP/localhost）
+    // 开发环境会通过 Vite proxy 代理到 4000 端口
+    // 生产环境前后端同端口，直接连接
+    const socket = io({
+      path: '/ws',
+    });
     socketRef.current = socket;
 
-    // 连接成功
-    socket.on('connect', () => {
+    // Socket 事件处理函数
+    const handleConnect = () => {
       setIsConnected(true);
       term.writeln('\x1b[1;32m✓ 已连接到服务器\x1b[0m');
       term.writeln('\x1b[90m正在启动 Claude CLI...\x1b[0m\n');
-    });
+    };
 
-    // 接收 CLI 输出
-    socket.on('cli-output', (data) => {
+    const handleDisconnect = () => {
+      setIsConnected(false);
+      term.writeln('\n\x1b[1;31m✗ 已断开连接\x1b[0m');
+    };
+
+    const handleConnectError = (error) => {
+      setIsConnected(false);
+      term.writeln(`\x1b[1;31m✗ 连接失败: ${error.message}\x1b[0m`);
+      term.writeln('\x1b[90m正在尝试重新连接...\x1b[0m\n');
+    };
+
+    const handleError = (error) => {
+      term.writeln(`\x1b[1;31m✗ 错误: ${error.message || error}\x1b[0m\n`);
+    };
+
+    const handleCliOutput = (data) => {
       if (data.data) {
         term.write(data.data);
       }
-    });
-
-    // 断开连接
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-      term.writeln('\n\x1b[1;31m✗ 已断开连接\x1b[0m');
-    });
-
-    // 窗口大小调整
-    const handleResize = () => {
-      fitAddon.fit();
     };
-    window.addEventListener('resize', handleResize);
+
+    // 注册 Socket 事件监听器
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+    socket.on('connect_error', handleConnectError);
+    socket.on('error', handleError);
+    socket.on('cli-output', handleCliOutput);
+
+    // 使用 ResizeObserver 改进终端大小调整
+    const resizeObserver = new ResizeObserver(() => {
+      // 使用 requestAnimationFrame 防止频繁调用
+      requestAnimationFrame(() => {
+        fitAddon.fit();
+      });
+    });
+
+    if (terminalRef.current) {
+      resizeObserver.observe(terminalRef.current);
+      resizeObserverRef.current = resizeObserver;
+    }
 
     // 清理函数
     return () => {
-      window.removeEventListener('resize', handleResize);
+      // 清理 ResizeObserver
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+      }
+
+      // 清理 Socket 事件监听器
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+      socket.off('connect_error', handleConnectError);
+      socket.off('error', handleError);
+      socket.off('cli-output', handleCliOutput);
       socket.disconnect();
+
+      // 清理终端
       term.dispose();
     };
   }, []);
@@ -119,100 +159,28 @@ function App() {
   };
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#1e1e1e',
-        color: '#e8e8e8',
-      }}
-    >
+    <div className="app-container">
       {/* 头部 */}
-      <div
-        style={{
-          padding: '15px 20px',
-          backgroundColor: '#2d2d2d',
-          borderBottom: '1px solid #3d3d3d',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <h1 style={{ margin: 0, fontSize: '18px', fontWeight: 'bold' }}>Claude CLI Terminal</h1>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '12px',
-            }}
-          >
-            <div
-              style={{
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: isConnected ? '#6bcf7f' : '#ff6b6b',
-              }}
-            ></div>
+      <div className="app-header">
+        <div className="header-left">
+          <h1 className="app-title">Claude CLI Terminal</h1>
+          <div className="connection-status">
+            <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
             <span>{isConnected ? '已连接' : '未连接'}</span>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button
-            onClick={clearTerminal}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: '#3d3d3d',
-              color: '#e8e8e8',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '12px',
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={(e) => (e.target.style.backgroundColor = '#4d4d4d')}
-            onMouseLeave={(e) => (e.target.style.backgroundColor = '#3d3d3d')}
-          >
+        <div className="header-buttons">
+          <button onClick={clearTerminal} className="header-button">
             清空终端
           </button>
-          <button
-            onClick={restartCLI}
-            disabled={!isConnected}
-            style={{
-              padding: '8px 16px',
-              backgroundColor: isConnected ? '#4d4d4d' : '#3d3d3d',
-              color: isConnected ? '#e8e8e8' : '#888',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: isConnected ? 'pointer' : 'not-allowed',
-              fontSize: '12px',
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              if (isConnected) e.target.style.backgroundColor = '#5d5d5d';
-            }}
-            onMouseLeave={(e) => {
-              if (isConnected) e.target.style.backgroundColor = '#4d4d4d';
-            }}
-          >
+          <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
             重启 CLI
           </button>
         </div>
       </div>
 
       {/* 终端区域 */}
-      <div
-        ref={terminalRef}
-        style={{
-          flex: 1,
-          padding: '10px',
-          overflow: 'hidden',
-        }}
-      />
+      <div ref={terminalRef} className="terminal-container" />
     </div>
   );
 }
