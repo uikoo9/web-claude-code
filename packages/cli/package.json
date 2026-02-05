@@ -19,7 +19,8 @@
     "bin",
     "src",
     "README.md",
-    "README.zh-CN.md"
+    "README.zh-CN.md",
+    "demo.png"
   ],
   "scripts": {
     "start": "node bin/webcc.js"

@@ -8,6 +8,8 @@ Web Claude Code CLI - Command-line tool to run Claude Code in your web browser.
 
 `@webccc/cli` is a command-line tool that allows you to use Claude Code directly in your web browser, providing a convenient web-based terminal interface for Claude CLI.
 
+![Demo Screenshot](./demo.png)
+
 Features:
 
 - 🚀 Quick server startup to access Claude Code via web browser
