@@ -1,4 +1,5 @@
 const { Server } = require('socket.io');
+const { logger } = require('./logger');
 
 /**
  * 配置 Socket.IO 服务器
@@ -22,7 +23,7 @@ function setupSocketIO(httpServer, cliManager, options = {}) {
 
   // 连接事件
   io.on('connection', (socket) => {
-    console.log('客户端已连接:', socket.id);
+    logger.info('客户端已连接:', socket.id);
 
     // 如果 CLI 还没启动，则启动它
     if (!cliManager.isRunning()) {
@@ -31,7 +32,7 @@ function setupSocketIO(httpServer, cliManager, options = {}) {
 
     // 接收客户端输入，发送到 CLI
     socket.on('cli-input', (data) => {
-      console.log('收到客户端输入:', JSON.stringify(data));
+      logger.debug('收到客户端输入:', JSON.stringify(data));
       const success = cliManager.write(data);
       if (!success) {
         socket.emit('cli-output', {
@@ -44,7 +45,7 @@ function setupSocketIO(httpServer, cliManager, options = {}) {
 
     // 重启 CLI
     socket.on('cli-restart', () => {
-      console.log('重启 CLI');
+      logger.info('重启 CLI');
       cliManager.stop();
       setTimeout(() => {
         cliManager.start();
@@ -53,7 +54,7 @@ function setupSocketIO(httpServer, cliManager, options = {}) {
 
     // 断开连接事件
     socket.on('disconnect', () => {
-      console.log('客户端已断开:', socket.id);
+      logger.info('客户端已断开:', socket.id);
     });
   });
 

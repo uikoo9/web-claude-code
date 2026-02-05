@@ -3,6 +3,7 @@ const path = require('path');
 const { createExpressApp } = require('./app');
 const { setupSocketIO } = require('./socket');
 const { createCLIManager } = require('./cli');
+const { logger } = require('./logger');
 
 /**
  * 启动 Claude Code Web 服务器
@@ -33,14 +34,14 @@ function startClaudeCodeServer(options = {}) {
 
   // 验证必填参数
   if (!anthropicBaseUrl) {
-    console.error('❌ 错误: anthropicBaseUrl 参数是必填的');
-    console.error('请在启动时提供 Anthropic API Base URL');
+    logger.error('anthropicBaseUrl 参数是必填的');
+    logger.error('请在启动时提供 Anthropic API Base URL');
     process.exit(1);
   }
 
   if (!anthropicAuthToken) {
-    console.error('❌ 错误: anthropicAuthToken 参数是必填的');
-    console.error('请在启动时提供 Anthropic Auth Token');
+    logger.error('anthropicAuthToken 参数是必填的');
+    logger.error('请在启动时提供 Anthropic Auth Token');
     process.exit(1);
   }
 
@@ -68,12 +69,12 @@ function startClaudeCodeServer(options = {}) {
 
   // 启动服务器
   httpServer.listen(port, host, () => {
-    console.log(`WebSocket 服务器运行在 http://${host}:${port}`);
+    logger.success(`WebSocket 服务器运行在 http://${host}:${port}`);
   });
 
   // 停止服务器的方法
   function stop() {
-    console.log('\n正在关闭服务器...');
+    logger.info('正在关闭服务器...');
     cliManager.stop();
     httpServer.close();
   }

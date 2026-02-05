@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { generateExpectScript } = require('./expect-template');
+const { logger } = require('./logger');
 
 /**
  * 创建 Claude CLI 管理器
@@ -25,7 +26,7 @@ function createCLIManager(options) {
    * 启动 Claude CLI
    */
   function start() {
-    console.log('正在启动 claude CLI...');
+    logger.info('正在启动 Claude CLI...');
 
     try {
       // 生成 expect 脚本
@@ -49,7 +50,7 @@ function createCLIManager(options) {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
-      console.log('Claude CLI 已启动（通过 expect），PID:', cliProcess.pid);
+      logger.success('Claude CLI 已启动（通过 expect），PID:', cliProcess.pid);
 
       // 设置编码
       if (cliProcess.stdout) {
@@ -61,9 +62,9 @@ function createCLIManager(options) {
 
       // 监听标准输出
       cliProcess.stdout.on('data', (data) => {
-        console.log('=== CLI 输出 ===');
-        console.log(data);
-        console.log('=== 输出结束 ===');
+        logger.divider('CLI 输出');
+        logger.cli(data);
+        logger.divider();
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -76,9 +77,9 @@ function createCLIManager(options) {
 
       // 监听错误输出
       cliProcess.stderr.on('data', (data) => {
-        console.log('=== CLI 错误 ===');
-        console.log(data);
-        console.log('=== 输出结束 ===');
+        logger.divider('CLI 错误');
+        logger.error(data);
+        logger.divider();
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -91,7 +92,7 @@ function createCLIManager(options) {
 
       // 监听进程退出
       cliProcess.on('close', (code) => {
-        console.log(`CLI 进程退出，退出码: ${code}`);
+        logger.warn(`CLI 进程退出，退出码: ${code}`);
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -108,7 +109,7 @@ function createCLIManager(options) {
 
       // 监听进程错误
       cliProcess.on('error', (err) => {
-        console.error('CLI 进程错误:', err);
+        logger.error('CLI 进程错误:', err.message);
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
@@ -119,7 +120,7 @@ function createCLIManager(options) {
         }
       });
     } catch (error) {
-      console.error('启动 CLI 失败:', error);
+      logger.error('启动 CLI 失败:', error.message);
       const io = getIO();
       if (io) {
         io.emit('cli-output', {
@@ -138,9 +139,9 @@ function createCLIManager(options) {
     if (tempExpectScript && fs.existsSync(tempExpectScript)) {
       try {
         fs.unlinkSync(tempExpectScript);
-        console.log('已清理临时 expect 脚本');
+        logger.success('已清理临时 expect 脚本');
       } catch (err) {
-        console.error('清理临时文件失败:', err.message);
+        logger.error('清理临时文件失败:', err.message);
       }
     }
   }
