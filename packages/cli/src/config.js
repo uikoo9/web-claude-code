@@ -21,21 +21,24 @@ function checkEnvFile(cwd) {
  */
 function loadEnvConfig(cwd) {
   const envPath = path.join(cwd, '.env');
-  const result = dotenv.config({ path: envPath });
+  const result = dotenv.config({ path: envPath, override: true });
 
   if (result.error) {
     logger.error('读取 .env 文件失败:', result.error.message);
     process.exit(1);
   }
 
+  // 使用 parsed 对象获取配置，避免被系统环境变量影响
+  const parsed = result.parsed || {};
+
   return {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
-    host: process.env.HOST || '0.0.0.0',
-    claudePath: process.env.CLAUDE_PATH || 'claude',
-    anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
-    anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
-    anthropicModel: process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929',
-    anthropicSmallFastModel: process.env.ANTHROPIC_SMALL_FAST_MODEL || 'claude-sonnet-4-5-20250929',
+    port: parsed.PORT ? parseInt(parsed.PORT) : 4000,
+    host: parsed.HOST || '0.0.0.0',
+    claudePath: parsed.CLAUDE_PATH || 'claude',
+    anthropicBaseUrl: parsed.ANTHROPIC_BASE_URL,
+    anthropicAuthToken: parsed.ANTHROPIC_AUTH_TOKEN,
+    anthropicModel: parsed.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929',
+    anthropicSmallFastModel: parsed.ANTHROPIC_SMALL_FAST_MODEL || 'claude-sonnet-4-5-20250929',
   };
 }
 
