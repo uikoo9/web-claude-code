@@ -29,7 +29,8 @@
     "clean": "nx reset",
     "web:dev": "npm run dev --workspace=@webccc/web",
     "web:build": "npm run build --workspace=@webccc/web",
-    "server:start": "npm run web:build && npm run start --workspace=@webccc/server"
+    "server:start": "npm run web:build && npm run start --workspace=@webccc/server",
+    "cli:start": "npm run start --workspace=@webccc/cli"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",

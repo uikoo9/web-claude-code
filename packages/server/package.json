@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/uikoo9/web-claude-code/issues"
   },
+  "main": "src/index.js",
   "files": [
     "views",
     "src",
