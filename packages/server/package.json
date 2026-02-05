@@ -1,0 +1,24 @@
+{
+  "name": "@webccc/server",
+  "version": "0.0.1",
+  "description": "web claude code server",
+  "license": "MIT",
+  "author": "uikoo9 <uikoo9@qq.com>",
+  "homepage": "https://github.com/uikoo9/web-claude-code",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uikoo9/web-claude-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uikoo9/web-claude-code/issues"
+  },
+  "files": [
+    "server",
+    "app.js"
+  ],
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

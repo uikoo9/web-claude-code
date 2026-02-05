@@ -1,0 +1,37 @@
+{
+  "name": "@webccc/web",
+  "private": true,
+  "version": "0.0.1",
+  "description": "web claude code html",
+  "author": "uikoo9 <uikoo9@qq.com>",
+  "homepage": "https://github.com/uikoo9/web-claude-code",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uikoo9/web-claude-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uikoo9/web-claude-code/issues"
+  },
+  "files": [],
+  "scripts": {
+    "dev": "vite",
+    "server": "node server.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-pty": "^1.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.0"
+  }
+}

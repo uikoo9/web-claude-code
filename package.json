@@ -1,0 +1,40 @@
+{
+  "name": "web-claude-code",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "MIT",
+  "author": "uikoo9 <uikoo9@qq.com>",
+  "homepage": "https://github.com/uikoo9/web-claude-code#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uikoo9/web-claude-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uikoo9/web-claude-code/issues"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "build": "lerna run build",
+    "prettier": "qpro prettier",
+    "eslint": "qpro eslint",
+    "lint": "npm run build && npm run prettier && npm run eslint",
+    "cz": "qpro commitizen",
+    "pb": "lerna publish",
+    "graph": "nx graph",
+    "update": "qpro ncu u && npm --workspaces exec -- qpro ncu u",
+    "pkg": "qpro pkg ./packages",
+    "dpkg": "qpro pkg ./packages dev",
+    "clean": "nx reset"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
+    "husky": "^9.1.7",
+    "lerna": "^9.0.3",
+    "lint-staged": "^16.2.7",
+    "nx": "^22.3.3",
+    "qiao-project": "^5.0.6"
+  }
+}

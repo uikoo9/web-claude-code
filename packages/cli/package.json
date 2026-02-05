@@ -1,0 +1,30 @@
+{
+  "name": "@webccc/cli",
+  "version": "0.0.1",
+  "description": "web claude code cli",
+  "keywords": [
+    "web claude code",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "uikoo9 <uikoo9@qq.com>",
+  "homepage": "https://github.com/uikoo9/web-claude-code",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uikoo9/web-claude-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uikoo9/web-claude-code/issues"
+  },
+  "bin": {
+    "shunjs": "./bin/webcc.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "dependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
