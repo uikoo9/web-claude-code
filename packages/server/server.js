@@ -4,6 +4,7 @@ const { startClaudeCodeServer } = require('./index');
 // 从环境变量读取配置
 const config = {
   port: process.env.PORT ? parseInt(process.env.PORT) : 4000,
+  claudePath: process.env.CLAUDE_PATH,
   anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
   anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
   anthropicModel: process.env.ANTHROPIC_MODEL,

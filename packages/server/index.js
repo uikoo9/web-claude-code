@@ -4,12 +4,15 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
+const os = require('os');
 
 /**
  * 启动 Claude Code Web 服务器
  * @param {Object} options - 配置选项
  * @param {number} options.port - 服务器端口，默认 4000
  * @param {string} options.host - 服务器主机，默认 '0.0.0.0'
+ * @param {string} options.claudePath - Claude CLI 路径，默认 'claude'（从 PATH 查找）
  * @param {string} options.anthropicBaseUrl - Anthropic API Base URL（必填）
  * @param {string} options.anthropicAuthToken - Anthropic Auth Token（必填）
  * @param {string} options.anthropicModel - Anthropic Model，默认 'claude-sonnet-4-5-20250929'
@@ -20,6 +23,7 @@ function startClaudeCodeServer(options = {}) {
   const {
     port = 4000,
     host = '0.0.0.0',
+    claudePath = 'claude',
     anthropicBaseUrl,
     anthropicAuthToken,
     anthropicModel = 'claude-sonnet-4-5-20250929',
@@ -28,7 +32,6 @@ function startClaudeCodeServer(options = {}) {
 
   // 内部固定配置
   const viewsDir = path.join(__dirname, 'views');
-  const expectScript = path.join(__dirname, 'run-claude.exp');
   const corsOrigin = 'http://localhost:3000';
 
   // 验证必填参数
@@ -43,6 +46,22 @@ function startClaudeCodeServer(options = {}) {
     console.error('请在启动时提供 Anthropic Auth Token');
     process.exit(1);
   }
+
+  // Expect 脚本模板
+  const expectScriptTemplate = `#!/usr/bin/expect -f
+
+# 设置超时
+set timeout -1
+
+# 禁用输出到标准输出的过滤
+log_user 1
+
+# 启动 claude
+spawn ${claudePath}
+
+# 交互模式 - 不做任何额外处理，直接转发所有输入输出
+interact
+`;
 
   const app = express();
   const httpServer = createServer(app);
@@ -82,12 +101,17 @@ function startClaudeCodeServer(options = {}) {
 
   // 启动 claude CLI
   let cliProcess = null;
+  let tempExpectScript = null;
 
   function startCLI() {
     console.log('正在启动 claude CLI...');
 
     try {
-      cliProcess = spawn(expectScript, [], {
+      // 创建临时 expect 脚本文件
+      tempExpectScript = path.join(os.tmpdir(), `claude-expect-${Date.now()}.exp`);
+      fs.writeFileSync(tempExpectScript, expectScriptTemplate, { mode: 0o755 });
+
+      cliProcess = spawn(tempExpectScript, [], {
         cwd: process.env.HOME,
         env: {
           ...process.env,
@@ -143,6 +167,16 @@ function startClaudeCodeServer(options = {}) {
           time: new Date().toISOString(),
         });
         cliProcess = null;
+
+        // 清理临时 expect 脚本文件
+        if (tempExpectScript && fs.existsSync(tempExpectScript)) {
+          try {
+            fs.unlinkSync(tempExpectScript);
+            console.log('已清理临时 expect 脚本');
+          } catch (err) {
+            console.error('清理临时文件失败:', err.message);
+          }
+        }
       });
 
       // 监听进程错误

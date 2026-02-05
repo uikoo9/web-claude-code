@@ -23,6 +23,7 @@ const { startClaudeCodeServer } = require('@webccc/server');
 
 // 启动服务器（需要提供 Claude 配置）
 const server = startClaudeCodeServer({
+  claudePath: 'claude', // 可选，Claude CLI 路径，默认 'claude'
   anthropicBaseUrl: 'http://your-api-url:3000/api', // 必填
   anthropicAuthToken: 'your_auth_token_here', // 必填
   anthropicModel: 'claude-sonnet-4-5-20250929', // 可选，默认值
@@ -43,6 +44,9 @@ process.on('SIGINT', () => {
 创建 `.env` 文件：
 
 ```bash
+# Claude CLI 配置
+CLAUDE_PATH=claude
+
 # Anthropic API 配置（必填）
 ANTHROPIC_BASE_URL=http://your-api-url:3000/api
 ANTHROPIC_AUTH_TOKEN=your_auth_token_here
@@ -63,6 +67,7 @@ require('dotenv').config();
 const { startClaudeCodeServer } = require('@webccc/server');
 
 const server = startClaudeCodeServer({
+  claudePath: process.env.CLAUDE_PATH,
   anthropicBaseUrl: process.env.ANTHROPIC_BASE_URL,
   anthropicAuthToken: process.env.ANTHROPIC_AUTH_TOKEN,
   anthropicModel: process.env.ANTHROPIC_MODEL,
@@ -80,6 +85,7 @@ const server = startClaudeCodeServer({
 **参数：**
 
 - `options` (Object) - 可选配置对象
+  - `claudePath` (string) - 可选，Claude CLI 路径，默认 `'claude'`（从 PATH 查找）
   - `anthropicBaseUrl` (string) - **必填** Anthropic API Base URL
   - `anthropicAuthToken` (string) - **必填** Anthropic Auth Token
   - `anthropicModel` (string) - 可选，Claude 模型，默认 `'claude-sonnet-4-5-20250929'`
@@ -127,7 +133,7 @@ const server = startClaudeCodeServer({
 packages/server/
 ├── index.js           # 主模块，导出 startClaudeCodeServer
 ├── server.js          # 独立运行的服务器入口
-├── run-claude.exp     # expect 脚本，用于启动 Claude CLI
+├── .env.example       # 环境变量配置示例
 ├── views/             # Web 界面静态文件（构建产物）
 │   ├── index.html
 │   └── assets/
@@ -145,7 +151,7 @@ packages/server/
 
 ## 跨平台说明
 
-目前 `run-claude.exp` 脚本使用 expect（Unix/Linux/macOS）来提供 PTY 支持。在不同平台上需要：
+服务器使用 expect 脚本（动态生成）来提供 PTY 支持，启动 Claude CLI。在不同平台上需要：
 
 - **macOS/Linux**: 需要安装 expect 工具
 
