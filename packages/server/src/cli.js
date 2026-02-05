@@ -12,11 +12,11 @@ const { generateExpectScript } = require('./expect-template');
  * @param {string} options.anthropicAuthToken - Anthropic Auth Token
  * @param {string} options.anthropicModel - Anthropic Model
  * @param {string} options.anthropicSmallFastModel - Anthropic Small Fast Model
- * @param {Object} options.io - Socket.IO 实例
+ * @param {Function} options.getIO - 获取 Socket.IO 实例的函数
  * @returns {Object} CLI 管理器对象
  */
 function createCLIManager(options) {
-  const { claudePath, anthropicBaseUrl, anthropicAuthToken, anthropicModel, anthropicSmallFastModel, io } = options;
+  const { claudePath, anthropicBaseUrl, anthropicAuthToken, anthropicModel, anthropicSmallFastModel, getIO } = options;
 
   let cliProcess = null;
   let tempExpectScript = null;
@@ -64,11 +64,14 @@ function createCLIManager(options) {
         console.log('=== CLI 输出 ===');
         console.log(data);
         console.log('=== 输出结束 ===');
-        io.emit('cli-output', {
-          type: 'stdout',
-          data: data,
-          time: new Date().toISOString(),
-        });
+        const io = getIO();
+        if (io) {
+          io.emit('cli-output', {
+            type: 'stdout',
+            data: data,
+            time: new Date().toISOString(),
+          });
+        }
       });
 
       // 监听错误输出
@@ -76,21 +79,27 @@ function createCLIManager(options) {
         console.log('=== CLI 错误 ===');
         console.log(data);
         console.log('=== 输出结束 ===');
-        io.emit('cli-output', {
-          type: 'stderr',
-          data: data,
-          time: new Date().toISOString(),
-        });
+        const io = getIO();
+        if (io) {
+          io.emit('cli-output', {
+            type: 'stderr',
+            data: data,
+            time: new Date().toISOString(),
+          });
+        }
       });
 
       // 监听进程退出
       cliProcess.on('close', (code) => {
         console.log(`CLI 进程退出，退出码: ${code}`);
-        io.emit('cli-output', {
-          type: 'exit',
-          data: `\n进程已退出，退出码: ${code}\n`,
-          time: new Date().toISOString(),
-        });
+        const io = getIO();
+        if (io) {
+          io.emit('cli-output', {
+            type: 'exit',
+            data: `\n进程已退出，退出码: ${code}\n`,
+            time: new Date().toISOString(),
+          });
+        }
         cliProcess = null;
 
         // 清理临时 expect 脚本文件
@@ -100,19 +109,25 @@ function createCLIManager(options) {
       // 监听进程错误
       cliProcess.on('error', (err) => {
         console.error('CLI 进程错误:', err);
-        io.emit('cli-output', {
-          type: 'error',
-          data: `错误: ${err.message}\n`,
-          time: new Date().toISOString(),
-        });
+        const io = getIO();
+        if (io) {
+          io.emit('cli-output', {
+            type: 'error',
+            data: `错误: ${err.message}\n`,
+            time: new Date().toISOString(),
+          });
+        }
       });
     } catch (error) {
       console.error('启动 CLI 失败:', error);
-      io.emit('cli-output', {
-        type: 'error',
-        data: `启动失败: ${error.message}\n`,
-        time: new Date().toISOString(),
-      });
+      const io = getIO();
+      if (io) {
+        io.emit('cli-output', {
+          type: 'error',
+          data: `启动失败: ${error.message}\n`,
+          time: new Date().toISOString(),
+        });
+      }
     }
   }
 

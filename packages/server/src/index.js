@@ -50,8 +50,8 @@ function startClaudeCodeServer(options = {}) {
   // 创建 HTTP 服务器
   const httpServer = createServer(app);
 
-  // 创建占位 IO（用于 CLI 管理器）
-  let io;
+  // 创建 Socket.IO 实例的引用
+  let io = null;
 
   // 创建 CLI 管理器
   const cliManager = createCLIManager({
@@ -60,9 +60,7 @@ function startClaudeCodeServer(options = {}) {
     anthropicAuthToken,
     anthropicModel,
     anthropicSmallFastModel,
-    get io() {
-      return io;
-    },
+    getIO: () => io,
   });
 
   // 配置 Socket.IO
