@@ -1,6 +1,6 @@
 {
   "name": "@webccc/cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "CLI tool to start web-claude-code server",
   "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
