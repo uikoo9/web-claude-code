@@ -29,16 +29,13 @@ node server.js
 ```javascript
 const { startClaudeCodeServer } = require('@webccc/server');
 
-// 使用默认配置启动服务器
+// 使用默认配置启动服务器（推荐）
 const server = startClaudeCodeServer();
 
-// 或者使用自定义配置
+// 或者自定义端口和主机
 const server = startClaudeCodeServer({
-  port: 4000, // 服务器端口
-  host: '0.0.0.0', // 监听主机
-  viewsDir: './views', // Web 界面文件目录
-  expectScript: './run-claude.exp', // expect 脚本路径
-  corsOrigin: 'http://localhost:3000', // CORS 允许的源
+  port: 8080, // 自定义端口
+  host: '0.0.0.0', // 监听所有网络接口
 });
 
 // 在需要时停止服务器
@@ -59,9 +56,9 @@ process.on('SIGINT', () => {
 - `options` (Object) - 可选配置对象
   - `port` (number) - 服务器端口，默认 `4000`
   - `host` (string) - 服务器主机，默认 `'0.0.0.0'`
-  - `viewsDir` (string) - Web 界面文件目录，默认为当前目录下的 `views`
-  - `expectScript` (string) - expect 脚本路径，默认为当前目录下的 `run-claude.exp`
-  - `corsOrigin` (string) - CORS 允许的源，默认 `'http://localhost:3000'`
+  - `viewsDir` (string) - [高级] Web 界面文件目录，默认为模块目录下的 `views`，通常无需修改
+  - `expectScript` (string) - [高级] expect 脚本路径，默认为模块目录下的 `run-claude.exp`，通常无需修改
+  - `corsOrigin` (string) - [开发] CORS 允许的源，默认 `'http://localhost:3000'`，用于 Web 开发调试
 
 **返回值：**
 
