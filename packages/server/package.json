@@ -15,7 +15,8 @@
   "files": [
     "views",
     "index.js",
-    "server.js"
+    "server.js",
+    "run-claude.exp"
   ],
   "scripts": {
     "start": "node server.js"
