@@ -1,6 +1,6 @@
 # @webccc/cli
 
-简体中文 | [English](./README.md)
+简体中文 | [English](../../README.md)
 
 Web Claude Code CLI - 让你可以在浏览器中使用 Claude Code 的命令行工具。
 

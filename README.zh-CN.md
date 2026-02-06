@@ -1,1 +1,0 @@
-packages/cli/README.zh-CN.md
