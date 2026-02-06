@@ -14,3 +14,4 @@ package-lock.json
 .dockerignore
 
 packages/server/views/assets
+packages/index
