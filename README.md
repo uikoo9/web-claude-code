@@ -65,13 +65,13 @@ webcc --version   # Show version number
 Create a `.env` file in your project directory:
 
 ```bash
-# Anthropic API Configuration (Required)
-ANTHROPIC_BASE_URL=http://your-api-url:3000/api
-ANTHROPIC_AUTH_TOKEN=your_auth_token_here
-
 # Claude CLI Configuration (Optional)
 CLAUDE_PATH=claude
 WORK_DIR=/path/to/your/project
+
+# Anthropic API Configuration (Required)
+ANTHROPIC_BASE_URL=http://your-api-url:3000/api
+ANTHROPIC_AUTH_TOKEN=your_auth_token_here
 
 # Claude Model Configuration (Optional)
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
