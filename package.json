@@ -30,7 +30,10 @@
     "web:dev": "npm run dev --workspace=@webccc/web",
     "web:build": "npm run build --workspace=@webccc/web",
     "server:start": "npm run web:build && npm run start --workspace=@webccc/server",
-    "cli:start": "npm run start --workspace=@webccc/cli"
+    "cli:start": "npm run start --workspace=@webccc/cli",
+    "index:dev": "npm run dev --workspace=@webccc/index",
+    "index:build": "npm run build --workspace=@webccc/index",
+    "index:start": "npm run start --workspace=@webccc/index"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
