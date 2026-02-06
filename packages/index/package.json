@@ -1,6 +1,6 @@
 {
   "name": "@webccc/index",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Official website for webcc - Claude Code Web Interface",
   "scripts": {
