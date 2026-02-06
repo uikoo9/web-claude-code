@@ -40,7 +40,7 @@
 
 **实现方式**:
 
-- 在 `webcc.dev` 域名下搭建隧道代理服务器
+- 在 [webcc.dev](https://webcc.dev) 域名下搭建隧道代理服务器
 - 用户本地 webcc 通过 WebSocket 连接到服务器
 - 用户访问 `https://webcc.dev/t/xxxxxx` 时，服务器转发请求到本地
 
@@ -51,7 +51,7 @@
 │   Browser   │ HTTPS   │  webcc.dev       │  WS     │  Local webcc    │
 │             │────────>│  Proxy Server    │<───────>│  (user machine) │
 │  访问者      │         │  (你的服务器)     │         │                 │
-└─────────────┘         └──────────────────┘         └─────────────────┘
+└───────��─────┘         └──────────────────┘         └─────────────────┘
                               │
                               ├─ Token管理
                               ├─ 路由映射
@@ -67,7 +67,7 @@
    → CLI 询问是否需要公网访问
    → 如选择"是":
      - 生成唯一 token (如: abc123def456)
-     - 建立到 webcc.dev 的 WebSocket 长连接
+     - 建立到 [webcc.dev](https://webcc.dev) 的 WebSocket 长连接
      - 注册 token 到服务器
      - 显示访问地址: https://webcc.dev/t/abc123def456
    ```
@@ -75,20 +75,20 @@
 2. **外部访问阶段**:
    ```
    访问者打开: https://webcc.dev/t/abc123def456
-   → webcc.dev 服务器:
+   → [webcc.dev](https://webcc.dev) 服务器:
      - 根据 token 查找对应的 WebSocket 连接
      - 将 HTTP/WS 请求通过 WebSocket 转发给本地
    → 本地 webcc:
      - 接收代理请求
      - 转发给本地 Express 服务 (localhost:4000)
      - 获取响应并返回给服务器
-   → webcc.dev 服务器:
+   → [webcc.dev](https://webcc.dev) 服务器:
      - 将响应返回给访问者浏览器
    ```
 
 **优势**:
 
-- ✅ 固定域名品牌（webcc.dev）
+- ✅ 固定域名品牌（[webcc.dev](https://webcc.dev)）
 - ✅ 可自定义短链接（/t/xxx）
 - ✅ 完全自主可控
 - ✅ 可添加增值功能：
@@ -113,7 +113,7 @@
 
 **理由**:
 
-1. 品牌统一：使用 webcc.dev 域名，提升产品专业度
+1. 品牌统一：使用 [webcc.dev](https://webcc.dev) 域名，提升产品专业度
 2. 用户体验：固定域名，可分享和保存
 3. 可扩展性：为未来增值功能预留空间
 4. 商业化潜力：可基于此提供 Pro 功能
@@ -150,7 +150,7 @@ class TunnelClient {
   }
 
   async connect() {
-    // 连接到 webcc.dev
+    // 连接到 [webcc.dev](https://webcc.dev)
     // 生成 token
     // 注册连接
     // 返回公网访问地址
@@ -167,7 +167,7 @@ class TunnelClient {
 }
 ```
 
-#### 服务端 (webcc.dev)
+#### 服务端 ([webcc.dev](https://webcc.dev))
 
 **功能**:
 
@@ -203,7 +203,7 @@ $ webcc
 
 ? 是否需要公网域名方便远程访问？ (y/N) y
 
-ℹ 正在连接到 webcc.dev 隧道服务...
+ℹ 正在连接到 [webcc.dev](https://webcc.dev) 隧道服务...
 ✓ 连接成功！
 
 ✓ 服务器启动成功！
@@ -271,7 +271,7 @@ $ webcc
 
 ### 后续任务
 
-- [ ] 服务端实现 (webcc.dev)
+- [ ] 服务端实现 ([webcc.dev](https://webcc.dev))
 - [ ] 本地客户端实现 (tunnel.js)
 - [ ] CLI 集成和用户交互
 - [ ] 安全性和性能测试
