@@ -15,6 +15,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeId, setThemeId] = useState<string>('developer-dark');
   const [mounted, setMounted] = useState(false);
 
+  // 只在客户端挂载后运行
   useEffect(() => {
     setMounted(true);
     const savedTheme = localStorage.getItem('theme-id');
@@ -23,14 +24,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // 应用主题到 CSS 变量
   useEffect(() => {
     if (mounted) {
+      const theme = getTheme(themeId);
       localStorage.setItem('theme-id', themeId);
-      applyTheme(getTheme(themeId));
+      applyTheme(theme);
     }
   }, [themeId, mounted]);
 
   const applyTheme = (theme: Theme) => {
+    if (typeof document === 'undefined') return;
+
     const root = document.documentElement;
     root.style.setProperty('--color-primary', theme.colors.primary);
     root.style.setProperty('--color-secondary', theme.colors.secondary);

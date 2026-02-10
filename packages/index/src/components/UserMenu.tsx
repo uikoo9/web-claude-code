@@ -10,6 +10,7 @@ import {
   MenuSeparator,
 } from '@/components/ui/menu';
 import { useTranslations } from 'next-intl';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UserMenuProps {
   avatarUrl?: string | null;
@@ -25,10 +26,14 @@ export const UserMenu = ({
   email,
 }: UserMenuProps) => {
   const t = useTranslations();
+  const { signOut } = useAuth();
 
   const handleSignOut = async () => {
-    // TODO: Implement sign out
-    console.log('Sign out');
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
   };
 
   return (
@@ -53,8 +58,7 @@ export const UserMenu = ({
       <MenuContent
         minW="240px"
         p={2}
-        borderColor="blue.200"
-        _dark={{ borderColor: 'blue.700' }}
+        style={{ borderColor: 'var(--color-border)' }}
         borderWidth="1px"
       >
         {/* User Info */}
@@ -69,16 +73,14 @@ export const UserMenu = ({
               <Text
                 fontWeight="600"
                 fontSize="sm"
-                color="gray.900"
-                _dark={{ color: 'gray.100' }}
+                style={{ color: 'var(--color-text)' }}
                 truncate
               >
                 {displayName || username}
               </Text>
               <Text
                 fontSize="xs"
-                color="gray.500"
-                _dark={{ color: 'gray.400' }}
+                style={{ color: 'var(--color-text-secondary)' }}
                 truncate
               >
                 {email}
@@ -97,7 +99,9 @@ export const UserMenu = ({
           px={3}
           borderRadius="md"
           cursor="pointer"
-          _hover={{ bg: 'gray.50', _dark: { bg: 'gray.700' } }}
+          _hover={{
+            style: { backgroundColor: 'var(--color-surface)' },
+          }}
         >
           {t('profile')}
         </MenuItem>
@@ -108,7 +112,9 @@ export const UserMenu = ({
           px={3}
           borderRadius="md"
           cursor="pointer"
-          _hover={{ bg: 'gray.50', _dark: { bg: 'gray.700' } }}
+          _hover={{
+            style: { backgroundColor: 'var(--color-surface)' },
+          }}
         >
           {t('settings')}
         </MenuItem>

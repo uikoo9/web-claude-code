@@ -1,6 +1,6 @@
 'use client';
 
-import { Heading, Text, Button, Stack, Flex, Box } from '@chakra-ui/react';
+import { Heading, Button, Stack, Flex, Box, Text } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import {
@@ -9,6 +9,7 @@ import {
   DialogBody,
   DialogCloseTrigger,
 } from '@/components/ui/dialog';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface LoginModalProps {
   open: boolean;
@@ -17,25 +18,21 @@ interface LoginModalProps {
 
 export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
   const t = useTranslations();
+  const { signInWithGithub, signInWithGoogle } = useAuth();
   const [loading, setLoading] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const handleOAuthLogin = async (provider: 'github' | 'google') => {
+    setLoading(provider);
+
     try {
-      setLoading(provider);
-      setError(null);
-
-      // TODO: Implement OAuth login
-      console.log(`Login with ${provider}`);
-
-      // Placeholder - remove when implementing real auth
-      setTimeout(() => {
-        setLoading(null);
-        setError('Login functionality coming soon');
-      }, 1000);
+      if (provider === 'github') {
+        await signInWithGithub();
+      } else {
+        await signInWithGoogle();
+      }
     } catch (err) {
       console.error('Login error:', err);
-      setError('Login failed, please try again later');
+    } finally {
       setLoading(null);
     }
   };
@@ -51,44 +48,21 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
       <DialogContent
         maxW={{ base: 'calc(100% - 32px)', sm: '400px' }}
         mx={{ base: 4, sm: 'auto' }}
+        style={{ backgroundColor: 'var(--color-surface)' }}
       >
         <DialogCloseTrigger />
         <DialogBody p={{ base: 6, md: 10 }}>
-          {/* Error Message */}
-          {error && (
-            <Box
-              bg="red.50"
-              color="red.700"
-              _dark={{ bg: 'red.900', color: 'red.300' }}
-              p={4}
-              borderRadius="lg"
-              mb={6}
-              fontSize="sm"
-            >
-              {error}
-            </Box>
-          )}
-
           {/* Header */}
           <Flex direction="column" align="center" mb={6} textAlign="center">
             <Heading
               size={{ base: 'xl', md: '2xl' }}
-              color="blue.500"
-              _dark={{ color: 'blue.300' }}
-              mb={2}
+              style={{ color: 'var(--color-primary)' }}
+              mb={4}
               fontWeight="700"
               letterSpacing="-0.02em"
             >
               {t('welcomeBack')}
             </Heading>
-            <Text
-              color="gray.600"
-              _dark={{ color: 'gray.400' }}
-              fontSize={{ base: 'sm', md: 'md' }}
-              lineHeight="1.6"
-            >
-              {t('loginDescription')}
-            </Text>
           </Flex>
 
           {/* OAuth Buttons */}
@@ -98,14 +72,19 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               variant="outline"
               w="full"
               cursor="pointer"
-              borderColor="gray.300"
-              _dark={{ borderColor: 'gray.600' }}
+              style={{
+                borderColor: 'var(--color-primary)',
+                color: 'var(--color-text)',
+                backgroundColor: 'transparent',
+              }}
               borderWidth="2px"
               py={{ base: 6, md: 7 }}
               _hover={{
-                bg: 'gray.50',
-                borderColor: 'gray.400',
-                _dark: { bg: 'gray.700', borderColor: 'gray.500' },
+                style: {
+                  backgroundColor: 'var(--color-primary)',
+                  borderColor: 'var(--color-primary)',
+                  color: 'var(--color-background)',
+                },
                 transform: 'translateY(-2px)',
                 shadow: 'md',
               }}
@@ -134,14 +113,19 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               variant="outline"
               w="full"
               cursor="pointer"
-              borderColor="gray.300"
-              _dark={{ borderColor: 'gray.600' }}
+              style={{
+                borderColor: 'var(--color-primary)',
+                color: 'var(--color-text)',
+                backgroundColor: 'transparent',
+              }}
               borderWidth="2px"
               py={{ base: 6, md: 7 }}
               _hover={{
-                bg: 'gray.50',
-                borderColor: 'gray.400',
-                _dark: { bg: 'gray.700', borderColor: 'gray.500' },
+                style: {
+                  backgroundColor: 'var(--color-primary)',
+                  borderColor: 'var(--color-primary)',
+                  color: 'var(--color-background)',
+                },
                 transform: 'translateY(-2px)',
                 shadow: 'md',
               }}
@@ -178,8 +162,7 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
 
           {/* Footer Note */}
           <Text
-            color="gray.500"
-            _dark={{ color: 'gray.400' }}
+            style={{ color: 'var(--color-text-secondary)' }}
             fontSize="xs"
             textAlign="center"
             mt={6}

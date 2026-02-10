@@ -1,27 +1,28 @@
 'use client';
 
-import { Box, Container, Flex, Heading, Button, IconButton, Link } from '@chakra-ui/react';
+import { Box, Flex, Heading, Button, IconButton, Link } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { LoginModal } from './LoginModal';
 import { UserMenu } from './UserMenu';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
 
-interface HeaderProps {
-  // User state (optional - for future implementation)
-  user?: {
-    avatarUrl?: string | null;
-    displayName?: string | null;
-    username: string;
-    email: string;
-  } | null;
-  loading?: boolean;
-}
-
-export function Header({ user, loading }: HeaderProps = {}) {
+export function Header() {
   const t = useTranslations();
   const [loginOpen, setLoginOpen] = useState(false);
+  const { user, loading } = useAuth();
+
+  // Extract user data from Supabase user object
+  const userData = user
+    ? {
+        avatarUrl: user.user_metadata?.avatar_url || null,
+        displayName: user.user_metadata?.full_name || user.user_metadata?.name || null,
+        username: user.user_metadata?.user_name || user.email?.split('@')[0] || 'User',
+        email: user.email || '',
+      }
+    : null;
 
   return (
     <>
@@ -36,6 +37,7 @@ export function Header({ user, loading }: HeaderProps = {}) {
         }}
         boxShadow="sm"
         borderBottom="1px"
+        suppressHydrationWarning
       >
         <Flex
           justify="space-between"
@@ -66,13 +68,13 @@ export function Header({ user, loading }: HeaderProps = {}) {
             {loading ? (
               // Loading placeholder
               <Box w="40px" h="40px" />
-            ) : user ? (
+            ) : userData ? (
               // Logged in: Show user menu
               <UserMenu
-                avatarUrl={user.avatarUrl}
-                displayName={user.displayName}
-                username={user.username}
-                email={user.email}
+                avatarUrl={userData.avatarUrl}
+                displayName={userData.displayName}
+                username={userData.username}
+                email={userData.email}
               />
             ) : (
               // Not logged in: Show login button
