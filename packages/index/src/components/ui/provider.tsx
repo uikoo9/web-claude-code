@@ -5,7 +5,7 @@ import { defaultSystem } from '@chakra-ui/react';
 
 export function Provider(props: { children: React.ReactNode }) {
   return (
-    <ChakraProvider value={defaultSystem} cssVarsRoot="body" suppressHydrationWarning>
+    <ChakraProvider value={defaultSystem}>
       {props.children}
     </ChakraProvider>
   );

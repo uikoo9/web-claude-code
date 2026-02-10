@@ -17,7 +17,12 @@ const nextConfig = {
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
-    domains: ['static-small.vincentqiao.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'static-small.vincentqiao.com',
+      },
+    ],
     minimumCacheTTL: 60,
   },
 

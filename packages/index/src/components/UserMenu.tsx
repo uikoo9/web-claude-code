@@ -100,7 +100,7 @@ export const UserMenu = ({
           borderRadius="md"
           cursor="pointer"
           _hover={{
-            style: { backgroundColor: 'var(--color-surface)' },
+            backgroundColor: 'var(--color-surface)',
           }}
         >
           {t('profile')}
@@ -113,7 +113,7 @@ export const UserMenu = ({
           borderRadius="md"
           cursor="pointer"
           _hover={{
-            style: { backgroundColor: 'var(--color-surface)' },
+            backgroundColor: 'var(--color-surface)',
           }}
         >
           {t('settings')}

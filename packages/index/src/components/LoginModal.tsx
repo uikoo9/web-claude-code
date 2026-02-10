@@ -80,11 +80,9 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               borderWidth="2px"
               py={{ base: 6, md: 7 }}
               _hover={{
-                style: {
-                  backgroundColor: 'var(--color-primary)',
-                  borderColor: 'var(--color-primary)',
-                  color: 'var(--color-background)',
-                },
+                backgroundColor: 'var(--color-primary)',
+                borderColor: 'var(--color-primary)',
+                color: 'var(--color-background)',
                 transform: 'translateY(-2px)',
                 shadow: 'md',
               }}
@@ -121,11 +119,9 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               borderWidth="2px"
               py={{ base: 6, md: 7 }}
               _hover={{
-                style: {
-                  backgroundColor: 'var(--color-primary)',
-                  borderColor: 'var(--color-primary)',
-                  color: 'var(--color-background)',
-                },
+                backgroundColor: 'var(--color-primary)',
+                borderColor: 'var(--color-primary)',
+                color: 'var(--color-background)',
                 transform: 'translateY(-2px)',
                 shadow: 'md',
               }}
