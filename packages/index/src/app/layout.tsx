@@ -81,7 +81,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       images: [
         {
-          url: 'https://static-small.vincentqiao.com/webcc.png',
+          url: '/og-image.png',
           width: 1200,
           height: 630,
           alt: title,
@@ -95,7 +95,7 @@ export async function generateMetadata(): Promise<Metadata> {
       creator: '@webccdev',
       title,
       description,
-      images: ['https://static-small.vincentqiao.com/webcc.png'],
+      images: ['/og-image.png'],
     },
     verification: {
       // Add your verification codes here when available
