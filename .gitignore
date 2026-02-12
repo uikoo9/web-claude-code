@@ -263,3 +263,7 @@ yarn.lock
 ## -- project --
 .nx
 .npmrc
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
