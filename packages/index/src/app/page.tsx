@@ -3,8 +3,10 @@ import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { Steps } from '@/components/Steps';
 import { Footer } from '@/components/Footer';
+import { AuthCallback } from '@/components/AuthCallback';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { Suspense } from 'react';
 
 // Generate dynamic metadata based on locale
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,6 +21,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Home() {
   return (
     <div style={{ minHeight: '100vh' }} suppressHydrationWarning>
+      <Suspense fallback={null}>
+        <AuthCallback />
+      </Suspense>
       <Header />
       <Hero />
       <Box id="steps">
