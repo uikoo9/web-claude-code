@@ -64,8 +64,8 @@ body {
   max-width: var(--container-lg);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .container-xl {
@@ -86,11 +86,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 12px 16px; /* Mobile: compact header */
 }
 
 .logo {
-  font-size: 1.375rem; /* Increased from 1.25rem (20px to 22px) */
+  font-size: 20px; /* Mobile */
   font-weight: 900;
   color: var(--color-primary);
   font-family: var(--font-jetbrains);
@@ -106,7 +106,7 @@ body {
 
 .header-actions {
   display: flex;
-  gap: 0.75rem; /* Increased from 0.5rem for better spacing */
+  gap: 8px; /* Mobile: tighter spacing */
   align-items: center;
 }
 
@@ -115,15 +115,15 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.75rem; /* Increased padding for better touch target */
-  font-size: 1.0625rem; /* 17px - slightly larger for better readability */
+  padding: 8px 16px; /* Smaller for header buttons */
+  font-size: 14px;
   font-weight: 600;
-  border-radius: 0.5rem; /* Slightly larger radius */
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: all var(--transition-duration);
   text-decoration: none;
-  min-height: 44px; /* Ensure minimum touch target */
+  min-height: 38px; /* Slightly smaller for header */
 }
 
 .btn-primary {
@@ -140,7 +140,7 @@ body {
 .btn-ghost {
   background: transparent;
   color: var(--color-text);
-  padding: 0.5rem;
+  padding: 8px;
 }
 
 .btn-ghost:hover {
@@ -149,8 +149,9 @@ body {
 }
 
 .btn-lg {
-  padding: 1.75rem 2.5rem;
-  font-size: 1.25rem;
+  padding: 24px 48px; /* Large CTA button */
+  font-size: 20px;
+  min-height: 64px;
 }
 
 .btn:disabled {
@@ -159,7 +160,7 @@ body {
 }
 
 .icon-btn {
-  padding: 0.75rem; /* Increased from 0.5rem */
+  padding: 10px;
   background: transparent;
   border: none;
   color: var(--color-text);
@@ -167,10 +168,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   transition: all var(--transition-duration);
-  min-width: 44px; /* Ensure minimum touch target */
-  min-height: 44px;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .icon-btn:hover {
@@ -212,11 +213,11 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  padding-top: 2rem;
+  padding-top: 32px;
 }
 
 .hero-title {
-  font-size: 3.5rem; /* Increased from 3rem for more impact */
+  font-size: 48px; /* Mobile */
   font-weight: 700;
   font-family: var(--font-jetbrains);
   color: var(--color-primary);
@@ -225,31 +226,31 @@ body {
 }
 
 .hero-cta {
-  padding-bottom: 4rem;
+  padding-bottom: 64px;
 }
 
 /* Steps Section */
 .steps {
-  padding: 6rem 0;
+  padding: 96px 0;
 }
 
 .steps-title {
-  font-size: 2.5rem;
+  font-size: 40px;
   font-weight: 700;
   text-align: center;
   color: var(--color-primary);
   font-family: var(--font-ibm);
   letter-spacing: -0.05em;
-  margin-bottom: 5rem;
+  margin-bottom: 80px;
 }
 
 .step-card {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0.75rem;
-  padding: 2.5rem;
+  border-radius: 12px;
+  padding: 40px;
   transition: all var(--transition-duration);
-  margin-bottom: 5rem;
+  margin-bottom: 80px;
 }
 
 .step-card:hover {
@@ -259,40 +260,40 @@ body {
 }
 
 .step-title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-text);
   font-family: var(--font-ibm);
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .step-description {
   color: var(--color-text-secondary);
-  font-size: 1rem;
+  font-size: 16px;
   line-height: 1.75;
   font-family: var(--font-ibm);
-  margin-bottom: 2rem;
+  margin-bottom: 32px;
 }
 
 .step-code-block {
   background-color: var(--color-background);
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  padding: 1.5rem;
+  border-radius: 8px;
+  padding: 24px;
   overflow: auto;
 }
 
 .step-code {
   color: var(--color-accent);
   font-family: var(--font-jetbrains);
-  font-size: 0.9375rem; /* Increased from 0.875rem (14px) to 15px */
+  font-size: 14px;
   white-space: pre;
   display: block;
   line-height: 1.6;
 }
 
 .step-image-wrapper {
-  border-radius: 0.5rem;
+  border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--color-border);
 }
@@ -306,13 +307,13 @@ body {
 /* Footer */
 .footer {
   border-top: 1px solid var(--color-border);
-  padding: 3rem 0;
-  margin-top: 8rem;
+  padding: 48px 0;
+  margin-top: 128px;
 }
 
 .footer-text {
   text-align: center;
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--color-text-secondary);
   font-family: var(--font-ibm);
   line-height: 1.75;
@@ -320,16 +321,16 @@ body {
 
 /* Language Switcher */
 .lang-switcher {
-  padding: 0.75rem 1rem; /* Increased padding */
-  font-size: 1rem; /* Increased from 0.875rem (14px) to meet 16px minimum */
+  padding: 10px 14px;
+  font-size: 14px;
   font-weight: 500;
   background: transparent;
   border: none;
   color: var(--color-text);
   cursor: pointer;
   transition: all var(--transition-duration);
-  min-width: 60px; /* Increased from 50px */
-  min-height: 44px; /* Ensure minimum touch target */
+  min-width: 50px;
+  min-height: 38px;
 }
 
 .lang-switcher:hover {
@@ -348,8 +349,8 @@ body {
 }
 
 .user-avatar {
-  width: 44px; /* Increased from 40px to meet minimum touch target */
-  height: 44px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   cursor: pointer;
   transition: all var(--transition-duration);
@@ -359,7 +360,7 @@ body {
   background-color: var(--color-primary);
   color: var(--color-background);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 16px;
   border: 2px solid transparent;
 }
 
@@ -378,22 +379,22 @@ body {
 
 .user-menu-dropdown {
   position: absolute;
-  top: calc(100% + 0.5rem);
+  top: calc(100% + 8px);
   right: 0;
   min-width: 240px;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  border-radius: 8px;
+  padding: 8px;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   z-index: 1001;
 }
 
 .user-info {
-  padding: 0.75rem;
-  margin-bottom: 0.25rem;
+  padding: 12px;
+  margin-bottom: 4px;
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
   align-items: center;
 }
 
@@ -424,7 +425,7 @@ body {
 
 .user-info-name {
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 14px;
   color: var(--color-text);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -432,7 +433,7 @@ body {
 }
 
 .user-info-email {
-  font-size: 0.75rem;
+  font-size: 12px;
   color: var(--color-text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -442,18 +443,18 @@ body {
 .menu-separator {
   height: 1px;
   background-color: var(--color-border);
-  margin: 0.25rem 0;
+  margin: 4px 0;
 }
 
 .menu-item {
   display: block;
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
+  padding: 8px 12px;
+  font-size: 14px;
   color: var(--color-text);
   background: transparent;
   border: none;
-  border-radius: 0.375rem;
+  border-radius: 6px;
   cursor: pointer;
   transition: all var(--transition-duration);
   text-align: left;
@@ -480,14 +481,14 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 2000;
-  padding: 1rem;
+  padding: 16px;
 }
 
 .modal-content {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0.75rem;
-  padding: 2rem;
+  border-radius: 12px;
+  padding: 32px;
   max-width: 400px;
   width: 100%;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
@@ -497,11 +498,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .modal-title {
-  font-size: 1.5rem;
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-text);
   font-family: var(--font-ibm);
@@ -512,9 +513,9 @@ body {
   border: none;
   color: var(--color-text-secondary);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 4px;
   transition: color var(--transition-duration);
-  font-size: 1.5rem;
+  font-size: 24px;
   line-height: 1;
 }
 
@@ -523,42 +524,42 @@ body {
 }
 
 .modal-body {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .modal-text {
   color: var(--color-text-secondary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
   line-height: 1.6;
 }
 
 .modal-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
   justify-content: flex-end;
 }
 
 /* Responsive */
 @media (min-width: 768px) {
   .header-content {
-    padding: 1.25rem 2rem; /* Slightly increased padding */
+    padding: 20px 32px; /* Slightly increased padding */
   }
 
   .header-actions {
-    gap: 1rem; /* Increased spacing between buttons */
+    gap: 16px; /* Increased spacing between buttons */
   }
 
   .logo {
-    font-size: 1.625rem; /* 26px on tablet */
+    font-size: 26px; /* 26px on tablet */
   }
 
   .btn {
-    padding: 0.875rem 2rem; /* Larger buttons on tablet+ */
-    font-size: 1.125rem; /* 18px */
+    padding: 14px 32px; /* Larger buttons on tablet+ */
+    font-size: 18px; /* 18px */
   }
 
   .hero-title {
-    font-size: 5rem; /* Increased from 4.5rem */
+    font-size: 80px; /* Increased from 4.5rem */
   }
 
   .hero-title-wrapper {
@@ -566,32 +567,32 @@ body {
   }
 
   .hero-cta {
-    padding-bottom: 5rem;
+    padding-bottom: 80px;
   }
 
   .steps {
-    padding: 8rem 0;
+    padding: 128px 0;
   }
 
   .steps-title {
-    font-size: 3.25rem; /* Increased from 3rem */
-    margin-bottom: 6rem;
+    font-size: 52px; /* Increased from 3rem */
+    margin-bottom: 96px;
   }
 
   .step-card {
-    padding: 3rem;
+    padding: 48px;
   }
 
   .step-title {
-    font-size: 2rem; /* Increased from 1.875rem */
+    font-size: 32px; /* Increased from 1.875rem */
   }
 
   .step-description {
-    font-size: 1.1875rem; /* Increased from 1.125rem */
+    font-size: 19px; /* Increased from 1.125rem */
   }
 
   .step-code {
-    font-size: 1rem;
+    font-size: 16px;
   }
 
   .lang-switcher {
@@ -599,26 +600,26 @@ body {
   }
 
   .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 }
 
 @media (min-width: 1024px) {
   .logo {
-    font-size: 2rem; /* Increased from 1.875rem */
+    font-size: 32px; /* Increased from 1.875rem */
   }
 
   .btn {
-    padding: 1rem 2.5rem; /* Even larger on desktop */
+    padding: 16px 40px; /* Even larger on desktop */
   }
 
   .hero-title {
-    font-size: 6.5rem; /* Increased from 6rem for more impact */
+    font-size: 104px; /* Increased from 6rem for more impact */
   }
 
   .steps-title {
-    font-size: 4rem; /* Increased from 3.75rem */
+    font-size: 64px; /* Increased from 3.75rem */
   }
 }
 
