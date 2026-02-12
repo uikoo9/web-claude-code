@@ -1,6 +1,5 @@
 'use client';
 
-import { Box, Flex, Heading, Button, IconButton, Link } from '@chakra-ui/react';
 import { FaGithub } from 'react-icons/fa';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { LoginModal } from './LoginModal';
@@ -26,48 +25,17 @@ export function Header() {
 
   return (
     <>
-      <Box
-        as="header"
-        position="sticky"
-        top={0}
-        zIndex={1000}
-        style={{
-          backgroundColor: 'var(--color-surface)',
-          borderColor: 'var(--color-border)',
-        }}
-        boxShadow="sm"
-        borderBottom="1px"
-        suppressHydrationWarning
-      >
-        <Flex
-          justify="space-between"
-          align="center"
-          px={{ base: 4, md: 8 }}
-          py={4}
-        >
+      <header className="header" suppressHydrationWarning>
+        <div className="header-content">
           {/* Logo - Left */}
-          <Heading
-            as="h1"
-            fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}
-            style={{ color: 'var(--color-primary)' }}
-            fontWeight="black"
-            cursor="pointer"
-            transition="opacity 0.2s"
-            _hover={{
-              opacity: 0.8,
-            }}
-            letterSpacing="tight"
-            fontFamily="'JetBrains Mono', monospace"
-          >
-            webcc.dev
-          </Heading>
+          <h1 className="logo">webcc.dev</h1>
 
           {/* Right side buttons */}
-          <Flex gap={{ base: 2, md: 4 }} align="center">
+          <div className="header-actions">
             {/* User state */}
             {loading ? (
               // Loading placeholder
-              <Box w="40px" h="40px" />
+              <div style={{ width: '40px', height: '40px' }} />
             ) : userData ? (
               // Logged in: Show user menu
               <UserMenu
@@ -78,58 +46,28 @@ export function Header() {
               />
             ) : (
               // Not logged in: Show login button
-              <Button
-                style={{
-                  backgroundColor: 'var(--color-primary)',
-                  color: 'var(--color-background)',
-                }}
-                size={{ base: 'sm', md: 'md' }}
-                px={{ base: 4, md: 6 }}
-                cursor="pointer"
-                transition="all 0.2s"
-                _hover={{
-                  transform: 'translateY(-1px)',
-                  shadow: 'md',
-                  opacity: 0.9,
-                }}
-                onClick={() => setLoginOpen(true)}
-              >
+              <button className="btn btn-primary" onClick={() => setLoginOpen(true)}>
                 {t('login')}
-              </Button>
+              </button>
             )}
 
             {/* Language switcher */}
             <LanguageSwitcher />
 
             {/* GitHub button */}
-            <Link
+            <a
               href="https://github.com/uikoo9/web-claude-code"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
             >
-              <IconButton
-                aria-label="GitHub"
-                size="md"
-                variant="ghost"
-                cursor="pointer"
-                style={{ color: 'var(--color-text)' }}
-                _hover={{
-                  bg: 'transparent',
-                  opacity: 0.7,
-                }}
-                css={{
-                  '&:hover': {
-                    color: 'var(--color-primary)',
-                  },
-                }}
-              >
+              <button className="icon-btn" aria-label="GitHub">
                 <FaGithub size={20} />
-              </IconButton>
-            </Link>
-          </Flex>
-        </Flex>
-      </Box>
+              </button>
+            </a>
+          </div>
+        </div>
+      </header>
 
       {/* Login Modal */}
       <LoginModal open={loginOpen} onOpenChange={setLoginOpen} />

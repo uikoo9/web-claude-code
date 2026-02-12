@@ -2,17 +2,13 @@ const withNextIntl = require('next-intl/plugin')();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Disable to avoid double-render issues with Emotion
+  reactStrictMode: true,
   output: 'standalone',
 
   // Compiler optimizations
   compiler: {
-    emotion: true,
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
-
-  // Transpile packages
-  transpilePackages: ['@chakra-ui/react'],
 
   // Image optimization
   images: {

@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getLocale, getTranslations } from 'next-intl/server';
 import { Providers } from './providers';
 import { WebsiteSchema } from '@/components/WebsiteSchema';
-import './globals.css';
+import './styles.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();

@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import { Header } from '@/components/Header';
 import { Hero } from '@/components/Hero';
 import { Steps } from '@/components/Steps';
@@ -26,9 +25,7 @@ export default function Home() {
       </Suspense>
       <Header />
       <Hero />
-      <Box id="steps">
-        <Steps />
-      </Box>
+      <Steps />
       <Footer />
     </div>
   );

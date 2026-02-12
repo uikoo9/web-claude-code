@@ -1,14 +1,6 @@
 'use client';
 
-import { Box, HStack, Stack, Text } from '@chakra-ui/react';
-import { Avatar } from '@/components/ui/avatar';
-import {
-  MenuRoot,
-  MenuTrigger,
-  MenuContent,
-  MenuItem,
-  MenuSeparator,
-} from '@/components/ui/menu';
+import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -19,127 +11,91 @@ interface UserMenuProps {
   email: string;
 }
 
-export const UserMenu = ({
-  avatarUrl,
-  displayName,
-  username,
-  email,
-}: UserMenuProps) => {
+export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuProps) => {
   const t = useTranslations();
   const { signOut } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleSignOut = async () => {
     try {
       await signOut();
+      setIsOpen(false);
     } catch (error) {
       console.error('Sign out error:', error);
     }
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
-    <MenuRoot positioning={{ placement: 'bottom-end' }}>
-      <MenuTrigger asChild>
-        <Box
-          cursor="pointer"
-          borderRadius="full"
-          transition="all 0.2s"
-          _hover={{
-            transform: 'scale(1.05)',
-            boxShadow: 'md',
-          }}
-        >
-          <Avatar
-            size="sm"
-            name={displayName || username}
-            src={avatarUrl || undefined}
-          />
-        </Box>
-      </MenuTrigger>
-      <MenuContent
-        minW="240px"
-        p={2}
-        style={{ borderColor: 'var(--color-border)' }}
-        borderWidth="1px"
-      >
-        {/* User Info */}
-        <Box px={3} py={3} mb={1}>
-          <HStack gap={3}>
-            <Avatar
-              size="md"
-              name={displayName || username}
-              src={avatarUrl || undefined}
-            />
-            <Stack gap={0.5} flex="1">
-              <Text
-                fontWeight="600"
-                fontSize="sm"
-                style={{ color: 'var(--color-text)' }}
-                truncate
-              >
-                {displayName || username}
-              </Text>
-              <Text
-                fontSize="xs"
-                style={{ color: 'var(--color-text-secondary)' }}
-                truncate
-              >
-                {email}
-              </Text>
-            </Stack>
-          </HStack>
-        </Box>
+    <div className="user-menu" ref={menuRef}>
+      <div className="user-avatar" onClick={() => setIsOpen(!isOpen)}>
+        {avatarUrl ? (
+          <img src={avatarUrl} alt={displayName || username} className="user-avatar-image" />
+        ) : (
+          getInitials(displayName || username)
+        )}
+      </div>
 
-        <MenuSeparator />
+      {isOpen && (
+        <div className="user-menu-dropdown">
+          {/* User Info */}
+          <div className="user-info">
+            <div className="user-info-avatar">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt={displayName || username} className="user-info-avatar-image" />
+              ) : (
+                getInitials(displayName || username)
+              )}
+            </div>
+            <div className="user-info-text">
+              <div className="user-info-name">{displayName || username}</div>
+              <div className="user-info-email">{email}</div>
+            </div>
+          </div>
 
-        {/* Menu Items */}
-        <MenuItem
-          value="profile"
-          fontSize="sm"
-          py={2}
-          px={3}
-          borderRadius="md"
-          cursor="pointer"
-          _hover={{
-            backgroundColor: 'var(--color-surface)',
-          }}
-        >
-          {t('profile')}
-        </MenuItem>
-        <MenuItem
-          value="settings"
-          fontSize="sm"
-          py={2}
-          px={3}
-          borderRadius="md"
-          cursor="pointer"
-          _hover={{
-            backgroundColor: 'var(--color-surface)',
-          }}
-        >
-          {t('settings')}
-        </MenuItem>
+          <div className="menu-separator" />
 
-        <MenuSeparator my={1} />
+          {/* Menu Items */}
+          <button className="menu-item" onClick={() => setIsOpen(false)}>
+            {t('profile')}
+          </button>
+          <button className="menu-item" onClick={() => setIsOpen(false)}>
+            {t('settings')}
+          </button>
 
-        <MenuItem
-          value="signout"
-          fontSize="sm"
-          py={2}
-          px={3}
-          borderRadius="md"
-          cursor="pointer"
-          color="red.600"
-          _dark={{ color: 'red.400' }}
-          _hover={{
-            bg: 'red.50',
-            color: 'red.700',
-            _dark: { bg: 'red.900', color: 'red.300' },
-          }}
-          onClick={handleSignOut}
-        >
-          {t('signOut')}
-        </MenuItem>
-      </MenuContent>
-    </MenuRoot>
+          <div className="menu-separator" />
+
+          <button className="menu-item menu-item-danger" onClick={handleSignOut}>
+            {t('signOut')}
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
