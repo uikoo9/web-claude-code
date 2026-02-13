@@ -90,6 +90,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const usertoken = getCookie('usertoken');
 
       if (userid && usertoken) {
+        // Check if we have cached user info from OAuth callback
+        const cachedUserInfo = sessionStorage.getItem('userInfo');
+        if (cachedUserInfo) {
+          try {
+            const userInfo = JSON.parse(cachedUserInfo);
+            setUser({
+              id: userInfo.id.toString(),
+              email: userInfo.user_info_email || '',
+              user_metadata: {
+                avatar_url: userInfo.user_info_avatar,
+                user_name: userInfo.user_info_name,
+                name: userInfo.user_info_name,
+                full_name: userInfo.user_info_name,
+              },
+            });
+            // Clear cached info after using it
+            sessionStorage.removeItem('userInfo');
+            setLoading(false);
+            return;
+          } catch (error) {
+            console.error('Error parsing cached user info:', error);
+            sessionStorage.removeItem('userInfo');
+          }
+        }
+
         // Check if URL has userid/usertoken parameters
         const urlParams = new URLSearchParams(window.location.search);
         const hasUrlParams = urlParams.has('userid') && urlParams.has('usertoken');

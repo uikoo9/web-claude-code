@@ -8,23 +8,48 @@ export const AuthCallback = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const userid = searchParams.get('userid');
-    const usertoken = searchParams.get('usertoken');
+    const processAuthCallback = async () => {
+      const userid = searchParams.get('userid');
+      const usertoken = searchParams.get('usertoken');
 
-    // If both userid and usertoken are present in URL
-    if (userid && usertoken) {
-      // Save to cookies (expires in 30 days)
-      const expirationDays = 30;
-      const date = new Date();
-      date.setTime(date.getTime() + expirationDays * 24 * 60 * 60 * 1000);
-      const expires = `expires=${date.toUTCString()}`;
+      // If both userid and usertoken are present in URL
+      if (userid && usertoken) {
+        // Save to cookies (expires in 30 days)
+        const expirationDays = 30;
+        const date = new Date();
+        date.setTime(date.getTime() + expirationDays * 24 * 60 * 60 * 1000);
+        const expires = `expires=${date.toUTCString()}`;
 
-      document.cookie = `userid=${userid}; ${expires}; path=/; SameSite=Lax`;
-      document.cookie = `usertoken=${encodeURIComponent(usertoken)}; ${expires}; path=/; SameSite=Lax`;
+        document.cookie = `userid=${userid}; ${expires}; path=/; SameSite=Lax`;
+        document.cookie = `usertoken=${encodeURIComponent(usertoken)}; ${expires}; path=/; SameSite=Lax`;
 
-      // Redirect to clean URL (remove query parameters)
-      router.replace('/');
-    }
+        // Fetch user info from API immediately after saving cookies
+        try {
+          const response = await fetch('https://api.webcc.dev/user/info', {
+            method: 'POST',
+            headers: {
+              userid: userid,
+              usertoken: usertoken,
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            if (data.type === 'success' && data.obj && data.obj.length > 0) {
+              // User info fetched successfully, store in sessionStorage for AuthContext to pick up
+              sessionStorage.setItem('userInfo', JSON.stringify(data.obj[0]));
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching user info during callback:', error);
+        }
+
+        // Redirect to clean URL (remove query parameters)
+        router.replace('/');
+      }
+    };
+
+    processAuthCallback();
   }, [searchParams, router]);
 
   return null; // This component doesn't render anything
