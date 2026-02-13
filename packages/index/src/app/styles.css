@@ -262,7 +262,7 @@ body {
 .step-title {
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--color-primary);
   font-family: var(--font-ibm);
   margin-bottom: 32px;
 }
@@ -504,7 +504,7 @@ body {
 .modal-title {
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--color-primary);
   font-family: var(--font-ibm);
 }
 
