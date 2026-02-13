@@ -26,5 +26,9 @@
   "signOut": "Sign Out",
   "accessTokens": "Access Tokens",
   "accessTokenDescription": "Your personal access token for API authentication",
-  "copiedToClipboard": "Copied to clipboard!"
+  "copiedToClipboard": "Copied to clipboard!",
+  "confirmRefreshTitle": "Confirm Refresh Token",
+  "confirmRefreshMessage": "Are you sure you want to refresh your access token? Your old token will be invalidated and cannot be used anymore.",
+  "cancel": "Cancel",
+  "confirm": "Confirm"
 }

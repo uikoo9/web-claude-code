@@ -15,6 +15,7 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
   const [token, setToken] = useState(initialToken);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -26,7 +27,12 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
     }
   };
 
-  const handleRefresh = async () => {
+  const handleRefreshClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmRefresh = async () => {
+    setShowConfirm(false);
     setIsRefreshing(true);
     try {
       // TODO: Call API to refresh token
@@ -42,80 +48,113 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
     }
   };
 
+  const handleCancelRefresh = () => {
+    setShowConfirm(false);
+  };
+
   if (!open) return null;
 
   return (
-    <div className="modal-overlay" onClick={() => onOpenChange(false)}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
-        <div className="modal-header">
-          <h2 className="modal-title">{t('accessTokens')}</h2>
-          <button className="modal-close" onClick={() => onOpenChange(false)} aria-label="Close">
-            ×
-          </button>
-        </div>
-
-        <div className="modal-body">
-          <p className="modal-text">{t('accessTokenDescription')}</p>
-
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-            <input
-              type="text"
-              value={token}
-              readOnly
-              className="token-input"
-              placeholder="No token available"
-              style={{
-                flex: 1,
-                padding: '12px',
-                fontSize: '14px',
-                fontFamily: 'monospace',
-                backgroundColor: 'var(--color-background)',
-                border: '1px solid var(--color-border)',
-                borderRadius: '8px',
-                color: 'var(--color-text)',
-                outline: 'none',
-              }}
-            />
-            <button
-              className="btn btn-ghost"
-              onClick={handleCopy}
-              style={{
-                minWidth: '44px',
-                minHeight: '44px',
-                padding: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title={copySuccess ? 'Copied!' : 'Copy'}
-            >
-              <FaCopy size={18} />
-            </button>
-            <button
-              className="btn btn-ghost"
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-              style={{
-                minWidth: '44px',
-                minHeight: '44px',
-                padding: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title="Refresh"
-            >
-              <FaSync size={18} className={isRefreshing ? 'spinning' : ''} />
+    <>
+      <div className="modal-overlay" onClick={() => onOpenChange(false)}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
+          <div className="modal-header">
+            <h2 className="modal-title">{t('accessTokens')}</h2>
+            <button className="modal-close" onClick={() => onOpenChange(false)} aria-label="Close">
+              ×
             </button>
           </div>
 
-          {copySuccess && (
-            <p style={{ color: 'var(--color-primary)', fontSize: '14px', marginTop: '8px' }}>
-              {t('copiedToClipboard')}
-            </p>
-          )}
+          <div className="modal-body">
+            <p className="modal-text">{t('accessTokenDescription')}</p>
+
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <input
+                type="text"
+                value={token}
+                readOnly
+                className="token-input"
+                placeholder="No token available"
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  fontSize: '14px',
+                  fontFamily: 'monospace',
+                  backgroundColor: 'var(--color-background)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                  color: 'var(--color-text)',
+                  outline: 'none',
+                }}
+              />
+              <button
+                className="btn btn-ghost"
+                onClick={handleCopy}
+                style={{
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  padding: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title={copySuccess ? 'Copied!' : 'Copy'}
+              >
+                <FaCopy size={18} />
+              </button>
+              <button
+                className="btn btn-ghost"
+                onClick={handleRefreshClick}
+                disabled={isRefreshing}
+                style={{
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  padding: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                title="Refresh"
+              >
+                <FaSync size={18} className={isRefreshing ? 'spinning' : ''} />
+              </button>
+            </div>
+
+            {copySuccess && (
+              <p style={{ color: 'var(--color-primary)', fontSize: '14px', marginTop: '8px' }}>
+                {t('copiedToClipboard')}
+              </p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="modal-overlay" onClick={handleCancelRefresh}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+            <div className="modal-header">
+              <h2 className="modal-title">{t('confirmRefreshTitle')}</h2>
+              <button className="modal-close" onClick={handleCancelRefresh} aria-label="Close">
+                ×
+              </button>
+            </div>
+
+            <div className="modal-body">
+              <p className="modal-text">{t('confirmRefreshMessage')}</p>
+            </div>
+
+            <div className="modal-actions">
+              <button className="btn btn-ghost" onClick={handleCancelRefresh}>
+                {t('cancel')}
+              </button>
+              <button className="btn btn-primary" onClick={handleConfirmRefresh}>
+                {t('confirm')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };

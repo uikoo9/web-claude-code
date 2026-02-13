@@ -26,5 +26,9 @@
   "signOut": "退出登录",
   "accessTokens": "访问令牌",
   "accessTokenDescription": "您的个人访问令牌，用于 API 身份验证",
-  "copiedToClipboard": "已复制到剪贴板！"
+  "copiedToClipboard": "已复制到剪贴板！",
+  "confirmRefreshTitle": "确认刷新令牌",
+  "confirmRefreshMessage": "您确定要刷新访问令牌吗？旧令牌将被废弃，无法再使用。",
+  "cancel": "取消",
+  "confirm": "确认"
 }
