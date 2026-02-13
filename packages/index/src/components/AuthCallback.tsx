@@ -37,10 +37,20 @@ export const AuthCallback = () => {
             if (data.type === 'success' && data.obj) {
               // User info fetched successfully, store in localStorage for AuthContext to pick up
               localStorage.setItem('userInfo', JSON.stringify(data.obj));
+            } else {
+              // API returned fail, clear cookies
+              console.warn('User info API returned error:', data.msg || 'Unknown error');
+              document.cookie = 'userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              document.cookie = 'usertoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              localStorage.removeItem('userInfo');
             }
           }
         } catch (error) {
           console.error('Error fetching user info during callback:', error);
+          // Clear cookies on error
+          document.cookie = 'userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          document.cookie = 'usertoken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          localStorage.removeItem('userInfo');
         }
 
         // Use window.location.href for full page reload to trigger AuthContext useEffect

@@ -75,12 +75,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             access_token: userInfo.accessToken,
           },
         });
+      } else {
+        // If API returns fail or invalid data, clear cookies
+        console.warn('User info API returned error:', data.msg || 'Unknown error');
+        deleteCookie('userid');
+        deleteCookie('usertoken');
+        localStorage.removeItem('userInfo');
+        setUser(null);
       }
     } catch (error) {
       console.error('Error fetching user info:', error);
       // If API call fails, clear cookies
       deleteCookie('userid');
       deleteCookie('usertoken');
+      localStorage.removeItem('userInfo');
       setUser(null);
     }
   };
