@@ -44,21 +44,73 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Fetch user info from API
+  const fetchUserInfo = async (userid: string, usertoken: string) => {
+    try {
+      const response = await fetch('https://api.webcc.dev/user/info', {
+        method: 'POST',
+        headers: {
+          userid: userid,
+          usertoken: decodeURIComponent(usertoken),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user info');
+      }
+
+      const data = await response.json();
+
+      if (data.type === 'success' && data.obj && data.obj.length > 0) {
+        const userInfo = data.obj[0];
+        setUser({
+          id: userInfo.id.toString(),
+          email: userInfo.user_info_email || '',
+          user_metadata: {
+            avatar_url: userInfo.user_info_avatar,
+            user_name: userInfo.user_info_name,
+            name: userInfo.user_info_name,
+            full_name: userInfo.user_info_name,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+      // If API call fails, clear cookies
+      deleteCookie('userid');
+      deleteCookie('usertoken');
+      setUser(null);
+    }
+  };
+
   // Check for existing auth cookies on mount
   useEffect(() => {
-    const userid = getCookie('userid');
-    const usertoken = getCookie('usertoken');
+    const checkAuth = async () => {
+      const userid = getCookie('userid');
+      const usertoken = getCookie('usertoken');
 
-    if (userid && usertoken) {
-      // User has valid cookies, create user object
-      setUser({
-        id: userid,
-        email: '', // Email not available from cookies
-        user_metadata: {},
-      });
-    }
+      if (userid && usertoken) {
+        // Check if URL has userid/usertoken parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasUrlParams = urlParams.has('userid') && urlParams.has('usertoken');
 
-    setLoading(false);
+        // If URL doesn't have params but cookie has, fetch user info from API
+        if (!hasUrlParams) {
+          await fetchUserInfo(userid, usertoken);
+        } else {
+          // URL has params, they will be processed by AuthCallback
+          setUser({
+            id: userid,
+            email: '',
+            user_metadata: {},
+          });
+        }
+      }
+
+      setLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
   const signInWithGithub = async () => {
