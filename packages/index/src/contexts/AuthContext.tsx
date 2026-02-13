@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (userid && usertoken) {
         // Check if we have cached user info from OAuth callback
-        const cachedUserInfo = sessionStorage.getItem('userInfo');
+        const cachedUserInfo = localStorage.getItem('userInfo');
         if (cachedUserInfo) {
           try {
             const userInfo = JSON.parse(cachedUserInfo);
@@ -106,12 +106,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               },
             });
             // Clear cached info after using it
-            sessionStorage.removeItem('userInfo');
+            localStorage.removeItem('userInfo');
             setLoading(false);
             return;
           } catch (error) {
             console.error('Error parsing cached user info:', error);
-            sessionStorage.removeItem('userInfo');
+            localStorage.removeItem('userInfo');
           }
         }
 

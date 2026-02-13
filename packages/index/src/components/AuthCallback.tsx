@@ -1,11 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 export const AuthCallback = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   useEffect(() => {
     const processAuthCallback = async () => {
@@ -36,21 +35,21 @@ export const AuthCallback = () => {
           if (response.ok) {
             const data = await response.json();
             if (data.type === 'success' && data.obj && data.obj.length > 0) {
-              // User info fetched successfully, store in sessionStorage for AuthContext to pick up
-              sessionStorage.setItem('userInfo', JSON.stringify(data.obj[0]));
+              // User info fetched successfully, store in localStorage for AuthContext to pick up
+              localStorage.setItem('userInfo', JSON.stringify(data.obj[0]));
             }
           }
         } catch (error) {
           console.error('Error fetching user info during callback:', error);
         }
 
-        // Redirect to clean URL (remove query parameters)
-        router.replace('/');
+        // Use window.location.href for full page reload to trigger AuthContext useEffect
+        window.location.href = '/';
       }
     };
 
     processAuthCallback();
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   return null; // This component doesn't render anything
 };
