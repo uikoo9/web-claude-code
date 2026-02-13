@@ -115,6 +115,19 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 - **Build Tools**: Vite, Lerna, Nx
 - **Code Quality**: ESLint, Prettier, Husky, lint-staged, commitlint
 
+## Styling Guidelines
+
+### packages/index (Landing Page)
+
+The landing page uses **vanilla CSS** (no UI framework) with the following standards:
+
+- **Units**: Always use `px` for all measurements (font sizes, spacing, borders, etc.). Do NOT use `rem`, `em`, or other relative units.
+- **Responsive Design**: Use CSS media queries with pixel-based breakpoints for responsive layouts
+- **CSS Variables**: Use CSS custom properties defined in `:root` for colors, fonts, and common values
+- **Browser Support**: Target modern browsers with standard CSS features
+
+**Rationale**: Pixel units provide precise, predictable control over layout and typography, ensuring consistency across different devices and browsers.
+
 ## Important Notes
 
 - **Development State**: Server implementation is currently in packages/web/server.js for rapid development. This will be moved to packages/server before publishing.

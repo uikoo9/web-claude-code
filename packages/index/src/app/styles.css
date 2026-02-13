@@ -559,7 +559,7 @@ body {
   }
 
   .hero-title {
-    font-size: 80px; /* Increased from 4.5rem */
+    font-size: 80px;
   }
 
   .hero-title-wrapper {
@@ -575,7 +575,7 @@ body {
   }
 
   .steps-title {
-    font-size: 52px; /* Increased from 3rem */
+    font-size: 52px;
     margin-bottom: 96px;
   }
 
@@ -584,11 +584,11 @@ body {
   }
 
   .step-title {
-    font-size: 32px; /* Increased from 1.875rem */
+    font-size: 32px;
   }
 
   .step-description {
-    font-size: 19px; /* Increased from 1.125rem */
+    font-size: 19px;
   }
 
   .step-code {
@@ -607,7 +607,7 @@ body {
 
 @media (min-width: 1024px) {
   .logo {
-    font-size: 32px; /* Increased from 1.875rem */
+    font-size: 32px;
   }
 
   .btn {
@@ -615,11 +615,11 @@ body {
   }
 
   .hero-title {
-    font-size: 104px; /* Increased from 6rem for more impact */
+    font-size: 104px;
   }
 
   .steps-title {
-    font-size: 64px; /* Increased from 3.75rem */
+    font-size: 64px;
   }
 }
 
