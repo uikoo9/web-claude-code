@@ -1,4 +1,7 @@
 const withNextIntl = require('next-intl/plugin')();
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,6 +11,11 @@ const nextConfig = {
   // Compiler optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
+
+  // Experimental optimizations
+  experimental: {
+    optimizePackageImports: ['react-icons', 'react-syntax-highlighter'],
   },
 
   // Image optimization
@@ -72,4 +80,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withNextIntl(nextConfig);
+module.exports = withBundleAnalyzer(withNextIntl(nextConfig));

@@ -2,9 +2,25 @@
 
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useState } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import dynamic from 'next/dynamic';
+
+// 动态导入代码高亮组件，减少初始bundle
+const CodeHighlight = dynamic(() => import('./CodeHighlight').then((mod) => ({ default: mod.CodeHighlight })), {
+  ssr: false,
+  loading: () => (
+    <div
+      style={{
+        padding: '24px',
+        background: 'var(--color-background)',
+        borderRadius: '8px',
+        fontSize: '14px',
+        fontFamily: 'var(--font-jetbrains)',
+      }}
+    >
+      Loading...
+    </div>
+  ),
+});
 
 interface StepProps {
   number: number;
@@ -13,11 +29,11 @@ interface StepProps {
   codeKey?: string;
   showImage?: boolean;
   imageUrl?: string;
+  onImageClick?: () => void;
 }
 
-function Step({ number, titleKey, descriptionKey, codeKey, showImage, imageUrl }: StepProps) {
+function Step({ number, titleKey, descriptionKey, codeKey, showImage, imageUrl, onImageClick }: StepProps) {
   const t = useTranslations();
-  const [imageEnlarged, setImageEnlarged] = useState(false);
 
   // Special handling for step3 description with URL
   const renderDescription = () => {
@@ -61,65 +77,25 @@ function Step({ number, titleKey, descriptionKey, codeKey, showImage, imageUrl }
 
       {/* Code Block or Image */}
       {showImage && imageUrl ? (
-        <>
-          <div
-            className="step-image-wrapper step-image-clickable"
-            onClick={() => setImageEnlarged(true)}
-          >
-            <Image
-              src={imageUrl}
-              alt={t(titleKey)}
-              width={1200}
-              height={630}
-              className="step-image"
-            />
-          </div>
-
-          {/* Enlarged Image Modal */}
-          {imageEnlarged && (
-            <div className="image-modal-overlay" onClick={() => setImageEnlarged(false)}>
-              <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="image-modal-close" onClick={() => setImageEnlarged(false)}>
-                  ×
-                </button>
-                <Image
-                  src={imageUrl}
-                  alt={t(titleKey)}
-                  width={1200}
-                  height={630}
-                  className="image-modal-image"
-                />
-              </div>
-            </div>
-          )}
-        </>
+        <div className="step-image-wrapper step-image-clickable" onClick={onImageClick}>
+          <Image
+            src={imageUrl}
+            alt={t(titleKey)}
+            width={1200}
+            height={630}
+            className="step-image"
+          />
+        </div>
       ) : codeKey ? (
         <div className="step-code-block">
-          <SyntaxHighlighter
-            language="bash"
-            style={vscDarkPlus}
-            customStyle={{
-              margin: 0,
-              padding: '24px',
-              background: 'var(--color-background)',
-              borderRadius: '8px',
-              fontSize: '14px',
-            }}
-            codeTagProps={{
-              style: {
-                fontFamily: 'var(--font-jetbrains)',
-              },
-            }}
-          >
-            {t(codeKey)}
-          </SyntaxHighlighter>
+          <CodeHighlight code={t(codeKey)} language="bash" />
         </div>
       ) : null}
     </div>
   );
 }
 
-export function Steps() {
+export function Steps({ onImageClick }: { onImageClick?: () => void }) {
   const t = useTranslations();
 
   return (
@@ -142,6 +118,7 @@ export function Steps() {
             descriptionKey="step3Description"
             showImage={true}
             imageUrl="https://static-small.vincentqiao.com/webcc.png"
+            onImageClick={onImageClick}
           />
         </div>
       </div>

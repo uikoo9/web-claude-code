@@ -1,12 +1,18 @@
 'use client';
 
-import { FaGithub } from 'react-icons/fa';
-import { LanguageSwitcher } from './LanguageSwitcher';
-import { LoginModal } from './LoginModal';
-import { UserMenu } from './UserMenu';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+
+// 动态导入，减少初始bundle大小
+const LoginModal = dynamic(() => import('./LoginModal').then((mod) => ({ default: mod.LoginModal })), {
+  ssr: false,
+});
+
+const UserMenu = dynamic(() => import('./UserMenu').then((mod) => ({ default: mod.UserMenu })), {
+  ssr: false,
+});
 
 export function Header() {
   const t = useTranslations();
@@ -56,21 +62,6 @@ export function Header() {
                 {t('login')}
               </button>
             )}
-
-            {/* Language switcher */}
-            <LanguageSwitcher />
-
-            {/* GitHub button */}
-            <a
-              href="https://github.com/uikoo9/web-claude-code"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-            >
-              <button className="icon-btn" aria-label="GitHub">
-                <FaGithub size={20} />
-              </button>
-            </a>
           </div>
         </div>
       </header>
