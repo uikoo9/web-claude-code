@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { FaCopy, FaSync } from 'react-icons/fa';
 
@@ -27,6 +27,13 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
   const [copySuccess, setCopySuccess] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // Update token when initialToken changes
+  useEffect(() => {
+    if (initialToken) {
+      setToken(initialToken);
+    }
+  }, [initialToken]);
 
   const handleCopy = async () => {
     try {
