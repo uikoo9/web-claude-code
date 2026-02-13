@@ -5,13 +5,19 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { LoginModal } from './LoginModal';
 import { UserMenu } from './UserMenu';
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
 export function Header() {
   const t = useTranslations();
   const [loginOpen, setLoginOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { user, loading } = useAuth();
+
+  // Track client-side mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Extract user data from Supabase user object
   const userData = user
@@ -25,7 +31,7 @@ export function Header() {
 
   return (
     <>
-      <header className="header" suppressHydrationWarning>
+      <header className="header">
         <div className="header-content">
           {/* Logo - Left */}
           <h1 className="logo">webcc.dev</h1>
@@ -33,8 +39,8 @@ export function Header() {
           {/* Right side buttons */}
           <div className="header-actions">
             {/* User state */}
-            {loading ? (
-              // Loading placeholder
+            {!mounted || loading ? (
+              // Loading placeholder - shown during SSR and while loading
               <div className="header-loading-placeholder" />
             ) : userData ? (
               // Logged in: Show user menu
