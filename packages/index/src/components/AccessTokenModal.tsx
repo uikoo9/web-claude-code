@@ -76,21 +76,23 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
                 className="token-input"
                 placeholder="No token available"
               />
-              <button
-                className="btn btn-ghost token-action-button"
-                onClick={handleCopy}
-                title={copySuccess ? 'Copied!' : 'Copy'}
-              >
-                <FaCopy size={18} />
-              </button>
-              <button
-                className="btn btn-ghost token-action-button"
-                onClick={handleRefreshClick}
-                disabled={isRefreshing}
-                title="Refresh"
-              >
-                <FaSync size={18} className={isRefreshing ? 'spinning' : ''} />
-              </button>
+              <div className="token-actions">
+                <button
+                  className="btn btn-ghost token-action-button"
+                  onClick={handleCopy}
+                  title={copySuccess ? 'Copied!' : 'Copy'}
+                >
+                  <FaCopy size={18} />
+                </button>
+                <button
+                  className="btn btn-ghost token-action-button"
+                  onClick={handleRefreshClick}
+                  disabled={isRefreshing}
+                  title="Refresh"
+                >
+                  <FaSync size={18} className={isRefreshing ? 'spinning' : ''} />
+                </button>
+              </div>
             </div>
 
             {copySuccess && (

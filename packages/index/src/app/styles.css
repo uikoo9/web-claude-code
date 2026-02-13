@@ -598,7 +598,7 @@ body {
 
 /* Access Token Modal */
 .modal-content-wide {
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .modal-content-narrow {
@@ -607,7 +607,7 @@ body {
 
 .token-input-group {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -621,10 +621,17 @@ body {
   border-radius: 8px;
   color: var(--color-text);
   outline: none;
+  min-width: 0;
 }
 
 .token-input:focus {
   border-color: var(--color-primary);
+}
+
+.token-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .token-action-button {
@@ -721,6 +728,10 @@ body {
     min-width: 48px;
     min-height: 48px;
   }
+
+  .modal-content-wide {
+    max-width: 750px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -747,6 +758,15 @@ body {
 
   .login-terms {
     font-size: 14px;
+  }
+
+  .modal-content-wide {
+    max-width: 800px;
+  }
+
+  .token-input {
+    font-size: 16px;
+    padding: 16px;
   }
 }
 
