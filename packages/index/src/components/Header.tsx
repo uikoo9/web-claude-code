@@ -14,9 +14,14 @@ const UserMenu = dynamic(() => import('./UserMenu').then((mod) => ({ default: mo
   ssr: false,
 });
 
+const AccessTokenModal = dynamic(() => import('./AccessTokenModal').then((mod) => ({ default: mod.AccessTokenModal })), {
+  ssr: false,
+});
+
 export function Header() {
   const t = useTranslations();
   const [loginOpen, setLoginOpen] = useState(false);
+  const [tokenModalOpen, setTokenModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { user, loading } = useAuth();
 
@@ -55,6 +60,7 @@ export function Header() {
                 displayName={userData.displayName}
                 username={userData.username}
                 email={userData.email}
+                onAccessTokensClick={() => setTokenModalOpen(true)}
               />
             ) : (
               // Not logged in: Show login button
@@ -68,6 +74,13 @@ export function Header() {
 
       {/* Login Modal */}
       <LoginModal open={loginOpen} onOpenChange={setLoginOpen} />
+
+      {/* Access Token Modal - Rendered outside header for full-screen overlay */}
+      <AccessTokenModal
+        open={tokenModalOpen}
+        onOpenChange={setTokenModalOpen}
+        initialToken={user?.user_metadata?.access_token || ''}
+      />
     </>
   );
 }
