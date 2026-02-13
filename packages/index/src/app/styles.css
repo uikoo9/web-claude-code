@@ -158,6 +158,17 @@ body {
   color: var(--color-primary);
 }
 
+/* Modal ghost button with visible background */
+.modal-actions .btn-ghost {
+  background-color: rgba(203, 213, 225, 0.1);
+  border: 1px solid var(--color-border);
+}
+
+.modal-actions .btn-ghost:hover {
+  background-color: rgba(203, 213, 225, 0.2);
+  opacity: 1;
+}
+
 .btn-lg {
   padding: 24px 48px; /* Large CTA button */
   font-size: 20px;
@@ -306,12 +317,79 @@ body {
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--color-border);
+  transition: all var(--transition-duration);
+}
+
+.step-image-wrapper:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .step-image {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.step-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--transition-duration);
+  border-bottom: 1px solid transparent;
+}
+
+.step-link:hover {
+  border-bottom-color: var(--color-primary);
+  opacity: 0.8;
+}
+
+/* Image Enlarge Modal */
+.image-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 20px;
+  cursor: zoom-out;
+}
+
+.image-modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  cursor: default;
+}
+
+.image-modal-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: var(--color-primary);
+  border: none;
+  color: var(--color-background);
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 24px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: all var(--transition-duration);
+}
+
+.image-modal-close:hover {
+  opacity: 0.8;
+}
+
+.image-modal-image {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 8px;
 }
 
 /* Footer */
@@ -524,13 +602,15 @@ body {
   color: var(--color-text-secondary);
   cursor: pointer;
   padding: 4px;
-  transition: color var(--transition-duration);
+  transition: all var(--transition-duration);
   font-size: 24px;
   line-height: 1;
+  border-radius: 4px;
 }
 
 .modal-close:hover {
   color: var(--color-text);
+  background-color: var(--color-primary);
 }
 
 .modal-body {

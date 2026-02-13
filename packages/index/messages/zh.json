@@ -13,7 +13,7 @@
   "step1Code": "# Claude CLI 配置（可选）\nCLAUDE_PATH=claude\nWORK_DIR=/path/to/your/project\n\n# Anthropic API 配置（必需）\nANTHROPIC_BASE_URL=http://your-api-url:3000/api\nANTHROPIC_AUTH_TOKEN=your_auth_token_here\n\n# Claude 模型配置（可选）\nANTHROPIC_MODEL=claude-sonnet-4-5-20250929\nANTHROPIC_SMALL_FAST_MODEL=claude-sonnet-4-5-20250929\n\n# 服务器配置（可选）\nPORT=4000\nHOST=0.0.0.0",
   "step2Title": "第二步：安装 CLI 并启动",
   "step2Description": "使用 npm 全局安装 webcc CLI 工具并启动网页界面",
-  "step2Code": "npm i -g @webccc/cli\n\nwebcc",
+  "step2Code": "# 全局安装 CLI\nnpm i -g @webccc/cli\n\n# 进入 .env 文件所在目录\ncd /path/to/your/project\n\n# 启动 webcc\nwebcc",
   "step3Title": "第三步：享受 Claude 吧！",
   "step3Description": "打开浏览器访问 http://localhost:4000，现在你可以直接在浏览器中通过强大的网页终端界面与 Claude Code 互动了",
   "footer": "用 ❤️ 为开发者打造 | 开源于 GitHub",
