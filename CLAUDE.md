@@ -121,12 +121,37 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 
 The landing page uses **vanilla CSS** (no UI framework) with the following standards:
 
-- **Units**: Always use `px` for all measurements (font sizes, spacing, borders, etc.). Do NOT use `rem`, `em`, or other relative units.
-- **Responsive Design**: Use CSS media queries with pixel-based breakpoints for responsive layouts
-- **CSS Variables**: Use CSS custom properties defined in `:root` for colors, fonts, and common values
-- **Browser Support**: Target modern browsers with standard CSS features
+**Units and Measurements:**
 
-**Rationale**: Pixel units provide precise, predictable control over layout and typography, ensuring consistency across different devices and browsers.
+- Always use `px` for all measurements (font sizes, spacing, borders, etc.)
+- Do NOT use `rem`, `em`, or other relative units
+- Rationale: Pixel units provide precise, predictable control over layout and typography
+
+**CSS Organization:**
+
+- Do NOT use inline styles (`style={{...}}`) in JSX/TSX components
+- All styles must be defined in CSS files (primarily `src/app/styles.css`)
+- Use semantic CSS class names for reusability and maintainability
+- Rationale: Separating styles from markup improves code organization, enables better caching, and facilitates responsive design
+
+**Responsive Design:**
+
+- Use CSS media queries with pixel-based breakpoints for responsive layouts
+- Standard breakpoints: 768px (tablet), 1024px (desktop)
+- Mobile-first approach: base styles for mobile, then enhance with media queries
+- Rationale: Consistent breakpoints ensure predictable behavior across devices
+
+**CSS Variables:**
+
+- Use CSS custom properties defined in `:root` for colors, fonts, and common values
+- Example: `var(--color-primary)`, `var(--font-jetbrains)`
+- Rationale: Centralized theming and easy maintenance
+
+**Browser Support:**
+
+- Target modern browsers with standard CSS features
+- Use CSS Grid and Flexbox for layouts
+- Include accessibility features (focus states, reduced motion support)
 
 ## Important Notes
 

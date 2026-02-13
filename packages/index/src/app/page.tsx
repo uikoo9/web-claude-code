@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Home() {
   return (
-    <div style={{ minHeight: '100vh' }} suppressHydrationWarning>
+    <div className="page-container" suppressHydrationWarning>
       <Suspense fallback={null}>
         <AuthCallback />
       </Suspense>

@@ -35,7 +35,7 @@ export function Header() {
             {/* User state */}
             {loading ? (
               // Loading placeholder
-              <div style={{ width: '40px', height: '40px' }} />
+              <div className="header-loading-placeholder" />
             ) : userData ? (
               // Logged in: Show user menu
               <UserMenu

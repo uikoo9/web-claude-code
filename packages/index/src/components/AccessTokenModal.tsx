@@ -57,7 +57,7 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
   return (
     <>
       <div className="modal-overlay" onClick={() => onOpenChange(false)}>
-        <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
+        <div className="modal-content modal-content-wide" onClick={(e) => e.stopPropagation()}>
           <div className="modal-header">
             <h2 className="modal-title">{t('accessTokens')}</h2>
             <button className="modal-close" onClick={() => onOpenChange(false)} aria-label="Close">
@@ -68,52 +68,25 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
           <div className="modal-body">
             <p className="modal-text">{t('accessTokenDescription')}</p>
 
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div className="token-input-group">
               <input
                 type="text"
                 value={token}
                 readOnly
                 className="token-input"
                 placeholder="No token available"
-                style={{
-                  flex: 1,
-                  padding: '12px',
-                  fontSize: '14px',
-                  fontFamily: 'monospace',
-                  backgroundColor: 'var(--color-background)',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: '8px',
-                  color: 'var(--color-text)',
-                  outline: 'none',
-                }}
               />
               <button
-                className="btn btn-ghost"
+                className="btn btn-ghost token-action-button"
                 onClick={handleCopy}
-                style={{
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  padding: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
                 title={copySuccess ? 'Copied!' : 'Copy'}
               >
                 <FaCopy size={18} />
               </button>
               <button
-                className="btn btn-ghost"
+                className="btn btn-ghost token-action-button"
                 onClick={handleRefreshClick}
                 disabled={isRefreshing}
-                style={{
-                  minWidth: '44px',
-                  minHeight: '44px',
-                  padding: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
                 title="Refresh"
               >
                 <FaSync size={18} className={isRefreshing ? 'spinning' : ''} />
@@ -121,7 +94,7 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
             </div>
 
             {copySuccess && (
-              <p style={{ color: 'var(--color-primary)', fontSize: '14px', marginTop: '8px' }}>
+              <p className="token-success-message">
                 {t('copiedToClipboard')}
               </p>
             )}
@@ -132,7 +105,7 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
       {/* Confirmation Modal */}
       {showConfirm && (
         <div className="modal-overlay" onClick={handleCancelRefresh}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+          <div className="modal-content modal-content-narrow" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2 className="modal-title">{t('confirmRefreshTitle')}</h2>
               <button className="modal-close" onClick={handleCancelRefresh} aria-label="Close">

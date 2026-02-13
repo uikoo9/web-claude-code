@@ -39,6 +39,11 @@ body {
   font-size: 16px;
 }
 
+/* Page container */
+.page-container {
+  min-height: 100vh;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;
@@ -108,6 +113,11 @@ body {
   display: flex;
   gap: 8px; /* Mobile: tighter spacing */
   align-items: center;
+}
+
+.header-loading-placeholder {
+  width: 40px;
+  height: 40px;
 }
 
 /* Button */
@@ -539,6 +549,99 @@ body {
   justify-content: flex-end;
 }
 
+/* Login Modal */
+.login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.oauth-button {
+  width: 100%;
+  padding: 14px 20px;
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-duration);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.oauth-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.oauth-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.oauth-button-text {
+  font-weight: 500;
+}
+
+.login-terms {
+  margin-top: 24px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Access Token Modal */
+.modal-content-wide {
+  max-width: 600px;
+}
+
+.modal-content-narrow {
+  max-width: 400px;
+}
+
+.token-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.token-input {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  font-family: monospace;
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  outline: none;
+}
+
+.token-input:focus {
+  border-color: var(--color-primary);
+}
+
+.token-action-button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.token-success-message {
+  color: var(--color-primary);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
 /* Responsive */
 @media (min-width: 768px) {
   .header-content {
@@ -603,6 +706,21 @@ body {
     padding-left: 32px;
     padding-right: 32px;
   }
+
+  .oauth-button {
+    padding: 16px 24px;
+    font-size: 16px;
+  }
+
+  .token-input {
+    font-size: 15px;
+    padding: 14px;
+  }
+
+  .token-action-button {
+    min-width: 48px;
+    min-height: 48px;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -620,6 +738,15 @@ body {
 
   .steps-title {
     font-size: 64px;
+  }
+
+  .oauth-button {
+    padding: 18px 28px;
+    font-size: 18px;
+  }
+
+  .login-terms {
+    font-size: 14px;
   }
 }
 
