@@ -10,12 +10,23 @@ interface AccessTokenModalProps {
   initialToken?: string;
 }
 
+// Helper function to get cookie value
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  return null;
+}
+
 export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: AccessTokenModalProps) => {
   const t = useTranslations();
   const [token, setToken] = useState(initialToken);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleCopy = async () => {
     try {
@@ -28,21 +39,47 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
   };
 
   const handleRefreshClick = () => {
+    setErrorMessage(null);
     setShowConfirm(true);
   };
 
   const handleConfirmRefresh = async () => {
     setShowConfirm(false);
     setIsRefreshing(true);
+    setErrorMessage(null);
+
     try {
-      // TODO: Call API to refresh token
-      // For now, just simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Generate a mock token for demonstration
-      const newToken = 'sk-' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      setToken(newToken);
+      const userid = getCookie('userid');
+      const usertoken = getCookie('usertoken');
+
+      if (!userid || !usertoken) {
+        setErrorMessage('Authentication required. Please log in again.');
+        return;
+      }
+
+      const response = await fetch('https://api.webcc.dev/ac/refresh', {
+        method: 'POST',
+        headers: {
+          userid: userid,
+          usertoken: decodeURIComponent(usertoken),
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to refresh token');
+      }
+
+      const data = await response.json();
+
+      if (data.type === 'success' && data.obj) {
+        setToken(data.obj);
+        setCopySuccess(false);
+      } else {
+        setErrorMessage(data.msg || 'Failed to refresh token');
+      }
     } catch (error) {
       console.error('Failed to refresh token:', error);
+      setErrorMessage('Network error. Please try again.');
     } finally {
       setIsRefreshing(false);
     }
@@ -98,6 +135,12 @@ export const AccessTokenModal = ({ open, onOpenChange, initialToken = '' }: Acce
             {copySuccess && (
               <p className="token-success-message">
                 {t('copiedToClipboard')}
+              </p>
+            )}
+
+            {errorMessage && (
+              <p className="token-error-message">
+                {errorMessage}
               </p>
             )}
           </div>
