@@ -43,19 +43,19 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
         </div>
 
         <div className="modal-body">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <button
               className="btn btn-primary"
               style={{
                 width: '100%',
-                padding: '1rem 1.5rem',
+                padding: '16px 24px',
                 backgroundColor: 'transparent',
                 border: '2px solid var(--color-primary)',
                 color: 'var(--color-text)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.75rem',
+                gap: '12px',
               }}
               onClick={() => handleOAuthLogin('github')}
               disabled={loading !== null}
@@ -72,14 +72,14 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
               className="btn btn-primary"
               style={{
                 width: '100%',
-                padding: '1rem 1.5rem',
+                padding: '16px 24px',
                 backgroundColor: 'transparent',
                 border: '2px solid var(--color-primary)',
                 color: 'var(--color-text)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '0.75rem',
+                gap: '12px',
               }}
               onClick={() => handleOAuthLogin('google')}
               disabled={loading !== null}
@@ -108,7 +108,7 @@ export const LoginModal = ({ open, onOpenChange }: LoginModalProps) => {
             </button>
           </div>
 
-          <p className="modal-text" style={{ marginTop: '1.5rem', fontSize: '0.75rem', textAlign: 'center' }}>
+          <p className="modal-text" style={{ marginTop: '24px', fontSize: '12px', textAlign: 'center' }}>
             {t('termsNotice')}
           </p>
         </div>
