@@ -23,5 +23,8 @@
   "termsNotice": "继续即表示您同意我们的服务条款和隐私政策",
   "profile": "个人资料",
   "settings": "设置",
-  "signOut": "退出登录"
+  "signOut": "退出登录",
+  "accessTokens": "访问令牌",
+  "accessTokenDescription": "您的个人访问令牌，用于 API 身份验证",
+  "copiedToClipboard": "已复制到剪贴板！"
 }

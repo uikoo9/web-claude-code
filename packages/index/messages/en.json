@@ -23,5 +23,8 @@
   "termsNotice": "By continuing, you agree to our Terms of Service and Privacy Policy",
   "profile": "Profile",
   "settings": "Settings",
-  "signOut": "Sign Out"
+  "signOut": "Sign Out",
+  "accessTokens": "Access Tokens",
+  "accessTokenDescription": "Your personal access token for API authentication",
+  "copiedToClipboard": "Copied to clipboard!"
 }

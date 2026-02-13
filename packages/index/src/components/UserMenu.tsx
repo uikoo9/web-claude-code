@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useAuth } from '@/contexts/AuthContext';
+import { AccessTokenModal } from './AccessTokenModal';
 
 interface UserMenuProps {
   avatarUrl?: string | null;
@@ -15,6 +16,7 @@ export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuPr
   const t = useTranslations();
   const { signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [tokenModalOpen, setTokenModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleSignOut = async () => {
@@ -24,6 +26,11 @@ export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuPr
     } catch (error) {
       console.error('Sign out error:', error);
     }
+  };
+
+  const handleAccessTokens = () => {
+    setIsOpen(false);
+    setTokenModalOpen(true);
   };
 
   // Close menu when clicking outside
@@ -53,49 +60,51 @@ export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuPr
   };
 
   return (
-    <div className="user-menu" ref={menuRef}>
-      <div className="user-avatar" onClick={() => setIsOpen(!isOpen)}>
-        {avatarUrl ? (
-          <img src={avatarUrl} alt={displayName || username} className="user-avatar-image" />
-        ) : (
-          getInitials(displayName || username)
+    <>
+      <div className="user-menu" ref={menuRef}>
+        <div className="user-avatar" onClick={() => setIsOpen(!isOpen)}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt={displayName || username} className="user-avatar-image" />
+          ) : (
+            getInitials(displayName || username)
+          )}
+        </div>
+
+        {isOpen && (
+          <div className="user-menu-dropdown">
+            {/* User Info */}
+            <div className="user-info">
+              <div className="user-info-avatar">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt={displayName || username} className="user-info-avatar-image" />
+                ) : (
+                  getInitials(displayName || username)
+                )}
+              </div>
+              <div className="user-info-text">
+                <div className="user-info-name">{displayName || username}</div>
+                <div className="user-info-email">{email}</div>
+              </div>
+            </div>
+
+            <div className="menu-separator" />
+
+            {/* Menu Items */}
+            <button className="menu-item" onClick={handleAccessTokens}>
+              {t('accessTokens')}
+            </button>
+
+            <div className="menu-separator" />
+
+            <button className="menu-item menu-item-danger" onClick={handleSignOut}>
+              {t('signOut')}
+            </button>
+          </div>
         )}
       </div>
 
-      {isOpen && (
-        <div className="user-menu-dropdown">
-          {/* User Info */}
-          <div className="user-info">
-            <div className="user-info-avatar">
-              {avatarUrl ? (
-                <img src={avatarUrl} alt={displayName || username} className="user-info-avatar-image" />
-              ) : (
-                getInitials(displayName || username)
-              )}
-            </div>
-            <div className="user-info-text">
-              <div className="user-info-name">{displayName || username}</div>
-              <div className="user-info-email">{email}</div>
-            </div>
-          </div>
-
-          <div className="menu-separator" />
-
-          {/* Menu Items */}
-          <button className="menu-item" onClick={() => setIsOpen(false)}>
-            {t('profile')}
-          </button>
-          <button className="menu-item" onClick={() => setIsOpen(false)}>
-            {t('settings')}
-          </button>
-
-          <div className="menu-separator" />
-
-          <button className="menu-item menu-item-danger" onClick={handleSignOut}>
-            {t('signOut')}
-          </button>
-        </div>
-      )}
-    </div>
+      {/* Access Token Modal */}
+      <AccessTokenModal open={tokenModalOpen} onOpenChange={setTokenModalOpen} />
+    </>
   );
 };
