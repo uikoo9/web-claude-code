@@ -3,6 +3,8 @@
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import { useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface StepProps {
   number: number;
@@ -61,9 +63,8 @@ function Step({ number, titleKey, descriptionKey, codeKey, showImage, imageUrl }
       {showImage && imageUrl ? (
         <>
           <div
-            className="step-image-wrapper"
+            className="step-image-wrapper step-image-clickable"
             onClick={() => setImageEnlarged(true)}
-            style={{ cursor: 'pointer' }}
           >
             <Image
               src={imageUrl}
@@ -94,7 +95,24 @@ function Step({ number, titleKey, descriptionKey, codeKey, showImage, imageUrl }
         </>
       ) : codeKey ? (
         <div className="step-code-block">
-          <code className="step-code">{t(codeKey)}</code>
+          <SyntaxHighlighter
+            language="bash"
+            style={vscDarkPlus}
+            customStyle={{
+              margin: 0,
+              padding: '24px',
+              background: 'var(--color-background)',
+              borderRadius: '8px',
+              fontSize: '14px',
+            }}
+            codeTagProps={{
+              style: {
+                fontFamily: 'var(--font-jetbrains)',
+              },
+            }}
+          >
+            {t(codeKey)}
+          </SyntaxHighlighter>
         </div>
       ) : null}
     </div>
