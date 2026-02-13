@@ -14,7 +14,7 @@ interface UserMenuProps {
 
 export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuProps) => {
   const t = useTranslations();
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [tokenModalOpen, setTokenModalOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -104,7 +104,11 @@ export const UserMenu = ({ avatarUrl, displayName, username, email }: UserMenuPr
       </div>
 
       {/* Access Token Modal */}
-      <AccessTokenModal open={tokenModalOpen} onOpenChange={setTokenModalOpen} />
+      <AccessTokenModal
+        open={tokenModalOpen}
+        onOpenChange={setTokenModalOpen}
+        initialToken={user?.user_metadata?.access_token || ''}
+      />
     </>
   );
 };

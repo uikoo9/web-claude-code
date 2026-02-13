@@ -10,6 +10,7 @@ interface User {
     full_name?: string;
     name?: string;
     user_name?: string;
+    access_token?: string;
   };
 }
 
@@ -61,8 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const data = await response.json();
 
-      if (data.type === 'success' && data.obj && data.obj.length > 0) {
-        const userInfo = data.obj[0];
+      if (data.type === 'success' && data.obj) {
+        const userInfo = data.obj;
         setUser({
           id: userInfo.id.toString(),
           email: userInfo.user_info_email || '',
@@ -71,6 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             user_name: userInfo.user_info_name,
             name: userInfo.user_info_name,
             full_name: userInfo.user_info_name,
+            access_token: userInfo.accessToken,
           },
         });
       }
@@ -103,6 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 user_name: userInfo.user_info_name,
                 name: userInfo.user_info_name,
                 full_name: userInfo.user_info_name,
+                access_token: userInfo.accessToken,
               },
             });
             // Clear cached info after using it

@@ -34,9 +34,9 @@ export const AuthCallback = () => {
 
           if (response.ok) {
             const data = await response.json();
-            if (data.type === 'success' && data.obj && data.obj.length > 0) {
+            if (data.type === 'success' && data.obj) {
               // User info fetched successfully, store in localStorage for AuthContext to pick up
-              localStorage.setItem('userInfo', JSON.stringify(data.obj[0]));
+              localStorage.setItem('userInfo', JSON.stringify(data.obj));
             }
           }
         } catch (error) {
