@@ -106,8 +106,6 @@ export function Steps({ onImageClick }: { onImageClick?: () => void }) {
 
         {/* Steps */}
         <div>
-          <Step number={0} titleKey="step0Title" descriptionKey="step0Description" codeKey="step0Code" />
-
           <Step number={1} titleKey="step1Title" descriptionKey="step1Description" codeKey="step1Code" />
 
           <Step number={2} titleKey="step2Title" descriptionKey="step2Description" codeKey="step2Code" />
