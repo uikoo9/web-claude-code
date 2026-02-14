@@ -4,7 +4,7 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: './', // 使用相对路径，适配多个部署位置
   server: {
     port: 3000,
     open: true,

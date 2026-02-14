@@ -69,12 +69,32 @@ function App() {
       }
     });
 
-    // 连接到 Socket.IO 服务器（使用相对路径 /ws，自动适配域名/IP/localhost）
-    // 开发环境会通过 Vite proxy 代理到 4000 端口
-    // 生产环境前后端同端口，直接连接
-    const socket = io({
-      path: '/ws',
-    });
+    // 获取 WebSocket 配置（根据环境自动检测）
+    const getWebSocketConfig = () => {
+      const hostname = window.location.hostname;
+      // const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+
+      // 在线模式：检测是否在 webcc.dev 域名
+      if (hostname === 'webcc.dev' || hostname === 'www.webcc.dev') {
+        return {
+          url: 'wss://ws.webcc.dev',
+          path: '/ws',
+        };
+      }
+
+      // 本地模式：localhost 或其他域名
+      // 开发环境会通过 Vite proxy 代理到 4000 端口
+      // 生产环境前后端同端口，直接连接
+      return {
+        url: undefined, // 使用相对路径，自动适配当前域名
+        path: '/ws',
+      };
+    };
+
+    const { url, path } = getWebSocketConfig();
+
+    // 连接到 Socket.IO 服务器
+    const socket = url ? io(url, { path }) : io({ path });
     socketRef.current = socket;
 
     // Socket 事件处理函数
