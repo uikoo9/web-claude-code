@@ -6,7 +6,6 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 #root {
@@ -16,130 +15,50 @@ body {
   padding: 0;
 }
 
-/* 外层容器 - 页面背景 */
 .app-container {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* Mac 风格窗口容器 */
-.terminal-window {
-  width: 100%;
-  max-width: 1400px;
-  min-width: 1378px;
-  height: 90vh;
-  max-height: 900px;
+  min-width: 800px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   background-color: #1e1e1e;
-  border-radius: 12px;
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+  color: #e8e8e8;
   overflow: hidden;
-  animation: fadeIn 0.3s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Mac 风格头部 */
 .app-header {
-  padding: 12px 20px;
-  background: linear-gradient(to bottom, #2d2d2d 0%, #262626 100%);
+  padding: 15px 20px;
+  background-color: #2d2d2d;
   border-bottom: 1px solid #3d3d3d;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
-}
-
-/* Mac 三色按钮 */
-.window-controls {
-  display: flex;
-  gap: 8px;
-  position: absolute;
-  left: 16px;
-}
-
-.window-control {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.window-control:hover {
-  opacity: 0.8;
-}
-
-.window-control.close {
-  background-color: #ff5f56;
-}
-
-.window-control.minimize {
-  background-color: #ffbd2e;
-}
-
-.window-control.maximize {
-  background-color: #27c93f;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 15px;
-  flex: 1;
-  justify-content: center;
-  margin-left: 60px;
 }
 
 .app-title {
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #e8e8e8;
-  letter-spacing: 0.3px;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .connection-status {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: #999;
+  gap: 8px;
+  font-size: 12px;
 }
 
 .status-indicator {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
 }
 
 .status-indicator.connected {
@@ -152,43 +71,36 @@ body {
 
 .header-buttons {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .header-button {
-  padding: 6px 12px;
-  background-color: rgba(255, 255, 255, 0.08);
+  padding: 8px 16px;
+  background-color: #3d3d3d;
   color: #e8e8e8;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 11px;
-  font-weight: 500;
-  transition: all 0.2s;
-  backdrop-filter: blur(10px);
+  font-size: 12px;
+  transition: background-color 0.2s;
 }
 
 .header-button:hover:not(:disabled) {
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
+  background-color: #4d4d4d;
 }
 
 .header-button.restart {
-  background-color: rgba(107, 207, 127, 0.15);
-  border-color: rgba(107, 207, 127, 0.3);
+  background-color: #4d4d4d;
 }
 
 .header-button.restart:hover:not(:disabled) {
-  background-color: rgba(107, 207, 127, 0.25);
-  border-color: rgba(107, 207, 127, 0.4);
+  background-color: #5d5d5d;
 }
 
 .header-button:disabled {
-  background-color: rgba(255, 255, 255, 0.03);
-  color: #555;
+  background-color: #3d3d3d;
+  color: #888;
   cursor: not-allowed;
-  border-color: rgba(255, 255, 255, 0.05);
 }
 
 .terminal-container {
@@ -196,54 +108,4 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #1e1e1e;
-  padding: 0;
-  margin: 0;
-}
-
-/* 确保 xterm 完全填充容器 */
-.terminal-container .xterm {
-  width: 100% !important;
-  height: 100% !important;
-  padding: 0;
-}
-
-.terminal-container .xterm-viewport {
-  width: 100% !important;
-}
-
-.terminal-container .xterm-screen {
-  width: 100% !important;
-}
-
-/* 响应式调整 */
-@media (max-width: 1200px) {
-  .terminal-window {
-    max-width: 95%;
-  }
-}
-
-@media (max-width: 768px) {
-  .app-container {
-    padding: 10px;
-  }
-
-  .terminal-window {
-    max-width: 100%;
-    height: 95vh;
-    border-radius: 8px;
-  }
-
-  .window-controls {
-    display: none;
-  }
-
-  .header-left {
-    margin-left: 0;
-    justify-content: flex-start;
-  }
-
-  .app-title {
-    font-size: 13px;
-  }
 }

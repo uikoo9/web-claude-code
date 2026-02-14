@@ -42,7 +42,6 @@ function App() {
       },
       scrollback: 10000,
       allowProposedApi: true,
-      cols: 160, // 设置最大列数，适配 1400px 宽度
     });
 
     // 创建 fit addon
@@ -57,8 +56,7 @@ function App() {
     fitAddonRef.current = fitAddon;
 
     // 写入欢迎消息
-    term.writeln('\x1b[1;36m欢迎使用 webcc.dev: web-claude-code\x1b[0m');
-    term.writeln('');
+    term.writeln('\x1b[1;36m欢迎使用 Claude CLI Terminal\x1b[0m');
     term.writeln('\x1b[90m正在连接到服务器...\x1b[0m\n');
 
     // 监听终端输入 - 直接发送所有按键到服务器
@@ -69,32 +67,12 @@ function App() {
       }
     });
 
-    // 获取 WebSocket 配置（根据环境自动检测）
-    const getWebSocketConfig = () => {
-      const hostname = window.location.hostname;
-      // const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-
-      // 在线模式：检测是否在 webcc.dev 域名
-      if (hostname === 'webcc.dev' || hostname === 'www.webcc.dev') {
-        return {
-          url: 'wss://ws.webcc.dev',
-          path: '/ws',
-        };
-      }
-
-      // 本地模式：localhost 或其他域名
-      // 开发环境会通过 Vite proxy 代理到 4000 端口
-      // 生产环境前后端同端口，直接连接
-      return {
-        url: undefined, // 使用相对路径，自动适配当前域名
-        path: '/ws',
-      };
-    };
-
-    const { url, path } = getWebSocketConfig();
-
-    // 连接到 Socket.IO 服务器
-    const socket = url ? io(url, { path }) : io({ path });
+    // 连接到 Socket.IO 服务器（使用相对路径 /ws，自动适配域名/IP/localhost）
+    // 开发环境会通过 Vite proxy 代理到 4000 端口
+    // 生产环境前后端同端口，直接连接
+    const socket = io({
+      path: '/ws',
+    });
     socketRef.current = socket;
 
     // Socket 事件处理函数
@@ -182,38 +160,27 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Mac 风格窗口 */}
-      <div className="terminal-window">
-        {/* 头部 */}
-        <div className="app-header">
-          {/* Mac 三色按钮 */}
-          <div className="window-controls">
-            <div className="window-control close" title="关闭"></div>
-            <div className="window-control minimize" title="最小化"></div>
-            <div className="window-control maximize" title="最大化"></div>
-          </div>
-
-          <div className="header-left">
-            <h1 className="app-title">webcc.dev: web-claude-code</h1>
-            <div className="connection-status">
-              <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
-              <span>{isConnected ? '已连接' : '未连接'}</span>
-            </div>
-          </div>
-
-          <div className="header-buttons">
-            <button onClick={clearTerminal} className="header-button">
-              清空终端
-            </button>
-            <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
-              重启 CLI
-            </button>
+      {/* 头部 */}
+      <div className="app-header">
+        <div className="header-left">
+          <h1 className="app-title">Claude CLI Terminal</h1>
+          <div className="connection-status">
+            <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
+            <span>{isConnected ? '已连接' : '未连接'}</span>
           </div>
         </div>
-
-        {/* 终端区域 */}
-        <div ref={terminalRef} className="terminal-container" />
+        <div className="header-buttons">
+          <button onClick={clearTerminal} className="header-button">
+            清空终端
+          </button>
+          <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
+            重启 CLI
+          </button>
+        </div>
       </div>
+
+      {/* 终端区域 */}
+      <div ref={terminalRef} className="terminal-container" />
     </div>
   );
 }
