@@ -149,15 +149,6 @@ function App() {
     }
   };
 
-  const restartCLI = () => {
-    if (socketRef.current) {
-      if (xtermRef.current) {
-        xtermRef.current.writeln('\n\x1b[1;33m正在重启 CLI...\x1b[0m\n');
-      }
-      socketRef.current.emit('cli-restart');
-    }
-  };
-
   return (
     <div className="app-container">
       {/* 头部 */}
@@ -172,9 +163,6 @@ function App() {
         <div className="header-buttons">
           <button onClick={clearTerminal} className="header-button">
             清空终端
-          </button>
-          <button onClick={restartCLI} disabled={!isConnected} className="header-button restart">
-            重启 CLI
           </button>
         </div>
       </div>
