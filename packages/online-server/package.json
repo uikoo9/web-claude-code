@@ -1,0 +1,25 @@
+{
+  "name": "@webccc/online-server",
+  "version": "0.0.1",
+  "description": "WebSocket server for web-claude-code online mode",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [
+    "websocket",
+    "socket.io",
+    "claude",
+    "claude-code"
+  ],
+  "author": "uikoo9 <uikoo9@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

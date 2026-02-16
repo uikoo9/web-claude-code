@@ -33,7 +33,9 @@
     "cli:start": "npm run start --workspace=@webccc/cli",
     "index:dev": "npm run dev --workspace=@webccc/index",
     "index:build": "npm run build --workspace=@webccc/index",
-    "index:start": "npm run start --workspace=@webccc/index"
+    "index:start": "npm run start --workspace=@webccc/index",
+    "online:dev": "npm run dev --workspace=@webccc/online-server",
+    "online:start": "npm run start --workspace=@webccc/online-server"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.1",
