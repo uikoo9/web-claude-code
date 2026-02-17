@@ -1,6 +1,7 @@
 {
   "name": "@webccc/terminal-component",
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "description": "Shared terminal component for web-claude-code",
   "license": "MIT",
