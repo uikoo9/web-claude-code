@@ -18,7 +18,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@webccc/terminal-component": "file:../terminal-component",
+    "@webccc/terminal-component": "^0.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
