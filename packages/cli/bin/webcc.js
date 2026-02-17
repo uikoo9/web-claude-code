@@ -5,6 +5,7 @@ const { startClaudeCodeServer } = require('@webccc/server');
 const { showBanner } = require('../src/banner');
 const { getConfig } = require('../src/config');
 const { selectMode, promptOnlineToken } = require('../src/mode');
+const { startOnlineClient } = require('../src/online');
 const { logger } = require('../src/logger');
 const packageJson = require('../package.json');
 
@@ -34,9 +35,7 @@ program.action(async () => {
       logger.info(`  Share this URL: https://www.webcc.dev/${token}`);
       logger.info('\nPress Ctrl+C to end the session.');
 
-      // TODO: start online client (src/online.js)
-      process.on('SIGINT', () => process.exit(0));
-      process.on('SIGTERM', () => process.exit(0));
+      startOnlineClient(token, config);
       return;
     }
 
