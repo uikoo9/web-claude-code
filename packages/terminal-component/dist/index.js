@@ -69,24 +69,24 @@ exports.default = function (o) {
     f = void 0 === s ? '' : s,
     m = e.useRef(null),
     d = e.useRef(null),
+    v = e.useRef(null),
     b = e.useRef(null),
     g = e.useRef(null),
-    v = e.useRef(null),
     h = c(e.useState(!1), 2),
     p = h[0],
     y = h[1],
     w = e.useRef(''),
-    C = e.useRef(''),
-    E = 5242880,
-    S = function () {
-      return 'online' === a ? 'terminal-history-online-'.concat(u) : 'terminal-history-local';
-    };
+    C = e.useRef('');
   return (
     e.useEffect(
       function () {
+        var e = 5242880,
+          o = function () {
+            return 'online' === a ? 'terminal-history-online-'.concat(u) : 'terminal-history-local';
+          };
         if ('online' !== a || (u && f)) {
-          C.current = S();
-          var e = new t.Terminal({
+          C.current = o();
+          var c = new t.Terminal({
               cursorBlink: !0,
               fontSize: 14,
               fontFamily: '"Cascadia Code", "Fira Code", "Courier New", monospace',
@@ -114,93 +114,93 @@ exports.default = function (o) {
               scrollback: 1e4,
               allowProposedApi: !0,
             }),
-            o = new n.FitAddon();
-          (e.loadAddon(o), e.open(m.current), o.fit(), (d.current = e), (b.current = o));
-          var c = (function () {
+            i = new n.FitAddon();
+          (c.loadAddon(i), c.open(m.current), i.fit(), (d.current = c), (v.current = i));
+          var l = (function () {
             try {
-              var e = S();
+              var e = o();
               return localStorage.getItem(e) || '';
             } catch (e) {
               return (console.error('Failed to load history from localStorage:', e), '');
             }
           })();
-          (c
-            ? ((w.current = c), e.write(c))
-            : (e.writeln('[1;36mWelcome to Claude CLI Terminal[0m'), e.writeln('[90mConnecting to server...[0m\n')),
-            e.onData(function (e) {
-              g.current &&
-                g.current.connected &&
-                ('online' === a ? g.current.emit('cli-input', { token: u, data: e }) : g.current.emit('cli-input', e));
+          (l
+            ? ((w.current = l), c.write(l))
+            : (c.writeln('[1;36mWelcome to Claude CLI Terminal[0m'), c.writeln('[90mConnecting to server...[0m\n')),
+            c.onData(function (e) {
+              b.current &&
+                b.current.connected &&
+                ('online' === a ? b.current.emit('cli-input', { token: u, data: e }) : b.current.emit('cli-input', e));
             }));
-          var i = { path: '/ws', transports: ['websocket'] },
-            l = 'online' === a ? r.io(f, i) : r.io(i);
-          g.current = l;
-          var s = function () {
+          var s = { path: '/ws', transports: ['websocket'] },
+            h = 'online' === a ? r.io(f, s) : r.io(s);
+          b.current = h;
+          var p = function () {
               'online' === a
-                ? l.emit('register', { type: 'browser', token: u })
-                : (y(!0), e.writeln('[1;32m✓ Connected to server[0m'), e.writeln('[90mStarting Claude CLI...[0m\n'));
+                ? h.emit('register', { type: 'browser', token: u })
+                : (y(!0), c.writeln('[1;32m✓ Connected to server[0m'), c.writeln('[90mStarting Claude CLI...[0m\n'));
             },
-            h = function () {
-              (y(!0), e.writeln('[1;32m✓ Connected to server[0m'), e.writeln('[90mWaiting for CLI session...[0m\n'));
+            E = function () {
+              (y(!0), c.writeln('[1;32m✓ Connected to server[0m'), c.writeln('[90mWaiting for CLI session...[0m\n'));
             },
-            p = function () {
-              (y(!1), e.writeln('\n[1;31m✗ Disconnected[0m'));
+            S = function () {
+              (y(!1), c.writeln('\n[1;31m✗ Disconnected[0m'));
             },
             k = function () {
-              e.writeln('\n[1;33m✗ CLI session ended[0m');
+              c.writeln('\n[1;33m✗ CLI session ended[0m');
             },
-            I = function (r) {
+            I = function (e) {
               (y(!1),
-                e.writeln('[1;31m✗ Connection failed: '.concat(r.message, '[0m')),
-                e.writeln('[90mAttempting to reconnect...[0m\n'));
+                c.writeln('[1;31m✗ Connection failed: '.concat(e.message, '[0m')),
+                c.writeln('[90mAttempting to reconnect...[0m\n'));
             },
-            A = function (r) {
-              e.writeln('[1;31m✗ Error: '.concat(r.message || r, '[0m\n'));
+            A = function (e) {
+              c.writeln('[1;31m✗ Error: '.concat(e.message || e, '[0m\n'));
             },
             N = function (r) {
               r.data &&
-                (e.write(r.data),
-                (function (e) {
+                (c.write(r.data),
+                (function (r) {
                   try {
-                    var r = C.current,
-                      t = w.current + e;
-                    t.length > E && (t = t.slice(-5242880));
-                    var n = t.split('\n');
-                    (n.length > 1e4 && (t = n.slice(-1e4).join('\n')), (w.current = t), localStorage.setItem(r, t));
-                  } catch (r) {
-                    if ((console.error('Failed to save history to localStorage:', r), 'QuotaExceededError' === r.name))
+                    var t = C.current,
+                      n = w.current + r;
+                    n.length > e && (n = n.slice(-5242880));
+                    var o = n.split('\n');
+                    (o.length > 1e4 && (n = o.slice(-1e4).join('\n')), (w.current = n), localStorage.setItem(t, n));
+                  } catch (e) {
+                    if ((console.error('Failed to save history to localStorage:', e), 'QuotaExceededError' === e.name))
                       try {
-                        var o = e.slice(-2621440);
-                        ((w.current = o), localStorage.setItem(C.current, o));
+                        var c = r.slice(-2621440);
+                        ((w.current = c), localStorage.setItem(C.current, c));
                       } catch (e) {}
                   }
                 })(r.data));
             };
-          (l.on('connect', s),
-            l.on('registered', h),
-            l.on('disconnect', p),
-            l.on('cli-disconnected', k),
-            l.on('connect_error', I),
-            l.on('error', A),
-            l.on('cli-output', N));
+          (h.on('connect', p),
+            h.on('registered', E),
+            h.on('disconnect', S),
+            h.on('cli-disconnected', k),
+            h.on('connect_error', I),
+            h.on('error', A),
+            h.on('cli-output', N));
           var R = new ResizeObserver(function () {
             requestAnimationFrame(function () {
-              o.fit();
+              i.fit();
             });
           });
           return (
-            m.current && (R.observe(m.current), (v.current = R)),
+            m.current && (R.observe(m.current), (g.current = R)),
             function () {
-              (v.current && v.current.disconnect(),
-                l.off('connect', s),
-                l.off('registered', h),
-                l.off('disconnect', p),
-                l.off('cli-disconnected', k),
-                l.off('connect_error', I),
-                l.off('error', A),
-                l.off('cli-output', N),
-                l.disconnect(),
-                e.dispose());
+              (g.current && g.current.disconnect(),
+                h.off('connect', p),
+                h.off('registered', E),
+                h.off('disconnect', S),
+                h.off('cli-disconnected', k),
+                h.off('connect_error', I),
+                h.off('error', A),
+                h.off('cli-output', N),
+                h.disconnect(),
+                c.dispose());
             }
           );
         }

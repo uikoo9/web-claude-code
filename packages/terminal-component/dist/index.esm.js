@@ -74,16 +74,16 @@ function u(i) {
     C = w[0],
     E = w[1],
     S = r(''),
-    k = r(''),
-    I = 5242880,
-    A = function () {
-      return 'online' === f ? 'terminal-history-online-'.concat(s) : 'terminal-history-local';
-    };
+    k = r('');
   n(
     function () {
+      var e = 5242880,
+        r = function () {
+          return 'online' === f ? 'terminal-history-online-'.concat(s) : 'terminal-history-local';
+        };
       if ('online' !== f || (s && g)) {
-        k.current = A();
-        var e = new c({
+        k.current = r();
+        var t = new c({
             cursorBlink: !0,
             fontSize: 14,
             fontFamily: '"Cascadia Code", "Fira Code", "Courier New", monospace',
@@ -111,93 +111,93 @@ function u(i) {
             scrollback: 1e4,
             allowProposedApi: !0,
           }),
-          r = new a();
-        (e.loadAddon(r), e.open(b.current), r.fit(), (h.current = e), (v.current = r));
-        var t = (function () {
+          n = new a();
+        (t.loadAddon(n), t.open(b.current), n.fit(), (h.current = t), (v.current = n));
+        var i = (function () {
           try {
-            var e = A();
+            var e = r();
             return localStorage.getItem(e) || '';
           } catch (e) {
             return (console.error('Failed to load history from localStorage:', e), '');
           }
         })();
-        (t
-          ? ((S.current = t), e.write(t))
-          : (e.writeln('[1;36mWelcome to Claude CLI Terminal[0m'), e.writeln('[90mConnecting to server...[0m\n')),
-          e.onData(function (e) {
+        (i
+          ? ((S.current = i), t.write(i))
+          : (t.writeln('[1;36mWelcome to Claude CLI Terminal[0m'), t.writeln('[90mConnecting to server...[0m\n')),
+          t.onData(function (e) {
             p.current &&
               p.current.connected &&
               ('online' === f ? p.current.emit('cli-input', { token: s, data: e }) : p.current.emit('cli-input', e));
           }));
-        var n = { path: '/ws', transports: ['websocket'] },
-          i = 'online' === f ? o(g, n) : o(n);
-        p.current = i;
-        var l = function () {
+        var l = { path: '/ws', transports: ['websocket'] },
+          u = 'online' === f ? o(g, l) : o(l);
+        p.current = u;
+        var m = function () {
             'online' === f
-              ? i.emit('register', { type: 'browser', token: s })
-              : (E(!0), e.writeln('[1;32m✓ Connected to server[0m'), e.writeln('[90mStarting Claude CLI...[0m\n'));
-          },
-          u = function () {
-            (E(!0), e.writeln('[1;32m✓ Connected to server[0m'), e.writeln('[90mWaiting for CLI session...[0m\n'));
-          },
-          m = function () {
-            (E(!1), e.writeln('\n[1;31m✗ Disconnected[0m'));
+              ? u.emit('register', { type: 'browser', token: s })
+              : (E(!0), t.writeln('[1;32m✓ Connected to server[0m'), t.writeln('[90mStarting Claude CLI...[0m\n'));
           },
           d = function () {
-            e.writeln('\n[1;33m✗ CLI session ended[0m');
+            (E(!0), t.writeln('[1;32m✓ Connected to server[0m'), t.writeln('[90mWaiting for CLI session...[0m\n'));
           },
-          w = function (r) {
+          w = function () {
+            (E(!1), t.writeln('\n[1;31m✗ Disconnected[0m'));
+          },
+          C = function () {
+            t.writeln('\n[1;33m✗ CLI session ended[0m');
+          },
+          I = function (e) {
             (E(!1),
-              e.writeln('[1;31m✗ Connection failed: '.concat(r.message, '[0m')),
-              e.writeln('[90mAttempting to reconnect...[0m\n'));
+              t.writeln('[1;31m✗ Connection failed: '.concat(e.message, '[0m')),
+              t.writeln('[90mAttempting to reconnect...[0m\n'));
           },
-          C = function (r) {
-            e.writeln('[1;31m✗ Error: '.concat(r.message || r, '[0m\n'));
+          A = function (e) {
+            t.writeln('[1;31m✗ Error: '.concat(e.message || e, '[0m\n'));
           },
           N = function (r) {
             r.data &&
-              (e.write(r.data),
-              (function (e) {
+              (t.write(r.data),
+              (function (r) {
                 try {
-                  var r = k.current,
-                    t = S.current + e;
-                  t.length > I && (t = t.slice(-5242880));
-                  var n = t.split('\n');
-                  (n.length > 1e4 && (t = n.slice(-1e4).join('\n')), (S.current = t), localStorage.setItem(r, t));
-                } catch (r) {
-                  if ((console.error('Failed to save history to localStorage:', r), 'QuotaExceededError' === r.name))
+                  var t = k.current,
+                    n = S.current + r;
+                  n.length > e && (n = n.slice(-5242880));
+                  var o = n.split('\n');
+                  (o.length > 1e4 && (n = o.slice(-1e4).join('\n')), (S.current = n), localStorage.setItem(t, n));
+                } catch (e) {
+                  if ((console.error('Failed to save history to localStorage:', e), 'QuotaExceededError' === e.name))
                     try {
-                      var o = e.slice(-2621440);
-                      ((S.current = o), localStorage.setItem(k.current, o));
+                      var c = r.slice(-2621440);
+                      ((S.current = c), localStorage.setItem(k.current, c));
                     } catch (e) {}
                 }
               })(r.data));
           };
-        (i.on('connect', l),
-          i.on('registered', u),
-          i.on('disconnect', m),
-          i.on('cli-disconnected', d),
-          i.on('connect_error', w),
-          i.on('error', C),
-          i.on('cli-output', N));
+        (u.on('connect', m),
+          u.on('registered', d),
+          u.on('disconnect', w),
+          u.on('cli-disconnected', C),
+          u.on('connect_error', I),
+          u.on('error', A),
+          u.on('cli-output', N));
         var x = new ResizeObserver(function () {
           requestAnimationFrame(function () {
-            r.fit();
+            n.fit();
           });
         });
         return (
           b.current && (x.observe(b.current), (y.current = x)),
           function () {
             (y.current && y.current.disconnect(),
-              i.off('connect', l),
-              i.off('registered', u),
-              i.off('disconnect', m),
-              i.off('cli-disconnected', d),
-              i.off('connect_error', w),
-              i.off('error', C),
-              i.off('cli-output', N),
-              i.disconnect(),
-              e.dispose());
+              u.off('connect', m),
+              u.off('registered', d),
+              u.off('disconnect', w),
+              u.off('cli-disconnected', C),
+              u.off('connect_error', I),
+              u.off('error', A),
+              u.off('cli-output', N),
+              u.disconnect(),
+              t.dispose());
           }
         );
       }
