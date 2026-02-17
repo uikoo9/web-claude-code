@@ -19,13 +19,82 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
   const socketRef = useRef(null);
   const resizeObserverRef = useRef(null);
   const [isConnected, setIsConnected] = useState(false);
+  const historyBufferRef = useRef('');
+  const storageKeyRef = useRef('');
+
+  const clearHistory = () => {
+    try {
+      const key = storageKeyRef.current;
+      localStorage.removeItem(key);
+      historyBufferRef.current = '';
+    } catch (error) {
+      console.error('Failed to clear history from localStorage:', error);
+    }
+  };
 
   useEffect(() => {
+    // Storage configuration
+    const MAX_STORAGE_SIZE = 5 * 1024 * 1024; // 5MB
+    const MAX_LINES = 10000;
+
+    const getStorageKey = () => {
+      if (mode === 'online') {
+        return `terminal-history-online-${token}`;
+      }
+      return 'terminal-history-local';
+    };
+
+    const loadHistory = () => {
+      try {
+        const key = getStorageKey();
+        const history = localStorage.getItem(key);
+        return history || '';
+      } catch (error) {
+        console.error('Failed to load history from localStorage:', error);
+        return '';
+      }
+    };
+
+    const saveHistory = (data) => {
+      try {
+        const key = storageKeyRef.current;
+        let newHistory = historyBufferRef.current + data;
+
+        // Limit by size
+        if (newHistory.length > MAX_STORAGE_SIZE) {
+          newHistory = newHistory.slice(-MAX_STORAGE_SIZE);
+        }
+
+        // Limit by lines (approximate)
+        const lines = newHistory.split('\n');
+        if (lines.length > MAX_LINES) {
+          newHistory = lines.slice(-MAX_LINES).join('\n');
+        }
+
+        historyBufferRef.current = newHistory;
+        localStorage.setItem(key, newHistory);
+      } catch (error) {
+        console.error('Failed to save history to localStorage:', error);
+        if (error.name === 'QuotaExceededError') {
+          try {
+            const recentData = data.slice(-MAX_STORAGE_SIZE / 2);
+            historyBufferRef.current = recentData;
+            localStorage.setItem(storageKeyRef.current, recentData);
+          } catch (_) {
+            // ignore cleanup errors
+          }
+        }
+      }
+    };
+
     // Validate online mode params
     if (mode === 'online' && (!token || !wsUrl)) {
       console.error('Token and wsUrl are required for online mode');
       return;
     }
+
+    // Initialize storage key
+    storageKeyRef.current = getStorageKey();
 
     // Create terminal instance
     const term = new Terminal({
@@ -68,9 +137,16 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
     xtermRef.current = term;
     fitAddonRef.current = fitAddon;
 
-    // Write welcome message
-    term.writeln('\x1b[1;36mWelcome to Claude CLI Terminal\x1b[0m');
-    term.writeln('\x1b[90mConnecting to server...\x1b[0m\n');
+    // Load and restore history
+    const history = loadHistory();
+    if (history) {
+      historyBufferRef.current = history;
+      term.write(history);
+    } else {
+      // Write welcome message only if no history
+      term.writeln('\x1b[1;36mWelcome to Claude CLI Terminal\x1b[0m');
+      term.writeln('\x1b[90mConnecting to server...\x1b[0m\n');
+    }
 
     // Listen for terminal input
     term.onData((data) => {
@@ -127,6 +203,7 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
     const handleCliOutput = (data) => {
       if (data.data) {
         term.write(data.data);
+        saveHistory(data.data);
       }
     };
 
@@ -173,6 +250,7 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
   const clearTerminal = () => {
     if (xtermRef.current) {
       xtermRef.current.clear();
+      clearHistory();
     }
   };
 

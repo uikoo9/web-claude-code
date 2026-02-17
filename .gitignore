@@ -263,6 +263,7 @@ yarn.lock
 ## -- project --
 .nx
 .npmrc
+!packages/terminal-component/dist
 # Python cache files
 __pycache__/
 *.pyc
