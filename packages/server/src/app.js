@@ -3,28 +3,28 @@ const cors = require('cors');
 const path = require('path');
 
 /**
- * 创建 Express 应用
- * @param {Object} options - 配置选项
- * @param {string} options.viewsDir - views 目录路径
- * @returns {Object} Express 应用实例
+ * Create Express app
+ * @param {Object} options - Configuration options
+ * @param {string} options.viewsDir - Path to views directory
+ * @returns {Object} Express app instance
  */
 function createExpressApp(options = {}) {
   const { viewsDir } = options;
 
   const app = express();
 
-  // 配置 CORS
+  // Configure CORS
   app.use(cors());
 
-  // 配置静态文件服务 - 直接将 views 目录作为根静态目录
+  // Serve static files from views directory as root
   app.use(
     express.static(viewsDir, {
       setHeaders: (res, filePath) => {
-        // 为 .js 文件设置正确的 Content-Type
+        // Set correct Content-Type for .js files
         if (filePath.endsWith('.js')) {
           res.setHeader('Content-Type', 'application/javascript; charset=UTF-8');
         }
-        // 为 .css 文件设置正确的 Content-Type
+        // Set correct Content-Type for .css files
         if (filePath.endsWith('.css')) {
           res.setHeader('Content-Type', 'text/css; charset=UTF-8');
         }
@@ -32,7 +32,7 @@ function createExpressApp(options = {}) {
     }),
   );
 
-  // 根路径返回 index.html（确保 SPA 路由正常工作）
+  // Return index.html at root path (ensures SPA routing works)
   app.get('/', (req, res) => {
     res.sendFile(path.join(viewsDir, 'index.html'));
   });

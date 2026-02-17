@@ -6,16 +6,16 @@ const { generateExpectScript } = require('./expect-template');
 const { logger } = require('./logger');
 
 /**
- * 创建 Claude CLI 管理器
- * @param {Object} options - 配置选项
- * @param {string} options.claudePath - Claude CLI 路径
- * @param {string} options.workDir - Claude CLI 工作目录
+ * Create a Claude CLI manager
+ * @param {Object} options - Configuration options
+ * @param {string} options.claudePath - Claude CLI path
+ * @param {string} options.workDir - Claude CLI working directory
  * @param {string} options.anthropicBaseUrl - Anthropic API Base URL
  * @param {string} options.anthropicAuthToken - Anthropic Auth Token
  * @param {string} options.anthropicModel - Anthropic Model
  * @param {string} options.anthropicSmallFastModel - Anthropic Small Fast Model
- * @param {Function} options.getIO - 获取 Socket.IO 实例的函数
- * @returns {Object} CLI 管理器对象
+ * @param {Function} options.getIO - Function to get the Socket.IO instance
+ * @returns {Object} CLI manager object
  */
 function createCLIManager(options) {
   const { claudePath, workDir, anthropicBaseUrl, anthropicAuthToken, anthropicModel, anthropicSmallFastModel, getIO } =
@@ -25,20 +25,20 @@ function createCLIManager(options) {
   let tempExpectScript = null;
 
   /**
-   * 启动 Claude CLI
+   * Start Claude CLI
    */
   function start() {
-    logger.info('正在启动 Claude CLI...');
+    logger.info('Starting Claude CLI...');
 
     try {
-      // 生成 expect 脚本
+      // Generate expect script
       const scriptContent = generateExpectScript(claudePath);
 
-      // 创建临时 expect 脚本文件
+      // Write temporary expect script file
       tempExpectScript = path.join(os.tmpdir(), `claude-expect-${Date.now()}.exp`);
       fs.writeFileSync(tempExpectScript, scriptContent, { mode: 0o755 });
 
-      // 启动进程
+      // Spawn process
       cliProcess = spawn(tempExpectScript, [], {
         cwd: workDir,
         env: {
@@ -52,9 +52,9 @@ function createCLIManager(options) {
         stdio: ['pipe', 'pipe', 'pipe'],
       });
 
-      logger.success('Claude CLI 已启动');
+      logger.success('Claude CLI started');
 
-      // 设置编码
+      // Set encoding
       if (cliProcess.stdout) {
         cliProcess.stdout.setEncoding('utf8');
       }
@@ -62,7 +62,7 @@ function createCLIManager(options) {
         cliProcess.stderr.setEncoding('utf8');
       }
 
-      // 监听标准输出
+      // Listen to stdout
       cliProcess.stdout.on('data', (data) => {
         const io = getIO();
         if (io) {
@@ -74,7 +74,7 @@ function createCLIManager(options) {
         }
       });
 
-      // 监听错误输出
+      // Listen to stderr
       cliProcess.stderr.on('data', (data) => {
         const io = getIO();
         if (io) {
@@ -86,42 +86,42 @@ function createCLIManager(options) {
         }
       });
 
-      // 监听进程退出
+      // Listen for process exit
       cliProcess.on('close', (code) => {
-        logger.warn(`CLI 进程退出，退出码: ${code}`);
+        logger.warn(`CLI process exited with code: ${code}`);
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
             type: 'exit',
-            data: `\n进程已退出，退出码: ${code}\n`,
+            data: `\nProcess exited with code: ${code}\n`,
             time: new Date().toISOString(),
           });
         }
         cliProcess = null;
 
-        // 清理临时 expect 脚本文件
+        // Clean up temporary expect script
         cleanupTempScript();
       });
 
-      // 监听进程错误
+      // Listen for process error
       cliProcess.on('error', (err) => {
-        logger.error('CLI 进程错误:', err.message);
+        logger.error('CLI process error:', err.message);
         const io = getIO();
         if (io) {
           io.emit('cli-output', {
             type: 'error',
-            data: `错误: ${err.message}\n`,
+            data: `Error: ${err.message}\n`,
             time: new Date().toISOString(),
           });
         }
       });
     } catch (error) {
-      logger.error('启动 CLI 失败:', error.message);
+      logger.error('Failed to start CLI:', error.message);
       const io = getIO();
       if (io) {
         io.emit('cli-output', {
           type: 'error',
-          data: `启动失败: ${error.message}\n`,
+          data: `Failed to start: ${error.message}\n`,
           time: new Date().toISOString(),
         });
       }
@@ -129,21 +129,21 @@ function createCLIManager(options) {
   }
 
   /**
-   * 清理临时脚本文件
+   * Clean up temporary script file
    */
   function cleanupTempScript() {
     if (tempExpectScript && fs.existsSync(tempExpectScript)) {
       try {
         fs.unlinkSync(tempExpectScript);
       } catch (err) {
-        logger.error('清理临时文件失败:', err.message);
+        logger.error('Failed to clean up temp file:', err.message);
       }
     }
   }
 
   /**
-   * 写入数据到 CLI
-   * @param {string} data - 要写入的数据
+   * Write data to CLI
+   * @param {string} data - Data to write
    */
   function write(data) {
     if (cliProcess && cliProcess.stdin.writable) {
@@ -154,7 +154,7 @@ function createCLIManager(options) {
   }
 
   /**
-   * 停止 CLI 进程
+   * Stop the CLI process
    */
   function stop() {
     if (cliProcess) {
@@ -165,7 +165,7 @@ function createCLIManager(options) {
   }
 
   /**
-   * 检查 CLI 是否正在运行
+   * Check if CLI is running
    * @returns {boolean}
    */
   function isRunning() {

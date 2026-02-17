@@ -6,17 +6,17 @@ const { createCLIManager } = require('./cli');
 const { logger } = require('./logger');
 
 /**
- * 启动 Claude Code Web 服务器
- * @param {Object} options - 配置选项
- * @param {number} options.port - 服务器端口，默认 4000
- * @param {string} options.host - 服务器主机，默认 '0.0.0.0'
- * @param {string} options.claudePath - Claude CLI 路径，默认 'claude'（从 PATH 查找）
- * @param {string} options.workDir - Claude CLI 工作目录，默认用户 HOME 目录
- * @param {string} options.anthropicBaseUrl - Anthropic API Base URL（必填）
- * @param {string} options.anthropicAuthToken - Anthropic Auth Token（必填）
- * @param {string} options.anthropicModel - Anthropic Model，默认 'claude-sonnet-4-5-20250929'
- * @param {string} options.anthropicSmallFastModel - Anthropic Small Fast Model，默认 'claude-sonnet-4-5-20250929'
- * @returns {Object} 返回服务器实例和控制方法
+ * Start the Claude Code web server
+ * @param {Object} options - Configuration options
+ * @param {number} options.port - Server port, default 4000
+ * @param {string} options.host - Server host, default '0.0.0.0'
+ * @param {string} options.claudePath - Claude CLI path, default 'claude' (resolved from PATH)
+ * @param {string} options.workDir - Claude CLI working directory, default user HOME
+ * @param {string} options.anthropicBaseUrl - Anthropic API Base URL (required)
+ * @param {string} options.anthropicAuthToken - Anthropic Auth Token (required)
+ * @param {string} options.anthropicModel - Anthropic Model, default 'claude-sonnet-4-5-20250929'
+ * @param {string} options.anthropicSmallFastModel - Anthropic Small Fast Model, default 'claude-sonnet-4-5-20250929'
+ * @returns {Object} Server instance and control methods
  */
 function startClaudeCodeServer(options = {}) {
   const {
@@ -30,33 +30,33 @@ function startClaudeCodeServer(options = {}) {
     anthropicSmallFastModel = 'claude-sonnet-4-5-20250929',
   } = options;
 
-  // 内部固定配置
+  // Internal fixed config
   const viewsDir = path.join(__dirname, '../views');
   const corsOrigin = 'http://localhost:3000';
 
-  // 验证必填参数
+  // Validate required params
   if (!anthropicBaseUrl) {
-    logger.error('anthropicBaseUrl 参数是必填的');
-    logger.error('请在启动时提供 Anthropic API Base URL');
+    logger.error('anthropicBaseUrl is required');
+    logger.error('Please provide an Anthropic API Base URL when starting the server');
     process.exit(1);
   }
 
   if (!anthropicAuthToken) {
-    logger.error('anthropicAuthToken 参数是必填的');
-    logger.error('请在启动时提供 Anthropic Auth Token');
+    logger.error('anthropicAuthToken is required');
+    logger.error('Please provide an Anthropic Auth Token when starting the server');
     process.exit(1);
   }
 
-  // 创建 Express 应用
+  // Create Express app
   const app = createExpressApp({ viewsDir });
 
-  // 创建 HTTP 服务器
+  // Create HTTP server
   const httpServer = createServer(app);
 
-  // 创建 Socket.IO 实例的引用
+  // Reference to Socket.IO instance
   let io = null;
 
-  // 创建 CLI 管理器
+  // Create CLI manager
   const cliManager = createCLIManager({
     claudePath,
     workDir,
@@ -67,22 +67,21 @@ function startClaudeCodeServer(options = {}) {
     getIO: () => io,
   });
 
-  // 配置 Socket.IO
+  // Setup Socket.IO
   io = setupSocketIO(httpServer, cliManager, { corsOrigin });
 
-  // 启动服务器
+  // Start server
   httpServer.listen(port, host, () => {
-    logger.success(`WebSocket 服务器运行在 http://${host}:${port}`);
+    logger.success(`WebSocket server running at http://${host}:${port}`);
   });
 
-  // 停止服务器的方法
+  // Stop server
   function stop() {
-    logger.info('正在关闭服务器...');
+    logger.info('Shutting down server...');
     cliManager.stop();
     httpServer.close();
   }
 
-  // 返回控制接口
   return {
     app,
     httpServer,
