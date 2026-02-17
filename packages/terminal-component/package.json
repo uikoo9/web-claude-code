@@ -1,11 +1,18 @@
 {
   "name": "@webccc/terminal-component",
-  "version": "0.1.0",
   "private": true,
+  "version": "0.1.0",
   "type": "module",
   "description": "Shared terminal component for web-claude-code",
-  "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
+  "homepage": "https://github.com/uikoo9/web-claude-code",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uikoo9/web-claude-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uikoo9/web-claude-code/issues"
+  },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
