@@ -10,49 +10,49 @@ const packageJson = require('../package.json');
 // 定义 CLI 程序
 program
   .name('webcc')
-  .description('Web Claude Code - 为 Claude Code 提供 Web 界面')
-  .version(packageJson.version, '-v, --version', '显示版本号')
-  .helpOption('-h, --help', '显示帮助信息');
+  .description('Web Claude Code - A web interface for Claude Code')
+  .version(packageJson.version, '-v, --version', 'Show version')
+  .helpOption('-h, --help', 'Show help');
 
-// 主命令
+// Main command
 program.action(async () => {
   try {
-    // 显示 Banner
+    // Show banner
     showBanner();
 
-    // 获取配置
-    const config = await getConfig(process.cwd());
+    // Load config
+    const config = getConfig(process.cwd());
 
-    logger.info('正在启动服务器...\n');
+    logger.info('Starting server...\n');
 
-    // 启动服务器
+    // Start server
     const server = startClaudeCodeServer(config);
 
-    // 显示访问地址
-    logger.success('服务器启动成功！\n');
-    logger.info('访问地址:');
-    logger.info(`  本地: http://localhost:${config.port}`);
+    // Display URLs
+    logger.success('Server started!\n');
+    logger.info('Access URLs:');
+    logger.info(`  Local:   http://localhost:${config.port}`);
     if (config.host === '0.0.0.0') {
-      logger.info(`  网络: http://<your-ip>:${config.port}`);
+      logger.info(`  Network: http://<your-ip>:${config.port}`);
     } else {
-      logger.info(`  网络: http://${config.host}:${config.port}`);
+      logger.info(`  Network: http://${config.host}:${config.port}`);
     }
-    logger.info('\n按 Ctrl+C 停止服务器');
+    logger.info('\nPress Ctrl+C to stop the server');
 
-    // 处理退出信号
+    // Handle exit signals
     process.on('SIGINT', () => {
-      logger.info('\n正在停止服务器...');
+      logger.info('\nStopping server...');
       server.stop();
       process.exit(0);
     });
 
     process.on('SIGTERM', () => {
-      logger.info('\n正在停止服务器...');
+      logger.info('\nStopping server...');
       server.stop();
       process.exit(0);
     });
   } catch (error) {
-    logger.error('启动失败:', error.message);
+    logger.error('Failed to start:', error.message);
     process.exit(1);
   }
 });
