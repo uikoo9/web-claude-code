@@ -4,10 +4,10 @@ const { program } = require('commander');
 const { startClaudeCodeServer } = require('@webccc/server');
 const { showBanner } = require('../src/banner');
 const { getConfig } = require('../src/config');
+const { selectMode, promptOnlineToken } = require('../src/mode');
 const { logger } = require('../src/logger');
 const packageJson = require('../package.json');
 
-// 定义 CLI 程序
 program
   .name('webcc')
   .description('Web Claude Code - A web interface for Claude Code')
@@ -23,12 +23,28 @@ program.action(async () => {
     // Load config
     const config = getConfig(process.cwd());
 
+    // Select startup mode
+    const mode = await selectMode();
+
+    if (mode === 'online') {
+      const token = await promptOnlineToken();
+
+      logger.success('Connecting to webcc.dev...');
+      logger.success('Your session is live!');
+      logger.info(`  Share this URL: https://www.webcc.dev/${token}`);
+      logger.info('\nPress Ctrl+C to end the session.');
+
+      // TODO: start online client (src/online.js)
+      process.on('SIGINT', () => process.exit(0));
+      process.on('SIGTERM', () => process.exit(0));
+      return;
+    }
+
+    // Local mode
     logger.info('Starting server...\n');
 
-    // Start server
     const server = startClaudeCodeServer(config);
 
-    // Display URLs
     logger.success('Server started!\n');
     logger.info('Access URLs:');
     logger.info(`  Local:   http://localhost:${config.port}`);
@@ -39,7 +55,6 @@ program.action(async () => {
     }
     logger.info('\nPress Ctrl+C to stop the server');
 
-    // Handle exit signals
     process.on('SIGINT', () => {
       logger.info('\nStopping server...');
       server.stop();
@@ -57,5 +72,5 @@ program.action(async () => {
   }
 });
 
-// 解析命令行参数
+// Parse CLI args
 program.parse(process.argv);
