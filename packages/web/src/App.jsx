@@ -14,7 +14,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // 创建终端实例
+    // Create terminal instance
     const term = new Terminal({
       cursorBlink: true,
       fontSize: 14,
@@ -44,57 +44,57 @@ function App() {
       allowProposedApi: true,
     });
 
-    // 创建 fit addon
+    // Create fit addon
     const fitAddon = new FitAddon();
     term.loadAddon(fitAddon);
 
-    // 打开终端
+    // Open terminal
     term.open(terminalRef.current);
     fitAddon.fit();
 
     xtermRef.current = term;
     fitAddonRef.current = fitAddon;
 
-    // 写入欢迎消息
-    term.writeln('\x1b[1;36m欢迎使用 Claude CLI Terminal\x1b[0m');
-    term.writeln('\x1b[90m正在连接到服务器...\x1b[0m\n');
+    // Write welcome message
+    term.writeln('\x1b[1;36mWelcome to Claude CLI Terminal\x1b[0m');
+    term.writeln('\x1b[90mConnecting to server...\x1b[0m\n');
 
-    // 监听终端输入 - 直接发送所有按键到服务器
+    // Listen for terminal input - send all keystrokes directly to the server
     term.onData((data) => {
       if (socketRef.current && socketRef.current.connected) {
-        // 将所有按键直接发送到服务器，包括回车、箭头键等
+        // Send all keystrokes directly to server, including Enter, arrow keys, etc.
         socketRef.current.emit('cli-input', data);
       }
     });
 
-    // 连接到 Socket.IO 服务器（使用相对路径 /ws，自动适配域名/IP/localhost）
-    // 开发环境会通过 Vite proxy 代理到 4000 端口
-    // 生产环境前后端同端口，直接连接
+    // Connect to Socket.IO server (relative path /ws, auto-adapts to domain/IP/localhost)
+    // In development, Vite proxy forwards requests to port 4000
+    // In production, frontend and backend share the same port
     const socket = io({
       path: '/ws',
     });
     socketRef.current = socket;
 
-    // Socket 事件处理函数
+    // Socket event handlers
     const handleConnect = () => {
       setIsConnected(true);
-      term.writeln('\x1b[1;32m✓ 已连接到服务器\x1b[0m');
-      term.writeln('\x1b[90m正在启动 Claude CLI...\x1b[0m\n');
+      term.writeln('\x1b[1;32m✓ Connected to server\x1b[0m');
+      term.writeln('\x1b[90mStarting Claude CLI...\x1b[0m\n');
     };
 
     const handleDisconnect = () => {
       setIsConnected(false);
-      term.writeln('\n\x1b[1;31m✗ 已断开连接\x1b[0m');
+      term.writeln('\n\x1b[1;31m✗ Disconnected\x1b[0m');
     };
 
     const handleConnectError = (error) => {
       setIsConnected(false);
-      term.writeln(`\x1b[1;31m✗ 连接失败: ${error.message}\x1b[0m`);
-      term.writeln('\x1b[90m正在尝试重新连接...\x1b[0m\n');
+      term.writeln(`\x1b[1;31m✗ Connection failed: ${error.message}\x1b[0m`);
+      term.writeln('\x1b[90mAttempting to reconnect...\x1b[0m\n');
     };
 
     const handleError = (error) => {
-      term.writeln(`\x1b[1;31m✗ 错误: ${error.message || error}\x1b[0m\n`);
+      term.writeln(`\x1b[1;31m✗ Error: ${error.message || error}\x1b[0m\n`);
     };
 
     const handleCliOutput = (data) => {
@@ -103,16 +103,16 @@ function App() {
       }
     };
 
-    // 注册 Socket 事件监听器
+    // Register socket event listeners
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
     socket.on('connect_error', handleConnectError);
     socket.on('error', handleError);
     socket.on('cli-output', handleCliOutput);
 
-    // 使用 ResizeObserver 改进终端大小调整
+    // Use ResizeObserver for terminal resize handling
     const resizeObserver = new ResizeObserver(() => {
-      // 使用 requestAnimationFrame 防止频繁调用
+      // Use requestAnimationFrame to debounce resize calls
       requestAnimationFrame(() => {
         fitAddon.fit();
       });
@@ -123,14 +123,14 @@ function App() {
       resizeObserverRef.current = resizeObserver;
     }
 
-    // 清理函数
+    // Cleanup
     return () => {
-      // 清理 ResizeObserver
+      // Disconnect ResizeObserver
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
       }
 
-      // 清理 Socket 事件监听器
+      // Remove socket event listeners
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
       socket.off('connect_error', handleConnectError);
@@ -138,7 +138,7 @@ function App() {
       socket.off('cli-output', handleCliOutput);
       socket.disconnect();
 
-      // 清理终端
+      // Dispose terminal
       term.dispose();
     };
   }, []);
@@ -151,23 +151,23 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* 头部 */}
+      {/* Header */}
       <div className="app-header">
         <div className="header-left">
           <h1 className="app-title">Claude CLI Terminal</h1>
           <div className="connection-status">
             <div className={`status-indicator ${isConnected ? 'connected' : 'disconnected'}`}></div>
-            <span>{isConnected ? '已连接' : '未连接'}</span>
+            <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
           </div>
         </div>
         <div className="header-buttons">
           <button onClick={clearTerminal} className="header-button">
-            清空终端
+            Clear Terminal
           </button>
         </div>
       </div>
 
-      {/* 终端区域 */}
+      {/* Terminal area */}
       <div ref={terminalRef} className="terminal-container" />
     </div>
   );

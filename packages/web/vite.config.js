@@ -4,23 +4,23 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // 使用相对路径，适配多个部署位置
+  base: './', // Use relative path to support multiple deployment targets
   server: {
     port: 3000,
     open: true,
-    // 代理 WebSocket 连接到后端服务器
+    // Proxy WebSocket connections to the backend server
     proxy: {
       '/ws': {
         target: 'http://localhost:4000',
-        ws: true, // 启用 WebSocket 代理
+        ws: true, // Enable WebSocket proxy
         changeOrigin: true,
       },
     },
   },
   build: {
-    // 构建产物输出到 server/views 目录
+    // Output build artifacts to server/views directory
     outDir: resolve(__dirname, '../server/views'),
-    emptyOutDir: true, // 构建前清空目录
-    assetsDir: 'assets', // 资源文件放到 assets 子目录
+    emptyOutDir: true, // Clear directory before build
+    assetsDir: 'assets', // Place assets in assets subdirectory
   },
 });

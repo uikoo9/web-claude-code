@@ -2,15 +2,15 @@ const fs = require('fs');
 const path = require('path');
 
 /**
- * 递归复制目录
+ * Recursively copy a directory
  */
 function copyDir(src, dest) {
-  // 创建目标目录
+  // Create destination directory if it doesn't exist
   if (!fs.existsSync(dest)) {
     fs.mkdirSync(dest, { recursive: true });
   }
 
-  // 读取源目录
+  // Read source directory
   const entries = fs.readdirSync(src, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -26,7 +26,7 @@ function copyDir(src, dest) {
 }
 
 /**
- * 主函数
+ * Main function
  */
 function main() {
   const serverDist = path.resolve(__dirname, '../../server/views');
@@ -37,13 +37,13 @@ function main() {
   console.log(`   To:   ${indexDist}`);
 
   try {
-    // 检查源目录是否存在
+    // Check if source directory exists
     if (!fs.existsSync(serverDist)) {
       console.error('❌ Error: Build output not found at', serverDist);
       process.exit(1);
     }
 
-    // 复制构建产物
+    // Copy build output
     copyDir(serverDist, indexDist);
 
     console.log('✅ Build output copied successfully!');
