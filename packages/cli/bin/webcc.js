@@ -29,12 +29,6 @@ program.action(async () => {
 
     if (mode === 'online') {
       const token = await promptOnlineToken();
-
-      logger.success('Connecting to webcc.dev...');
-      logger.success('Your session is live!');
-      logger.info(`  Share this URL: https://www.webcc.dev/${token}`);
-      logger.info('\nPress Ctrl+C to end the session.');
-
       startOnlineClient(token, config);
       return;
     }

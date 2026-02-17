@@ -33,12 +33,15 @@ function startOnlineClient(token, config) {
   });
 
   socket.on('connect', () => {
-    logger.info(`Connected to ws.webcc.dev (${socket.id})`);
+    logger.info('Connecting to webcc.dev...');
     socket.emit('register', { type: 'cli', token });
   });
 
   socket.on('registered', () => {
-    logger.success('Session registered. Starting Claude CLI...');
+    logger.success('Session is live!');
+    logger.info(`  Open this URL in your browser: https://www.webcc.dev/${token}`);
+    logger.info('  Anyone with this link can view your terminal session.');
+    logger.info('\nPress Ctrl+C to end the session.\n');
     cliProcess = spawnClaude({
       claudePath,
       workDir,
