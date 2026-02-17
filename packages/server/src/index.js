@@ -90,6 +90,9 @@ function startClaudeCodeServer(options = {}) {
   };
 }
 
+const { generateExpectScript } = require('./expect-template');
+
 module.exports = {
   startClaudeCodeServer,
+  generateExpectScript,
 };
