@@ -1,20 +1,12 @@
 'use client';
 
-export default function TerminalClient() {
+import Terminal from '@webccc/terminal-component';
+import '@webccc/terminal-component/dist/index.css';
+
+export default function TerminalClient({ token }: { token: string }) {
   return (
-    <iframe
-      src="/terminal/index.html"
-      style={{
-        width: '100%',
-        height: '100vh',
-        border: 'none',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        margin: 0,
-        padding: 0,
-      }}
-      title="Web Terminal"
-    />
+    <div style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      <Terminal mode="online" token={token} wsUrl="https://ws.webcc.dev" />
+    </div>
   );
 }

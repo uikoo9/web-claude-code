@@ -39,5 +39,5 @@ export default async function TerminalPage({
     notFound();
   }
 
-  return <TerminalClient />;
+  return <TerminalClient token={token} />;
 }
