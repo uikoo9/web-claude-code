@@ -1,5 +1,5 @@
 {
-  "name": "@webccc/web",
+  "name": "@webccc/cli-web",
   "private": true,
   "version": "0.0.7",
   "description": "web claude code html",
