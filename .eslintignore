@@ -7,5 +7,5 @@ dist
 
 # packages
 
-packages/server/views/assets
+packages/cli-server/views/assets
 packages/index

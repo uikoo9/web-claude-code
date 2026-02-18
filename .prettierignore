@@ -13,5 +13,5 @@ package-lock.json
 .drawio
 .dockerignore
 
-packages/server/views/assets
+packages/cli-server/views/assets
 packages/index
