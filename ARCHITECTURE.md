@@ -34,14 +34,15 @@
 
 ## Monorepo 结构
 
-项目使用 Lerna (独立版本管理) + Nx (构建缓存) 管理 4 个包：
+项目使用 Lerna (独立版本管理) + Nx (构建缓存) 管理 5 个包：
 
 ```
 web-claude-code/
 ├── packages/
-│   ├── cli/           # @webccc/cli (v0.0.8) - 命令行入口 ✅ 将发布
-│   ├── server/        # @webccc/server (v0.0.5) - 服务器核心 ✅ 将发布
-│   ├── web/           # @webccc/web (v0.0.3) - Web 界面 ❌ 不发布
+│   ├── cli/           # @webccc/cli (v0.1.3) - 命令行入口 ✅ 将发布
+│   ├── cli-server/    # @webccc/cli-server (v0.1.0) - 服务器核心 ✅ 将发布
+│   ├── cli-web/       # @webccc/cli-web (v0.0.7) - Web 界面 ❌ 不发布
+│   ├── ui-terminal/   # @webccc/ui-terminal (v0.1.2) - 终端组件 ❌ 不发布
 │   └── index/         # @webccc/index (v0.0.2) - 官方网站 ❌ 不发布
 ├── CLAUDE.md          # Claude Code 指南
 ├── TECHNICAL_DECISIONS.md  # 技术决策记录
@@ -54,11 +55,15 @@ web-claude-code/
 ### 包依赖关系
 
 ```
-@webccc/cli (0.0.8)
-    └─> @webccc/server (0.0.5)
+@webccc/cli (0.1.3)
+    └─> @webccc/cli-server (0.1.0)
 
-@webccc/web (0.0.3, private)
-    └─> build output → @webccc/server/views/
+@webccc/cli-web (0.0.7, private)
+    └─> @webccc/ui-terminal (0.1.2)
+    └─> build output → @webccc/cli-server/views/
+
+@webccc/ui-terminal (0.1.2, private)
+    └─> 共享终端组件（React + xterm.js）
 
 @webccc/index (0.0.2, private)
     └─> 独立部署到 webcc.dev
@@ -121,29 +126,29 @@ packages/cli/
    ```
 
 4. **服务器启动**:
-   - 调用 `@webccc/server` 的 `startClaudeCodeServer()` 方法
+   - 调用 `@webccc/cli-server` 的 `startClaudeCodeServer()` 方法
    - 传递配置参数
    - 处理启动错误和进程退出
 
 #### 关键依赖
 
-- `@webccc/server`: ^0.0.5
+- `@webccc/cli-server`: ^0.1.0
 - `commander`: ^14.0.3
 - `inquirer`: ^8.2.6
 - `chalk`: ^4.1.2
 - `figlet`: ^1.10.0
 - `dotenv`: ^16.4.7
 
-### 2. @webccc/server (packages/server)
+### 2. @webccc/cli-server (packages/cli-server)
 
-**版本**: 0.0.5
+**版本**: 0.1.0
 **状态**: ✅ 已完成
 **是否发布**: 是
 
 #### 目录结构
 
 ```
-packages/server/
+packages/cli-server/
 ├── src/
 │   ├── index.js              # 导出主函数 startClaudeCodeServer()
 │   ├── app.js                # Express 应用配置
@@ -151,7 +156,7 @@ packages/server/
 │   ├── cli.js                # Claude CLI 进程管理器
 │   ├── expect-template.js    # expect 脚本模板生成器
 │   └── logger.js             # 日志工具
-├── views/                    # Web 静态文件（来自 @webccc/web 构建）
+├── views/                    # Web 静态文件（来自 @webccc/cli-web 构建）
 │   ├── index.html
 │   └── assets/
 │       ├── index-[hash].js
@@ -268,16 +273,16 @@ interact
 - `dotenv`: ^16.4.7
 - **系统依赖**: `expect` 工具（PTY 支持）
 
-### 3. @webccc/web (packages/web)
+### 3. @webccc/cli-web (packages/cli-web)
 
-**版本**: 0.0.3
+**版本**: 0.0.7
 **状态**: ✅ 已完成
-**是否发布**: 否（构建产物集成到 server）
+**是否发布**: 否（构建产物集成到 cli-server）
 
 #### 目录结构
 
 ```
-packages/web/
+packages/cli-web/
 ├── src/
 │   ├── main.jsx              # React 应用入口
 │   ├── App.jsx               # 主组件
@@ -394,15 +399,9 @@ export default {
   base: '/',
   server: {
     port: 3000,
-    proxy: {
-      '/ws': {
-        target: 'http://localhost:4000',
-        ws: true, // WebSocket 代理
-      },
-    },
   },
   build: {
-    outDir: '../server/views', // 输出到 server 包
+    outDir: '../cli-server/views', // 输出到 cli-server 包
     emptyOutDir: true,
   },
 };
@@ -412,12 +411,104 @@ export default {
 
 - `react`: ^19.2.4
 - `react-dom`: ^19.2.4
+- `@webccc/ui-terminal`: ^0.1.2
+- `vite`: ^7.3.1
+
+### 4. @webccc/ui-terminal (packages/ui-terminal)
+
+**版本**: 0.1.2
+**状态**: ✅ 已完成
+**是否发布**: 否（供 cli-web 使用）
+
+#### 目录结构
+
+```
+packages/ui-terminal/
+├── src/
+│   ├── Terminal.jsx          # 终端组件
+│   ├── Terminal.css          # 样式
+│   └── index.js              # 导出入口
+├── dist/                     # 构建输出
+│   ├── index.js
+│   ├── index.esm.js
+│   └── index.css
+├── rollup.config.js          # Rollup 配置
+└── package.json
+```
+
+#### 核心功能
+
+##### 1. 终端组件封装
+
+```javascript
+// 支持本地和在线两种模式
+<TerminalComponent
+  mode="local" // 本地模式
+  // mode="online"          // 在线模式
+  // token="xxx"            // 在线模式需要 token
+  // wsUrl="https://..."    // 在线模式需要 WebSocket URL
+/>
+```
+
+##### 2. 终端模拟器（xterm.js）
+
+```javascript
+// 终端配置
+const terminal = new Terminal({
+  cursorBlink: true, // 光标闪烁
+  fontSize: 14, // 字体大小
+  fontFamily: 'Cascadia Code, Fira Code, monospace',
+  scrollback: 10000, // 10000 行回滚缓冲
+  theme: {
+    background: '#1e1e1e',
+    foreground: '#e8e8e8',
+    cursor: '#6bcf7f',
+    // ... 完整 16 色配置
+  },
+});
+```
+
+##### 3. 历史记录持久化
+
+- 自动保存终端输出到 localStorage
+- 支持 5MB 大小限制和 10000 行限制
+- 刷新页面自动恢复历史记录
+- 本地和在线模式分别存储（基于 token）
+- 清空终端时同时清空历史记录
+
+##### 4. Socket.IO 客户端
+
+```javascript
+// 连接配置
+const socket = io(wsUrl, {
+  path: '/ws',
+  transports: ['websocket'],
+});
+
+// 事件监听
+socket.on('connect', () => {
+  setIsConnected(true);
+});
+
+socket.on('cli-output', (data) => {
+  terminal.write(data.data);
+  saveHistory(data.data); // 保存到 localStorage
+});
+
+// 发送用户输入
+terminal.onData((data) => {
+  socket.emit('cli-input', data);
+});
+```
+
+#### 关键依赖
+
+- `react`: ^18.0.0 || ^19.0.0
 - `@xterm/xterm`: ^6.0.0
 - `@xterm/addon-fit`: ^0.11.0
 - `socket.io-client`: ^4.8.3
-- `vite`: ^7.3.1
 
-### 4. @webccc/index (packages/index)
+### 5. @webccc/index (packages/index)
 
 **版本**: 0.0.2
 **状态**: ✅ 已完成
@@ -491,19 +582,19 @@ packages/index/
 ┌─────────────────────────────────────────────────────────────┐
 │                         用户浏览器                            │
 │  ┌────────────────────────────────────────────────────────┐ │
-│  │              Web Terminal (React + xterm.js)           │ │
+│  │      Web Terminal (@webccc/ui-terminal component)     │ │
 │  │  ┌──────────────────────────────────────────────────┐ │ │
 │  │  │  Terminal UI     Socket.IO Client    Controls   │ │ │
 │  │  └──────────────────────────────────────────────────┘ │ │
 │  └────────────────────────────────────────────────────────┘ │
 └─────────────────────────┬───────────────────────────────────┘
                           │ HTTP/WebSocket
-                          │ (localhost:3000 → proxy → :4000)
+                          │ (localhost:3000 → :4000)
 ┌─────────────────────────┴───────────────────────────────────┐
-│                    Express Server (:4000)                    │
+│              Express Server (:4000) @webccc/cli-server      │
 │  ┌────────────────────────────────────────────────────────┐ │
 │  │  Static File Server (views/)    Socket.IO Server      │ │
-│  └─────────────────────┬────────────────┬─────────────────┘ │
+│  └───────────��─────────┬────────────────┬─────────────────┘ │
 └────────────────────────┼────────────────┼───────────────────┘
                          │                │
             ┌────────────┴────────┐       │ socket events
@@ -696,11 +787,11 @@ chore: 构建/工具
 
 ```bash
 # 终端 1: 启动 WebSocket 服务器
-cd packages/web
-npm run server
+cd packages/cli-server
+npm start
 
 # 终端 2: 启动前端开发服务器
-cd packages/web
+cd packages/cli-web
 npm run dev
 ```
 
@@ -773,7 +864,7 @@ npx --no -- commitlint --edit $1
 - [x] 优雅的进程退出处理
 - [x] npm 发布配置
 
-### Server 包 ✅
+### CLI Server 包 ✅
 
 - [x] Express 静态文件服务
 - [x] Socket.IO 实时通信
@@ -785,7 +876,14 @@ npx --no -- commitlint --edit $1
 - [x] CORS 配置
 - [x] npm 发布配置
 
-### Web 包 ✅
+### CLI Web 包 ✅
+
+- [x] React 应用框架
+- [x] 集成 ui-terminal 组件
+- [x] Vite 构建配置
+- [x] 输出到 cli-server/views
+
+### UI Terminal 包 ✅
 
 - [x] xterm.js 终端模拟器
 - [x] Socket.IO 客户端连接
@@ -793,10 +891,11 @@ npx --no -- commitlint --edit $1
 - [x] 响应式布局
 - [x] 连接状态显示
 - [x] 清空终端功能
-- [x] 重启 CLI 功能
 - [x] 自动窗口大小适配
 - [x] 10000 行回滚缓冲
 - [x] 完整的终端主题配置
+- [x] localStorage 历史记录持久化
+- [x] 本地/在线双模式支持
 
 ### Index 包 ✅
 
@@ -839,7 +938,7 @@ npx --no -- commitlint --edit $1
    - [ ] 负载均衡
    - [ ] 监控和日志
 
-2. **客户端（@webccc/server）**:
+2. **客户端（@webccc/cli-server）**:
    - [ ] 隧道客户端 (`tunnel.js`)
    - [ ] WebSocket 持久连接
    - [ ] 心跳保活机制
@@ -936,8 +1035,8 @@ npx --no -- commitlint --edit $1
 
 ## 项目统计
 
-- **总代码行数**: 约 2,500 行（不含 node_modules）
-- **包数量**: 4 个
+- **总代码行数**: 约 3,000 行（不含 node_modules）
+- **包数量**: 5 个
 - **配置文件**: 9 个核心配置
 - **Git Hooks**: 2 个（pre-commit, commit-msg）
 - **npm 脚本**: 13 个
@@ -961,16 +1060,17 @@ npx --no -- commitlint --edit $1
 - **官网**: https://webcc.dev
 - **Issues**: https://github.com/uikoo9/web-claude-code/issues
 - **npm - @webccc/cli**: https://www.npmjs.com/package/@webccc/cli
-- **npm - @webccc/server**: https://www.npmjs.com/package/@webccc/server
+- **npm - @webccc/cli-server**: https://www.npmjs.com/package/@webccc/cli-server
 
 ## 更新日志
 
-- **2026-02-09**: 创建架构文档，记录完整项目结构和实现细节
-- **2026-01-XX**: 完成核心功能（CLI、Server、Web）
+- **2026-02-18**: 包重命名（server→cli-server, web→cli-web, terminal-component→ui-terminal），新增 ui-terminal 包，优化 terminal UI
+- **2026-02-09**: 创建架构文档，记录完整项目结��和实现细节
+- **2026-01-XX**: 完成核心功能（CLI、CLI Server、CLI Web、UI Terminal）
 - **2026-01-XX**: 官网上线（webcc.dev）
-- **2026-01-XX**: 发布到 npm（@webccc/cli、@webccc/server）
+- **2026-01-XX**: 发布到 npm（@webccc/cli、@webccc/cli-server）
 
 ---
 
 文档维护者: Claude Code
-最后更新: 2026-02-09
+最后更新: 2026-02-18

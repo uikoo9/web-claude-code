@@ -11,7 +11,7 @@ This is a web-based interface for Claude Code, enabling users to interact with C
 The system architecture follows this flow:
 
 1. User runs the CLI tool (@webccc/cli)
-2. CLI invokes the server package (@webccc/server)
+2. CLI invokes the server package (@webccc/cli-server)
 3. Server starts a Node.js service that spawns Claude Code CLI process
 4. Server serves the web interface and establishes WebSocket connections
 5. Web terminal interacts with Claude Code via WebSocket bidirectional communication
@@ -22,20 +22,23 @@ The system architecture follows this flow:
    - The main tool users will run to start the web-based Claude Code
    - Calls the server's start method to launch the service
 
-2. **@webccc/server** (packages/server) - **Core service, will be published**
-   - Exports a method like `startWebClaudeCode()` to start the service
+2. **@webccc/cli-server** (packages/cli-server) - **Core service, will be published**
+   - Exports a method like `startClaudeCodeServer()` to start the service
    - Spawns and manages the Claude Code CLI process
    - Provides WebSocket server for real-time communication
-   - Serves the built web interface (static files from @webccc/web build)
+   - Serves the built web interface (static files from @webccc/cli-web build)
    - Bridges stdin/stdout between Claude CLI and WebSocket connections
 
-3. **@webccc/web** (packages/web) - **Frontend, will NOT be published**
-   - React application with xterm.js terminal emulation
-   - Builds static files that are packaged into @webccc/server
+3. **@webccc/cli-web** (packages/cli-web) - **Frontend, will NOT be published**
+   - React application built with Vite
+   - Builds static files that are packaged into @webccc/cli-server
+   - Uses @webccc/ui-terminal component for terminal emulation
+
+4. **@webccc/ui-terminal** (packages/ui-terminal) - **Shared terminal component, will NOT be published**
+   - Reusable React terminal component with xterm.js
    - Connects to server via Socket.IO for real-time interaction
    - Displays Claude Code output in a browser-based terminal
-
-**Current Development State**: The implementation is currently in packages/web/server.js for development purposes. The final architecture will move this to packages/server, with web's build output bundled into the server package.
+   - Supports terminal history persistence via localStorage
 
 ## Development Commands
 
@@ -49,19 +52,29 @@ The system architecture follows this flow:
 - `npm run graph` - Visualize project dependencies with Nx
 - `npm run clean` - Clear Nx cache
 
-### Web Package (packages/web)
+### CLI Package (packages/cli)
+
+- `npm start` - Run the CLI tool locally
+
+### CLI Server Package (packages/cli-server)
+
+- `npm start` - Start WebSocket server on port 4000
+
+### CLI Web Package (packages/cli-web)
 
 - `npm run dev` - Start Vite dev server on port 3000
-- `npm run server` - Start WebSocket server on port 4000
 - `npm run build` - Build production bundle
-- `npm run preview` - Preview production build
+
+### UI Terminal Package (packages/ui-terminal)
+
+- `npm run build` - Build terminal component for distribution
 
 ## Development Workflow
 
 **Current Development Setup** (before full integration):
 
-1. Start the WebSocket server: `cd packages/web && npm run server`
-2. In a separate terminal, start the web interface: `cd packages/web && npm run dev`
+1. Start the WebSocket server: `cd packages/cli-server && npm start`
+2. In a separate terminal, start the web interface: `cd packages/cli-web && npm run dev`
 3. The browser should open automatically to http://localhost:3000
 
 The web interface connects to the WebSocket server at http://localhost:4000, which manages the Claude CLI process.
@@ -79,11 +92,12 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 - **Build System**: Nx for build caching and dependency management
 - **Workspaces**: All packages/\* are defined as workspaces in root package.json
 - **Build Dependencies**: Nx automatically handles build order based on package dependencies
-- **Integration Point**: Web package builds output to be bundled into server package
+- **Integration Point**: cli-web package builds output to be bundled into cli-server package
 - **Package Relationships**:
-  - CLI depends on Server
-  - Server includes Web's built static files
-  - Web is development-only, not published
+  - CLI depends on CLI Server
+  - CLI Server includes CLI Web's built static files
+  - CLI Web depends on UI Terminal component
+  - CLI Web and UI Terminal are development-only, not published
 
 ## Code Quality
 
@@ -94,8 +108,8 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 
 ## Publishing
 
-- **@webccc/cli** and **@webccc/server** will be published to npm
-- **@webccc/web** will NOT be published (its build output is bundled into server)
+- **@webccc/cli** and **@webccc/cli-server** will be published to npm
+- **@webccc/cli-web** and **@webccc/ui-terminal** will NOT be published (cli-web's build output is bundled into cli-server)
 - Packages use independent versioning (Lerna independent mode)
 - Use `npm run pb` (lerna publish) to publish packages
 - Publishing is restricted to main branch only
@@ -103,10 +117,10 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 
 **Build Flow for Publishing**:
 
-1. Web package builds static files
-2. Static files are copied/bundled into server package
-3. CLI and server packages are published to npm
-4. Users install CLI package, which depends on server package
+1. CLI Web package builds static files
+2. Static files are copied/bundled into CLI Server package
+3. CLI and CLI Server packages are published to npm
+4. Users install CLI package, which depends on CLI Server package
 
 ## Key Dependencies
 
@@ -155,8 +169,7 @@ The landing page uses **vanilla CSS** (no UI framework) with the following stand
 
 ## Important Notes
 
-- **Development State**: Server implementation is currently in packages/web/server.js for rapid development. This will be moved to packages/server before publishing.
-- **Build Integration**: The web package's build output must be integrated into the server package before publishing, so server can serve static files.
+- **Build Integration**: The cli-web package's build output must be integrated into the cli-server package before publishing, so server can serve static files.
 - **CLI Process Management**: The server spawns Claude CLI with proper PTY support (currently using expect script)
 - **WebSocket Communication**: Real-time bidirectional communication between browser and Claude CLI via Socket.IO
 - **CORS Configuration**: Currently configured for http://localhost:3000 during development
