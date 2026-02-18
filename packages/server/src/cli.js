@@ -64,13 +64,21 @@ function createCLIManager(options) {
 
       // Listen to stdout
       cliProcess.stdout.on('data', (data) => {
-        const io = getIO();
-        if (io) {
-          io.emit('cli-output', {
-            type: 'stdout',
-            data: data,
-            time: new Date().toISOString(),
-          });
+        // Filter out expect's spawn command output
+        const filteredData = data
+          .split('\n')
+          .filter((line) => !line.trim().startsWith('spawn '))
+          .join('\n');
+
+        if (filteredData) {
+          const io = getIO();
+          if (io) {
+            io.emit('cli-output', {
+              type: 'stdout',
+              data: filteredData,
+              time: new Date().toISOString(),
+            });
+          }
         }
       });
 

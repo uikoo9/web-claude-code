@@ -142,10 +142,9 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
     if (history) {
       historyBufferRef.current = history;
       term.write(history);
-    } else {
-      // Write welcome message only if no history
-      term.writeln('\x1b[1;36mWelcome to Claude CLI Terminal\x1b[0m');
-      term.writeln('\x1b[90mConnecting to server...\x1b[0m\n');
+      // Move cursor to a new line and scroll to bottom after restoring history
+      term.write('\r\n');
+      term.scrollToBottom();
     }
 
     // Listen for terminal input
@@ -170,34 +169,27 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
         socket.emit('register', { type: 'browser', token });
       } else {
         setIsConnected(true);
-        term.writeln('\x1b[1;32m✓ Connected to server\x1b[0m');
-        term.writeln('\x1b[90mStarting Claude CLI...\x1b[0m\n');
       }
     };
 
     const handleRegistered = () => {
       setIsConnected(true);
-      term.writeln('\x1b[1;32m✓ Connected to server\x1b[0m');
-      term.writeln('\x1b[90mWaiting for CLI session...\x1b[0m\n');
     };
 
     const handleDisconnect = () => {
       setIsConnected(false);
-      term.writeln('\n\x1b[1;31m✗ Disconnected\x1b[0m');
     };
 
     const handleCliDisconnected = () => {
-      term.writeln('\n\x1b[1;33m✗ CLI session ended\x1b[0m');
+      // CLI session ended, just update state
     };
 
-    const handleConnectError = (error) => {
+    const handleConnectError = () => {
       setIsConnected(false);
-      term.writeln(`\x1b[1;31m✗ Connection failed: ${error.message}\x1b[0m`);
-      term.writeln('\x1b[90mAttempting to reconnect...\x1b[0m\n');
     };
 
-    const handleError = (error) => {
-      term.writeln(`\x1b[1;31m✗ Error: ${error.message || error}\x1b[0m\n`);
+    const handleError = () => {
+      // errors are reflected via disconnect state
     };
 
     const handleCliOutput = (data) => {
