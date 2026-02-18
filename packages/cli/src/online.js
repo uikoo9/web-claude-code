@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 const { io } = require('socket.io-client');
-const { generateExpectScript } = require('@webccc/server');
+const { generateExpectScript } = require('@webccc/cli-server');
 const { logger } = require('./logger');
 
 const WS_SERVER = 'https://ws.webcc.dev';

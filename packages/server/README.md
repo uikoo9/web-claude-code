@@ -1,4 +1,4 @@
-# @webccc/server
+# @webccc/cli-server
 
 Web Claude Code Server - 为 Claude Code 提供 Web 界面的服务器端实现。
 
@@ -13,13 +13,13 @@ Web Claude Code Server - 为 Claude Code 提供 Web 界面的服务器端实现�
 ## 安装
 
 ```bash
-npm install @webccc/server
+npm install @webccc/cli-server
 ```
 
 ## 使用方法
 
 ```javascript
-const { startClaudeCodeServer } = require('@webccc/server');
+const { startClaudeCodeServer } = require('@webccc/cli-server');
 
 // 启动服务器（需要提供 Claude 配置）
 const server = startClaudeCodeServer({

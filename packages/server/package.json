@@ -1,5 +1,5 @@
 {
-  "name": "@webccc/server",
+  "name": "@webccc/cli-server",
   "version": "0.1.0",
   "description": "web claude code server",
   "license": "MIT",

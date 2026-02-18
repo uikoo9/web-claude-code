@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const { startClaudeCodeServer } = require('@webccc/server');
+const { startClaudeCodeServer } = require('@webccc/cli-server');
 const { showBanner } = require('../src/banner');
 const { getConfig } = require('../src/config');
 const { selectMode, promptOnlineToken } = require('../src/mode');
