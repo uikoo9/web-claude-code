@@ -1,6 +1,6 @@
 import React from 'react';
-import Terminal from '@webccc/terminal-component';
-import '@webccc/terminal-component/dist/index.css';
+import Terminal from '@webccc/ui-terminal';
+import '@webccc/ui-terminal/dist/index.css';
 import './App.css';
 
 function App() {

@@ -1,7 +1,7 @@
 'use client';
 
-import Terminal from '@webccc/terminal-component';
-import '@webccc/terminal-component/dist/index.css';
+import Terminal from '@webccc/ui-terminal';
+import '@webccc/ui-terminal/dist/index.css';
 
 export default function TerminalClient({ token }: { token: string }) {
   return (

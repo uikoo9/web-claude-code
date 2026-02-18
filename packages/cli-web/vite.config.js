@@ -19,7 +19,7 @@ export default defineConfig({
   },
   build: {
     // Output build artifacts to server/views directory
-    outDir: resolve(__dirname, '../server/views'),
+    outDir: resolve(__dirname, '../cli-server/views'),
     emptyOutDir: true, // Clear directory before build
     assetsDir: 'assets', // Place assets in assets subdirectory
   },
