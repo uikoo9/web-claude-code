@@ -5,18 +5,21 @@
 ### 项目现状
 
 **packages/web**
+
 - React 19 + Vite 构建的 SPA 应用
 - 使用 xterm.js 实现终端模拟器
 - 通过 Socket.IO 连接本地 WebSocket 服务（4000 端口）
 - 当前构建产物输出到 `packages/server/views/`
 
 **packages/index**
+
 - Next.js 16 官网项目（SSR/SSG）
 - 已有用户认证系统
 - 已有 Access Token 管理功能
 - 需要集成终端访问功能
 
 **packages/server**
+
 - Express + Socket.IO 后端服务
 - 管理本地 Claude CLI 进程
 - 提供 WebSocket 连接桥接 stdin/stdout
@@ -25,6 +28,7 @@
 ### 需求目标
 
 **用户使用场景 1：本地模式**
+
 ```bash
 # 用户本地运行
 $ webcc
@@ -35,6 +39,7 @@ $ webcc
 ```
 
 **用户使用场景 2：在线模式**
+
 ```bash
 # 用户访问在线服务
 $ webcc login
@@ -207,7 +212,7 @@ async function verifyAccessToken(token: string): Promise<boolean> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'accessToken': token,
+        accessToken: token,
       },
     });
 
@@ -220,11 +225,7 @@ async function verifyAccessToken(token: string): Promise<boolean> {
 }
 
 // 动态路由页面
-export default async function TerminalPage({
-  params
-}: {
-  params: { token: string }
-}) {
+export default async function TerminalPage({ params }: { params: { token: string } }) {
   const { token } = params;
 
   // SSR 层验证 token
@@ -302,10 +303,12 @@ module.exports = nextConfig;
 #### 5. 依赖管理
 
 **packages/index 需要添加（仅用于构建产物，无需额外依赖）：**
+
 - 无需添加 xterm.js 或 socket.io-client
 - 构建产物是自包含的（bundled）
 
 **packages/web 保持现有依赖：**
+
 ```json
 {
   "dependencies": {
@@ -361,12 +364,14 @@ module.exports = nextConfig;
 **Endpoint:** `POST https://api.webcc.dev/ac/check`
 
 **Request Headers:**
+
 ```
 Content-Type: application/json
 accessToken: {token}
 ```
 
 **Response Success:**
+
 ```json
 {
   "type": "success",
@@ -379,6 +384,7 @@ accessToken: {token}
 ```
 
 **Response Error:**
+
 ```json
 {
   "type": "error",

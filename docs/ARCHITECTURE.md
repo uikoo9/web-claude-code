@@ -39,14 +39,19 @@
 ```
 web-claude-code/
 ├── packages/
-│   ├── cli/           # @webccc/cli (v0.1.3) - 命令行入口 ✅ 将发布
-│   ├── cli-server/    # @webccc/cli-server (v0.1.0) - 服务器核心 ✅ 将发布
-│   ├── cli-web/       # @webccc/cli-web (v0.0.7) - Web 界面 ❌ 不发布
-│   ├── ui-terminal/   # @webccc/ui-terminal (v0.1.2) - 终端组件 ❌ 不发布
-│   └── index/         # @webccc/index (v0.0.2) - 官方网站 ❌ 不发布
-├── CLAUDE.md          # Claude Code 指南
-├── TECHNICAL_DECISIONS.md  # 技术决策记录
-├── ARCHITECTURE.md    # 本文档
+│   ├── cli/           # @webccc/cli (v0.1.5) - 命令行入口 ✅ 已发布
+│   ├── cli-server/    # @webccc/cli-server (v0.1.1) - 服务器核心 ✅ 已发布
+│   ├── cli-web/       # @webccc/cli-web (v0.0.8) - Web 界面 ❌ 不发布
+│   ├── ui-terminal/   # @webccc/ui-terminal (v0.1.3) - 终端组件 ❌ 不发布
+│   └── index/         # @webccc/index (v0.0.7) - 官方网站 ❌ 不发布
+├── docs/              # 文档目录
+│   ├── ARCHITECTURE.md           # 本文档
+│   ├── PROMOTION.md              # 推广计划
+│   ├── TERMINAL_INTEGRATION.md   # 终端集成文档
+│   ├── domain-migration-summary.md
+│   └── online-mode-architecture.md
+├── CLAUDE.md          # Claude Code 项目指南
+├── README.md          # 软链接 -> packages/cli/README.md
 ├── lerna.json         # Lerna 配置
 ├── nx.json            # Nx 配置
 └── package.json       # 根配置

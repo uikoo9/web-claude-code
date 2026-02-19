@@ -83,8 +83,8 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 
 1. User installs: `npm install -g @webccc/cli`
 2. User runs: `webcc` (or the cli command)
-3. CLI starts server with embedded web interface
-4. Browser automatically opens to interact with Claude Code
+3. CLI prompts to select mode: local (start local server) or online (connect to ws.webcc.dev)
+4. User manually opens browser to the displayed URL (e.g., http://localhost:4000 for local mode)
 
 ## Project Structure
 
@@ -124,8 +124,8 @@ The web interface connects to the WebSocket server at http://localhost:4000, whi
 
 ## Key Dependencies
 
-- **Frontend**: React 18, xterm.js (terminal emulation), socket.io-client
-- **Server**: Express 5, Socket.IO, node-pty (for PTY support)
+- **Frontend**: React 19, xterm.js (terminal emulation), socket.io-client
+- **Server**: Express 5, Socket.IO, expect script (for PTY support)
 - **Build Tools**: Vite, Lerna, Nx
 - **Code Quality**: ESLint, Prettier, Husky, lint-staged, commitlint
 
@@ -169,8 +169,10 @@ The landing page uses **vanilla CSS** (no UI framework) with the following stand
 
 ## Important Notes
 
+- **Mode Selection**: CLI supports two modes - local (standalone server) and online (connect to ws.webcc.dev for session sharing)
+- **No Auto-Browser**: Browser does not open automatically; users must manually navigate to the displayed URL
 - **Build Integration**: The cli-web package's build output must be integrated into the cli-server package before publishing, so server can serve static files.
-- **CLI Process Management**: The server spawns Claude CLI with proper PTY support (currently using expect script)
+- **CLI Process Management**: The server spawns Claude CLI with proper PTY support (using expect script)
 - **WebSocket Communication**: Real-time bidirectional communication between browser and Claude CLI via Socket.IO
 - **CORS Configuration**: Currently configured for http://localhost:3000 during development
 - **Terminal Emulation**: Uses xterm-256color TERM setting for proper color support in browser
