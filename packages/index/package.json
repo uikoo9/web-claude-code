@@ -1,6 +1,6 @@
 {
   "name": "@webccc/index",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "Official website for webcc - Claude Code Web Interface",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@types/react-syntax-highlighter": "^15.5.13",
-    "@webccc/ui-terminal": "^0.1.3",
+    "@webccc/ui-terminal": "^0.1.4",
     "next": "^16.1.6",
     "next-intl": "^4.8.2",
     "next-themes": "^0.4.6",

@@ -1,7 +1,7 @@
 {
   "name": "@webccc/cli-web",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "web claude code html",
   "author": "uikoo9 <uikoo9@qq.com>",
   "homepage": "https://github.com/uikoo9/web-claude-code",
@@ -18,7 +18,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@webccc/ui-terminal": "^0.1.3",
+    "@webccc/ui-terminal": "^0.1.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
