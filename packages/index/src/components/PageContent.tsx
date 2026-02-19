@@ -31,7 +31,7 @@ export function PageContent() {
               ×
             </button>
             <Image
-              src="https://static-small.vincentqiao.com/webcc.png"
+              src="/demo.png"
               alt="Claude Code Web Interface"
               width={1200}
               height={630}

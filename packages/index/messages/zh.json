@@ -12,7 +12,7 @@
   "step2Description": "使用 npm 全局安装 webcc CLI 工具并启动网页界面",
   "step2Code": "# 检查 Claude CLI 是否已安装\n# 如未安装，请参考：https://docs.anthropic.com/claude/docs/claude-cli\nclaude --version\n\n# 全局安装 CLI\nnpm i -g @webccc/cli\n\n# 进入 .env 文件所在目录\ncd /path/to/your/project\n\n# 启动 webcc\nwebcc",
   "step3Title": "第三步：享受 Claude 吧！",
-  "step3Description": "Local 模式：打开浏览器访问 http://localhost:4000。Online 模式：选择 Online 并输入访问令牌，然后在任何设备上通过 https://www.webcc.dev/your-token 访问。现在你可以直接在浏览器中通过强大的网页终端界面与 Claude Code 互动了",
+  "step3Description": "选择 Local 模式，在浏览器访问 http://localhost:4000；选择 Online 模式，使用访问令牌在任何设备上访问 https://www.webcc.dev/your-token",
   "footer": "用 ❤️ 为开发者打造 | 开源于 GitHub",
   "welcomeBack": "登录",
   "signInWithGithub": "使用 GitHub 登录",
