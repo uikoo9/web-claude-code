@@ -1,10 +1,10 @@
 {
   "name": "@webccc/cli",
   "version": "0.1.5",
-  "description": "CLI tool to start web-claude-code server",
+  "description": "Run Claude Code in your web browser - A powerful web-based terminal interface for Claude CLI",
   "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
-  "homepage": "https://github.com/uikoo9/web-claude-code",
+  "homepage": "https://webcc.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uikoo9/web-claude-code.git"
@@ -12,14 +12,29 @@
   "bugs": {
     "url": "https://github.com/uikoo9/web-claude-code/issues"
   },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "claude-cli",
+    "ai",
+    "terminal",
+    "web-terminal",
+    "xterm",
+    "browser",
+    "socket-io",
+    "anthropic",
+    "cli",
+    "developer-tools",
+    "ai-assistant",
+    "web-ide"
+  ],
   "bin": {
     "webcc": "./bin/webcc.js"
   },
   "files": [
     "bin",
     "src",
-    "README.md",
-    "README.zh-CN.md"
+    "README.md"
   ],
   "scripts": {
     "start": "node bin/webcc.js"

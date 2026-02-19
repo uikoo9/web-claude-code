@@ -1,274 +1,253 @@
-# @webccc/cli
+# Web Claude Code
 
-[简体中文](./README.zh-CN.md) | English
+[![npm version](https://img.shields.io/npm/v/@webccc/cli.svg)](https://www.npmjs.com/package/@webccc/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@webccc/cli.svg)](https://www.npmjs.com/package/@webccc/cli)
+[![license](https://img.shields.io/npm/l/@webccc/cli.svg)](https://github.com/uikoo9/web-claude-code/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/uikoo9/web-claude-code.svg)](https://github.com/uikoo9/web-claude-code)
 
-Web Claude Code CLI - Command-line tool to run Claude Code in your web browser.
+> Run Claude Code directly in your web browser with a powerful terminal interface. Access Claude CLI anywhere, anytime.
 
-## Introduction
+![Demo Screenshot](https://static-small.vincentqiao.com/webcc-demo.png)
 
-`@webccc/cli` is a command-line tool that allows you to use Claude Code directly in your web browser, providing a convenient web-based terminal interface for Claude CLI.
+## Why Web Claude Code?
 
-![Demo Screenshot](https://static-small.vincentqiao.com/webcc.png)
+- 🌐 **Browser-Based**: No local terminal required - access Claude Code from any browser
+- 🚀 **Quick Setup**: One command to start - `webcc` and you're ready
+- 🔄 **Real-time Sync**: WebSocket-powered bidirectional communication with Claude CLI
+- 💾 **History Persistence**: Terminal history saved across sessions
+- 📱 **Mobile Friendly**: Works on tablets and mobile devices
+- 🎨 **Beautiful UI**: Modern terminal interface with xterm.js
 
-Features:
+## ✨ Features
 
-- 🚀 Quick server startup to access Claude Code via web browser
-- 🔧 Auto-detect `.env` configuration files
-- 💬 Interactive configuration wizard
-- 🎨 Colored log output
-- 📦 Ready to use out of the box
+- 🌐 **Browser-Based Terminal**: Access Claude Code from any browser - no local terminal needed
+- 🚀 **One-Command Setup**: Just run `webcc` and you're ready to go
+- 🔄 **Real-time Sync**: WebSocket-powered bidirectional communication
+- 💾 **Session Persistence**: Terminal history saved across page refreshes
+- 📱 **Mobile Friendly**: Works on tablets and mobile devices
+- 🎨 **Modern UI**: Beautiful terminal interface powered by xterm.js
+- 🔧 **Smart Configuration**: Auto-detect `.env` or use interactive wizard
+- 🌍 **Remote Access**: Share your Claude session with online mode
 
-## Installation
+## 🚀 Quick Start
 
-### Global Installation (Recommended)
+**Install globally:**
 
 ```bash
 npm install -g @webccc/cli
 ```
 
-After global installation, you can use the `webcc` command in any directory.
-
-### Local Installation
-
-```bash
-npm install @webccc/cli
-```
-
-After local installation, you can use it via `npx webcc` or in `package.json` scripts.
-
-## Usage
-
-### Quick Start
+**Start the server:**
 
 ```bash
 webcc
 ```
 
-The CLI will automatically check if a `.env` file exists in the current directory:
+That's it! Your browser will automatically open with the Claude Code terminal interface. 🎉
 
-- **With `.env` file**: Automatically load configuration and start server
-- **Without `.env` file**: Launch interactive configuration wizard
+The CLI intelligently checks for a `.env` file:
 
-### Command Options
+- ✅ **With `.env`**: Auto-loads configuration and starts immediately
+- 🔧 **Without `.env`**: Launches an interactive setup wizard
 
-```bash
-webcc -h          # Show help information
-webcc --help      # Show help information
-webcc -v          # Show version number
-webcc --version   # Show version number
-```
+## ⚙️ Configuration
 
-## Configuration
-
-### Method 1: Using .env File (Recommended)
+### Option 1: .env File (Recommended)
 
 Create a `.env` file in your project directory:
 
-```bash
-# Anthropic API Configuration (Required)
+```env
+# Required: Anthropic API Configuration
 ANTHROPIC_BASE_URL=http://your-api-url:3000/api
-ANTHROPIC_AUTH_TOKEN=your_auth_token_here
+ANTHROPIC_AUTH_TOKEN=sk-ant-xxxxx
 
-# Claude CLI Configuration (Optional)
-CLAUDE_PATH=claude
-WORK_DIR=/path/to/your/project
-
-# Claude Model Configuration (Optional)
-ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
-ANTHROPIC_SMALL_FAST_MODEL=claude-sonnet-4-5-20250929
-
-# Server Configuration (Optional)
+# Optional: Customize as needed
 PORT=4000
 HOST=0.0.0.0
+CLAUDE_PATH=claude
+WORK_DIR=/path/to/your/project
 ```
 
-Then run:
+Then simply run `webcc`.
+
+### Option 2: Interactive Wizard
+
+No `.env` file? No problem! Run `webcc` and follow the interactive prompts:
 
 ```bash
 webcc
 ```
 
-### Method 2: Interactive Configuration
+The wizard will guide you through all required and optional settings.
 
-If no `.env` file exists, running `webcc` will prompt you to enter:
+## 📋 Configuration Reference
 
-1. Anthropic API Base URL (Required)
-2. Anthropic Auth Token (Required)
-3. Claude CLI Path (Optional, default: `claude`)
-4. Working Directory (Optional, default: current directory)
-5. Claude Model (Optional, default: `claude-sonnet-4-5-20250929`)
-6. Small Fast Model (Optional, default: `claude-sonnet-4-5-20250929`)
-7. Server Port (Optional, default: `4000`)
-8. Server Host (Optional, default: `0.0.0.0`)
+### Required Settings
 
-## Configuration Details
+| Variable               | Description                             |
+| ---------------------- | --------------------------------------- |
+| `ANTHROPIC_BASE_URL`   | Your Anthropic API base URL             |
+| `ANTHROPIC_AUTH_TOKEN` | Your Anthropic API authentication token |
 
-### Required Configuration
+### Optional Settings
 
-| Config Item            | Environment Variable   | Description                        |
-| ---------------------- | ---------------------- | ---------------------------------- |
-| Anthropic API Base URL | `ANTHROPIC_BASE_URL`   | Anthropic API base URL             |
-| Anthropic Auth Token   | `ANTHROPIC_AUTH_TOKEN` | Anthropic API authentication token |
+| Variable                     | Default                      | Description                      |
+| ---------------------------- | ---------------------------- | -------------------------------- |
+| `PORT`                       | `4000`                       | Web server port                  |
+| `HOST`                       | `0.0.0.0`                    | Web server host                  |
+| `CLAUDE_PATH`                | `claude`                     | Path to Claude CLI executable    |
+| `WORK_DIR`                   | Current dir                  | Working directory for Claude CLI |
+| `ANTHROPIC_MODEL`            | `claude-sonnet-4-5-20250929` | Primary Claude model             |
+| `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | Fast model for quick tasks       |
 
-### Optional Configuration
+## 💡 Usage Examples
 
-| Config Item       | Environment Variable         | Default Value                | Description                      |
-| ----------------- | ---------------------------- | ---------------------------- | -------------------------------- |
-| Claude CLI Path   | `CLAUDE_PATH`                | `claude`                     | Path to Claude CLI executable    |
-| Working Directory | `WORK_DIR`                   | Current directory            | Claude CLI working directory     |
-| Claude Model      | `ANTHROPIC_MODEL`            | `claude-sonnet-4-5-20250929` | Main Claude model to use         |
-| Small Fast Model  | `ANTHROPIC_SMALL_FAST_MODEL` | `claude-sonnet-4-5-20250929` | Small fast model for quick tasks |
-| Server Port       | `PORT`                       | `4000`                       | Web server listening port        |
-| Server Host       | `HOST`                       | `0.0.0.0`                    | Web server listening host        |
-
-## Usage Examples
-
-### Example 1: Using .env File
+### Example 1: Quick Local Setup
 
 ```bash
 # Create .env file
-cat > .env << EOF
-ANTHROPIC_BASE_URL=http://localhost:3000/api
-ANTHROPIC_AUTH_TOKEN=sk-ant-xxxxx
-PORT=8080
-EOF
+echo "ANTHROPIC_BASE_URL=http://localhost:3000/api" > .env
+echo "ANTHROPIC_AUTH_TOKEN=sk-ant-xxxxx" >> .env
 
 # Start server
 webcc
 ```
 
-Output:
+Your browser opens automatically at `http://localhost:4000` 🚀
 
-```
-  _    _      _      _____ _____
- | |  | |    | |    /  __ /  __ \
- | |  | | ___| |__  | /  \| /  \/
- | |/\| |/ _ | '_ \ | |   | |
- \  /\  |  __| |_) || \__/| \__/\
-  \/  \/ \___|_.__/  \____/\____/
-
-  webcc.dev: web-claude-code
-  Version: 0.0.4
-
-✓ [12:34:56] Found .env file, loading configuration...
-ℹ [12:34:56] Starting server...
-
-✓ [12:34:56] Server started successfully!
-
-ℹ [12:34:56] Access URLs:
-ℹ [12:34:56]   Local: http://localhost:8080
-ℹ [12:34:56]   Network: http://<your-ip>:8080
-ℹ [12:34:56]
-Press Ctrl+C to stop the server
-```
-
-### Example 2: Interactive Configuration
+### Example 2: Custom Port
 
 ```bash
+# Custom port configuration
+echo "PORT=8080" >> .env
 webcc
 ```
 
-Prompts:
+Access at `http://localhost:8080`
 
-```
-  _    _      _      _____ _____
- | |  | |    | |    /  __ /  __ \
- | |  | | ___| |__  | /  \| /  \/
- | |/\| |/ _ | '_ \ | |   | |
- \  /\  |  __| |_) || \__/| \__/\
-  \/  \/ \___|_.__/  \____/\____/
+### Example 3: NPM Scripts Integration
 
-  webcc.dev: web-claude-code
-  Version: 0.0.4
-
-ℹ [12:34:56] .env file not found, please provide configuration:
-
-? Anthropic API Base URL (Required): http://localhost:3000/api
-? Anthropic Auth Token (Required): sk-ant-xxxxx
-? Claude CLI Path: (claude)
-? Server Port: (4000)
-? Server Host: (0.0.0.0)
-
-ℹ [12:34:56] Starting server...
-...
-```
-
-## Requirements
-
-- Node.js >= 14.0.0
-- Claude CLI installed on the system
-- expect tool (for PTY support)
-  - macOS: `brew install expect`
-  - Ubuntu/Debian: `sudo apt-get install expect`
-  - Windows: Use WSL or alternatives
-
-## Integration with npm scripts
-
-Add to `package.json`:
+Add to your `package.json`:
 
 ```json
 {
   "scripts": {
-    "start": "webcc"
+    "claude": "webcc"
   }
 }
 ```
 
-Then use:
+Then run: `npm run claude`
+
+## 📦 Requirements
+
+- **Node.js** >= 14.0.0
+- **Claude CLI** installed and accessible in PATH
+- **expect** tool (for PTY support):
+
+  ```bash
+  # macOS
+  brew install expect
+
+  # Ubuntu/Debian
+  sudo apt-get install expect
+
+  # Windows
+  # Use WSL (Windows Subsystem for Linux)
+  ```
+
+## 🛠️ Troubleshooting
+
+<details>
+<summary><b>❌ Claude CLI Not Found</b></summary>
+
+**Error:** `Failed to start CLI: spawn claude ENOENT`
+
+**Solutions:**
+
+1. Verify Claude CLI is installed: `which claude`
+2. Add `claude` to your PATH
+3. Or specify full path in `.env`:
+   ```env
+   CLAUDE_PATH=/usr/local/bin/claude
+   ```
+   </details>
+
+<details>
+<summary><b>❌ Port Already in Use</b></summary>
+
+**Error:** `Error: listen EADDRINUSE :::4000`
+
+**Solutions:**
+
+1. Change port in `.env`:
+   ```env
+   PORT=8080
+   ```
+2. Or stop the process using port 4000:
+   ```bash
+   lsof -ti:4000 | xargs kill
+   ```
+   </details>
+
+<details>
+<summary><b>❌ Missing expect Tool</b></summary>
+
+**Error:** `Failed to start CLI: spawn expect ENOENT`
+
+**Solution:** Install expect for your platform:
 
 ```bash
-npm start
+# macOS
+brew install expect
+
+# Ubuntu/Debian
+sudo apt-get install expect
+
+# Windows
+# Use WSL (Windows Subsystem for Linux)
 ```
 
-## Troubleshooting
+</details>
 
-### Issue: Claude CLI Not Found
+## 🌟 Why Web Claude Code?
 
-**Error Message:**
+Traditional Claude CLI requires a terminal application and local setup. Web Claude Code brings Claude to your browser with:
 
-```
-✖ [12:34:56] Failed to start CLI: spawn claude ENOENT
-```
+- ✅ **Universal Access**: Works on any device with a browser
+- ✅ **No Terminal Needed**: Perfect for users unfamiliar with command line
+- ✅ **Remote Capable**: Access your Claude session from anywhere
+- ✅ **Session Persistence**: Never lose your conversation history
+- ✅ **Modern UX**: Beautiful, responsive interface
 
-**Solution:**
+## 🤝 Contributing
 
-- Ensure Claude CLI is properly installed
-- Check if `claude` command is in PATH
-- Or specify full path in `.env` with `CLAUDE_PATH`
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-### Issue: Port Already in Use
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-**Error Message:**
+## 📄 License
 
-```
-✖ [12:34:56] Error: listen EADDRINUSE :::4000
-```
+MIT © [webcc.dev](https://webcc.dev)
 
-**Solution:**
+## 🔗 Links
 
-- Change port number in `.env` with `PORT=8080`
-- Or free up the occupied port
+- 🏠 [Official Website](https://webcc.dev)
+- 📦 [npm Package](https://www.npmjs.com/package/@webccc/cli)
+- 💻 [GitHub Repository](https://github.com/uikoo9/web-claude-code)
+- 🐛 [Report Issues](https://github.com/uikoo9/web-claude-code/issues)
+- 📖 [Documentation](https://webcc.dev)
 
-### Issue: Missing expect Tool
+---
 
-**Error Message:**
+<div align="center">
 
-```
-✖ [12:34:56] Failed to start CLI: spawn expect ENOENT
-```
+**[⭐ Star us on GitHub](https://github.com/uikoo9/web-claude-code)** if you find this project useful!
 
-**Solution:**
+Made with ❤️ by [webcc.dev](https://webcc.dev)
 
-- macOS: `brew install expect`
-- Linux: `sudo apt-get install expect`
-- Windows: Use WSL
-
-## License
-
-MIT
-
-## Links
-
-- [GitHub](https://github.com/uikoo9/web-claude-code)
-- [Issues](https://github.com/uikoo9/web-claude-code/issues)
-- [Website](https://webcc.dev)
+</div>
