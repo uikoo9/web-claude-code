@@ -113,31 +113,6 @@ webcc
 # Multiple browsers can connect to the same session using the token
 ```
 
-### Example 3: Custom Port (Local Mode)
-
-```bash
-# Add custom port to .env
-echo "PORT=8080" >> .env
-webcc
-
-# Select "local" mode
-# Then open http://localhost:8080 in your browser
-```
-
-### Example 4: NPM Scripts Integration
-
-Add to your `package.json`:
-
-```json
-{
-  "scripts": {
-    "claude": "webcc"
-  }
-}
-```
-
-Then run: `npm run claude`
-
 ## 📦 Requirements
 
 - **Node.js** >= 14.0.0
@@ -213,30 +188,6 @@ sudo apt-get install expect
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## License
 
-## 📄 License
-
-MIT © [webcc.dev](https://webcc.dev)
-
-## 🔗 Links
-
-- 🏠 [Official Website](https://webcc.dev)
-- 📦 [npm Package](https://www.npmjs.com/package/@webccc/cli)
-- 💻 [GitHub Repository](https://github.com/uikoo9/web-claude-code)
-- 🐛 [Report Issues](https://github.com/uikoo9/web-claude-code/issues)
-- 📖 [Documentation](https://webcc.dev)
-
----
-
-<div align="center">
-
-**[⭐ Star us on GitHub](https://github.com/uikoo9/web-claude-code)** if you find this project useful!
-
-Made with ❤️ by [webcc.dev](https://webcc.dev)
-
-</div>
+MIT
