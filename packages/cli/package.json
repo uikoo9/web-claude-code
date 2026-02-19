@@ -1,6 +1,6 @@
 {
   "name": "@webccc/cli",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Run Claude Code in your web browser - A powerful web-based terminal interface for Claude CLI",
   "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
