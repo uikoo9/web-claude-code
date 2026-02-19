@@ -13,7 +13,7 @@ export default function TerminalClient({ token }: { token: string }) {
         WebkitOverflowScrolling: 'touch',
       }}
     >
-      <div style={{ minWidth: '1024px', width: '100%', height: '100%' }}>
+      <div style={{ minWidth: '1280px', width: '100%', height: '100%' }}>
         <Terminal mode="online" token={token} wsUrl="https://ws.webcc.dev" />
       </div>
     </div>

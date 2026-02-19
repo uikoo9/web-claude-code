@@ -115,7 +115,7 @@ export function Steps({ onImageClick }: { onImageClick?: () => void }) {
             titleKey="step3Title"
             descriptionKey="step3Description"
             showImage={true}
-            imageUrl="https://static-small.vincentqiao.com/webcc.png"
+            imageUrl="/demo.png"
             onImageClick={onImageClick}
           />
         </div>
