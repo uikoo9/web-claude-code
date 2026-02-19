@@ -35,7 +35,12 @@ npm install -g @webccc/cli
 webcc
 ```
 
-That's it! Your browser will automatically open with the Claude Code terminal interface. 🎉
+The CLI will prompt you to select a mode:
+
+- **Local mode**: Start a local server and connect via browser
+- **Online mode**: Connect to remote server (ws.webcc.dev) for session sharing
+
+After starting, open your browser and navigate to the displayed URL (typically `http://localhost:4000`).
 
 **Note:** You need to create a `.env` file with required configuration before running.
 
@@ -79,30 +84,47 @@ Then simply run `webcc`.
 
 ## 💡 Usage Examples
 
-### Example 1: Quick Local Setup
+### Example 1: Local Mode Setup
 
 ```bash
 # Create .env file
 echo "ANTHROPIC_BASE_URL=http://localhost:3000/api" > .env
 echo "ANTHROPIC_AUTH_TOKEN=sk-ant-xxxxx" >> .env
 
-# Start server
+# Start CLI
 webcc
+
+# Select "local" mode when prompted
+# Then open http://localhost:4000 in your browser
 ```
 
-Your browser opens automatically at `http://localhost:4000` 🚀
-
-### Example 2: Custom Port
+### Example 2: Online Mode (Session Sharing)
 
 ```bash
-# Custom port configuration
-echo "PORT=8080" >> .env
+# Create .env file (same as above)
+echo "ANTHROPIC_BASE_URL=http://localhost:3000/api" > .env
+echo "ANTHROPIC_AUTH_TOKEN=sk-ant-xxxxx" >> .env
+
+# Start CLI
 webcc
+
+# Select "online" mode when prompted
+# CLI will connect to ws.webcc.dev
+# Multiple browsers can connect to the same session using the token
 ```
 
-Access at `http://localhost:8080`
+### Example 3: Custom Port (Local Mode)
 
-### Example 3: NPM Scripts Integration
+```bash
+# Add custom port to .env
+echo "PORT=8080" >> .env
+webcc
+
+# Select "local" mode
+# Then open http://localhost:8080 in your browser
+```
+
+### Example 4: NPM Scripts Integration
 
 Add to your `package.json`:
 
