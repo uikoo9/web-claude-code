@@ -46,10 +46,7 @@ web-claude-code/
 │   └── index/         # @webccc/index (v0.0.7) - 官方网站 ❌ 不发布
 ├── docs/              # 文档目录
 │   ├── ARCHITECTURE.md           # 本文档
-│   ├── PROMOTION.md              # 推广计划
-│   ├── TERMINAL_INTEGRATION.md   # 终端集成文档
-│   ├── domain-migration-summary.md
-│   └── online-mode-architecture.md
+│   └── PROMOTION.md              # 推广计划
 ├── CLAUDE.md          # Claude Code 项目指南
 ├── README.md          # 软链接 -> packages/cli/README.md
 ├── lerna.json         # Lerna 配置
