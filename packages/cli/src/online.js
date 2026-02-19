@@ -26,6 +26,12 @@ function startOnlineClient(token, config) {
   let cliProcess = null;
   let tempScript = null;
 
+  // Output buffer for late-joining browsers
+  let outputBuffer = [];
+  const MAX_BUFFER_LINES = 1000;
+  const MAX_BUFFER_SIZE = 5 * 1024 * 1024; // 5MB
+  let totalBufferSize = 0;
+
   // Connect to ws.webcc.dev
   const socket = io(WS_SERVER, {
     path: '/ws',
@@ -57,6 +63,18 @@ function startOnlineClient(token, config) {
   socket.on('cli-input', ({ data }) => {
     if (cliProcess && cliProcess.stdin.writable) {
       cliProcess.stdin.write(data);
+    }
+  });
+
+  // Listen for browser connection event
+  socket.on('browser-connected', () => {
+    logger.info('Browser connected, sending buffered output...');
+
+    // Send all buffered output to the browser
+    if (outputBuffer.length > 0) {
+      const bufferedData = outputBuffer.join('');
+      socket.emit('cli-output', { token, data: bufferedData });
+      logger.info(`Sent ${outputBuffer.length} buffered chunks (${totalBufferSize} bytes)`);
     }
   });
 
@@ -112,13 +130,38 @@ function startOnlineClient(token, config) {
     if (proc.stdout) proc.stdout.setEncoding('utf8');
     if (proc.stderr) proc.stderr.setEncoding('utf8');
 
-    proc.stdout.on('data', (data) => {
-      opts.socket.emit('cli-output', { token: opts.token, data });
-    });
+    // Helper function to buffer and emit output
+    const handleOutput = (data) => {
+      // Filter out expect's spawn command output
+      const filteredData = data
+        .split('\n')
+        .filter((line) => !line.trim().startsWith('spawn '))
+        .join('\n');
 
-    proc.stderr.on('data', (data) => {
-      opts.socket.emit('cli-output', { token: opts.token, data });
-    });
+      if (!filteredData) return;
+
+      // Add to buffer
+      outputBuffer.push(filteredData);
+      totalBufferSize += filteredData.length;
+
+      // Limit buffer by line count
+      while (outputBuffer.length > MAX_BUFFER_LINES) {
+        const removed = outputBuffer.shift();
+        totalBufferSize -= removed.length;
+      }
+
+      // Limit buffer by total size
+      while (totalBufferSize > MAX_BUFFER_SIZE && outputBuffer.length > 0) {
+        const removed = outputBuffer.shift();
+        totalBufferSize -= removed.length;
+      }
+
+      // Emit to connected browsers in real-time
+      opts.socket.emit('cli-output', { token: opts.token, data: filteredData });
+    };
+
+    proc.stdout.on('data', handleOutput);
+    proc.stderr.on('data', handleOutput);
 
     proc.on('close', (code) => {
       logger.warn(`Claude CLI exited with code: ${code}`);
