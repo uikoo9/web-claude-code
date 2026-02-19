@@ -268,3 +268,5 @@ yarn.lock
 __pycache__/
 *.pyc
 *.pyo
+# Claude Code CLI files
+.claude/
