@@ -45,7 +45,7 @@ export function Header() {
       <header className="header">
         <div className="header-content">
           {/* Logo - Left */}
-          <h1 className="logo">webcc.dev</h1>
+          <h1 className="logo">WebCC.dev</h1>
 
           {/* Right side buttons */}
           <div className="header-actions">
