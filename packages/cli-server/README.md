@@ -1,121 +1,127 @@
 # @webccc/cli-server
 
-Web Claude Code Server - 为 Claude Code 提供 Web 界面的服务器端实现。
+Web Claude Code Server - Server-side implementation providing web interface for Claude Code.
 
-## 简介
+## Introduction
 
-这是一个基于 Express 和 Socket.IO 的服务器，它：
+This is an Express and Socket.IO based server that:
 
-- 启动并管理 Claude CLI 进程
-- 提供 WebSocket 接口供前端通过浏览器与 Claude CLI 交互
-- 托管静态 Web 界面文件
+- Starts and manages Claude CLI process
+- Provides WebSocket interface for browser to interact with Claude CLI
+- Serves static web interface files
 
-## 安装
+## Installation
 
 ```bash
 npm install @webccc/cli-server
 ```
 
-## 使用方法
+## Usage
 
 ```javascript
 const { startClaudeCodeServer } = require('@webccc/cli-server');
 
-// 启动服务器（需要提供 Claude 配置）
+// Start server (requires Claude configuration)
 const server = startClaudeCodeServer({
-  claudePath: 'claude', // 可选，Claude CLI 路径，默认 'claude'
-  anthropicBaseUrl: 'http://your-api-url:3000/api', // 必填
-  anthropicAuthToken: 'your_auth_token_here', // 必填
-  anthropicModel: 'claude-sonnet-4-5-20250929', // 可选，默认值
-  anthropicSmallFastModel: 'claude-sonnet-4-5-20250929', // 可选，默认值
-  port: 4000, // 可选，默认 4000
-  host: '0.0.0.0', // 可选，默认 '0.0.0.0'
+  claudePath: 'claude', // Optional, Claude CLI path, default 'claude'
+  anthropicBaseUrl: 'http://your-api-url:3000/api', // Required
+  anthropicAuthToken: 'your_auth_token_here', // Required
+  anthropicModel: 'claude-sonnet-4-5-20250929', // Optional, default value
+  anthropicSmallFastModel: 'claude-sonnet-4-5-20250929', // Optional, default value
+  port: 4000, // Optional, default 4000
+  host: '0.0.0.0', // Optional, default '0.0.0.0'
 });
 
-// 在需要时停止服务器
+// Stop server when needed
 process.on('SIGINT', () => {
   server.stop();
   process.exit(0);
 });
 ```
 
-## API 接口
+## API
 
 ### startClaudeCodeServer(options)
 
-启动 Claude Code Web 服务器。
+Start Claude Code web server.
 
-**参数：**
+**Parameters:**
 
-- `options` (Object) - 可选配置对象
-  - `claudePath` (string) - 可选，Claude CLI 路径，默认 `'claude'`（从 PATH 查找）
-  - `anthropicBaseUrl` (string) - **必填** Anthropic API Base URL
-  - `anthropicAuthToken` (string) - **必填** Anthropic Auth Token
-  - `anthropicModel` (string) - 可选，Claude 模型，默认 `'claude-sonnet-4-5-20250929'`
-  - `anthropicSmallFastModel` (string) - 可选，小型快速模型，默认 `'claude-sonnet-4-5-20250929'`
-  - `port` (number) - 可选，服务器端口，默认 `4000`
-  - `host` (string) - 可选，服务器主机，默认 `'0.0.0.0'`
+- `options` (Object) - Optional configuration object
+  - `claudePath` (string) - Optional, Claude CLI path, default `'claude'` (search from PATH)
+  - `anthropicBaseUrl` (string) - **Required** Anthropic API Base URL
+  - `anthropicAuthToken` (string) - **Required** Anthropic Auth Token
+  - `anthropicModel` (string) - Optional, Claude model, default `'claude-sonnet-4-5-20250929'`
+  - `anthropicSmallFastModel` (string) - Optional, small fast model, default `'claude-sonnet-4-5-20250929'`
+  - `port` (number) - Optional, server port, default `4000`
+  - `host` (string) - Optional, server host, default `'0.0.0.0'`
 
-**返回值：**
+**Returns:**
 
-返回一个对象，包含以下属性：
+Returns an object with the following properties:
 
-- `app` - Express 应用实例
-- `httpServer` - HTTP 服务器实例
-- `io` - Socket.IO 实例
-- `stop()` - 停止服务器的方法
+- `app` - Express application instance
+- `httpServer` - HTTP server instance
+- `io` - Socket.IO instance
+- `stop()` - Method to stop the server
 
-## HTTP 路由
+## HTTP Routes
 
-- `GET /` - 返回 Web 界面的 index.html
-- `GET /assets/*` - 静态资源文件（CSS、JS 等）
+- `GET /` - Returns web interface index.html
+- `GET /assets/*` - Static resource files (CSS, JS, etc.)
 
-## WebSocket 事件
+## WebSocket Events
 
-**路径：** `/ws`
+**Path:** `/ws`
 
-### 客户端 → 服务器
+### Client → Server
 
-- `cli-input` - 发送输入到 Claude CLI
-- `cli-restart` - 重启 Claude CLI 进程
+- `cli-input` - Send input to Claude CLI
+- `cli-restart` - Restart Claude CLI process
 
-### 服务器 → 客户端
+### Server → Client
 
-- `cli-output` - Claude CLI 的输出
+- `cli-output` - Output from Claude CLI
   ```javascript
   {
     type: 'stdout' | 'stderr' | 'exit' | 'error',
     data: string,
-    time: string // ISO 8601 格式
+    time: string // ISO 8601 format
   }
   ```
 
-## 目录结构
+## Directory Structure
 
 ```
-packages/server/
-├── index.js           # 主模块，导出 startClaudeCodeServer
-├── server.js          # 独立运行的服务器入口
-├── views/             # Web 界面静态文件（构建产物）
+packages/cli-server/
+├── src/
+│   ├── index.js           # Main module, exports startClaudeCodeServer
+│   ├── app.js             # Express application configuration
+│   ├── socket.js          # Socket.IO server configuration
+│   ├── cli.js             # Claude CLI process manager
+│   ├── expect-template.js # Expect script template generator
+│   └── logger.js          # Logging utility
+├── views/                 # Web interface static files (build output)
 │   ├── index.html
 │   └── assets/
 │       ├── index-*.js
 │       └── index-*.css
+├── server.js              # Standalone server entry point
 ├── package.json
 └── README.md
 ```
 
-## 环境要求
+## Requirements
 
 - Node.js >= 14.0.0
-- Claude CLI 已安装在系统中
-- expect 工具（用于 PTY 支持）
+- Claude CLI installed on the system
+- expect tool (for PTY support)
 
-## 跨平台说明
+## Cross-platform Notes
 
-服务器使用 expect 脚本（动态生成）来提供 PTY 支持，启动 Claude CLI。在不同平台上需要：
+The server uses dynamically generated expect script to provide PTY support and start Claude CLI. On different platforms:
 
-- **macOS/Linux**: 需要安装 expect 工具
+- **macOS/Linux**: Requires expect tool installation
 
   ```bash
   # macOS
@@ -125,13 +131,13 @@ packages/server/
   sudo apt-get install expect
   ```
 
-- **Windows**: 需要使用替代方案，如 WSL 或 node-pty
+- **Windows**: Use alternatives like WSL or node-pty
 
-## 依赖
+## Dependencies
 
-- `express` - Web 框架
-- `socket.io` - WebSocket 通信
-- `cors` - 跨域资源共享
+- `express` - Web framework
+- `socket.io` - WebSocket communication
+- `cors` - Cross-Origin Resource Sharing
 
 ## License
 
