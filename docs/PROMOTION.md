@@ -43,11 +43,21 @@
 
 ### Hacker News (Show HN)
 
-- [ ] 准备 Show HN 帖子
-  - [ ] 标题: `Show HN: Web Claude Code – Run Claude Code in the browser`
-  - [ ] 准备产品介绍（为什么做、解决什么问题、技术亮点）
-  - [ ] 最佳发布时间: 美国东部时间上午 8-10 点（周二到周四）
-  - [ ] 链接: https://news.ycombinator.com/submit
+- [x] 注册 Hacker News 账号
+- [x] 准备 Show HN 帖子内容（详见 docs/SHOW_HN_POST.md）
+- [x] 编写 HN 使用指南（详见 docs/HACKER_NEWS_GUIDE.md）
+- [ ] 积累 karma 到 50（发表有质量的评论）
+- [ ] 选择发布时间（周二-周四，美国东部上午 8-10 点）
+- [ ] 发布 Show HN 帖子
+- [ ] 快速回复评论（前 2 小时内）
+- [ ] 链接: https://news.ycombinator.com/submit
+
+**帖子准备**:
+
+- ✅ 标题: `Show HN: Web Claude Code – Run Claude Code in your browser`
+- ✅ 3 个版本的正文（技术向、简短版、问题导向）
+- ✅ 常见评论应对策略
+- ✅ 最佳发布时间表
 
 ### Reddit
 
