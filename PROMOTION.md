@@ -9,38 +9,38 @@
 
 - [x] Google Search Console 提交网站和网站地图
 - [x] Bing Webmaster Tools 提交网站和网站地图
+- [x] 优化 npm 包页面（README、keywords、description、homepage）
+- [x] 优化 GitHub README（badges、结构、删除冗余内容）
+- [x] 删除中文 README，使用英文统一文档
+- [x] 更新 demo 图片地址
+- [x] 修正 README 中的过时信息（交互式向导、使用示例）
+- [x] 根目录 README 改为软链接，统一维护
 
 ---
 
 ## 🎯 立即可做（优先级最高）
 
-### 1. npm 包页面优化
+### 1. ~~npm 包页面优化~~ ✅ 已完成
 
-- [ ] 优化 @webccc/cli 的 README
-  - [ ] 添加项目截图或 demo.gif
-  - [ ] 突出核心功能和使用场景
-  - [ ] 添加快速开始指南
-- [ ] 检查 package.json 配置
-  - [ ] keywords 字段是否完整（claude, ai, cli, terminal, web, browser）
-  - [ ] description 是否吸引人
-  - [ ] homepage 指向 https://webcc.dev
-  - [ ] repository 指向 GitHub
+- [x] 优化 @webccc/cli 的 README
+- [x] 添加项目截图
+- [x] 突出核心功能和使用场景
+- [x] 添加快速开始指南
+- [x] 完善 package.json 配置（keywords、description、homepage）
 
 ### 2. GitHub 仓库优化
 
-- [ ] 完善 README.md
-  - [ ] 添加 badges (npm version, downloads, license, build status)
-  - [ ] 添加项目演示截图/GIF
-  - [ ] 添加清晰的安装步骤
-  - [ ] 添加使用示例
-  - [ ] 添加贡献指南
-- [ ] 设置 Repository Topics
+- [x] 完善 README.md
+  - [x] 添加 badges (npm version, downloads, license, GitHub stars)
+  - [x] 添加项目演示截图
+  - [x] 添加清晰的安装步骤和使用示例
+  - [x] 简化内容，删除冗余部分
+- [ ] **设置 Repository Topics** ⬅️ **下一步做这个**
   - [ ] Settings → Topics → 添加标签
-  - [ ] 建议标签: `claude`, `ai`, `terminal`, `cli`, `web-terminal`, `xterm`, `socket-io`, `monorepo`, `anthropic`
+  - [ ] 建议标签: `claude`, `ai`, `terminal`, `cli`, `web-terminal`, `xterm`, `socket-io`, `monorepo`, `anthropic`, `claude-code`, `browser`, `developer-tools`
 - [ ] 检查 About 部分
   - [ ] Description 是否清晰
   - [ ] Website 链接到 https://webcc.dev
-  - [ ] Tags 是否完整
 
 ---
 
