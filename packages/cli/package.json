@@ -1,6 +1,6 @@
 {
   "name": "@webccc/cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Run Claude Code in your web browser - A powerful web-based terminal interface for Claude CLI",
   "license": "MIT",
   "author": "uikoo9 <uikoo9@qq.com>",
@@ -40,7 +40,7 @@
     "start": "node bin/webcc.js"
   },
   "dependencies": {
-    "@webccc/cli-server": "^0.1.1",
+    "@webccc/cli-server": "^0.1.2",
     "chalk": "^4.1.2",
     "commander": "^14.0.3",
     "dotenv": "^16.4.7",
