@@ -15,6 +15,9 @@
 - [x] 更新 demo 图片地址
 - [x] 修正 README 中的过时信息（交互式向导、使用示例）
 - [x] 根目录 README 改为软链接，统一维护
+- [x] 推送代码到 GitHub
+- [x] 设置 GitHub Repository Topics
+- [x] 发布新版本到 npm
 
 ---
 
@@ -28,23 +31,15 @@
 - [x] 添加快速开始指南
 - [x] 完善 package.json 配置（keywords、description、homepage）
 
-### 2. GitHub 仓库优化
+### 2. ~~GitHub 仓库优化~~ ✅ 已完成
 
 - [x] 完善 README.md
-  - [x] 添加 badges (npm version, downloads, license, GitHub stars)
-  - [x] 添加项目演示截图
-  - [x] 添加清晰的安装步骤和使用示例
-  - [x] 简化内容，删除冗余部分
-- [ ] **设置 Repository Topics** ⬅️ **下一步做这个**
-  - [ ] Settings → Topics → 添加标签
-  - [ ] 建议标签: `claude`, `ai`, `terminal`, `cli`, `web-terminal`, `xterm`, `socket-io`, `monorepo`, `anthropic`, `claude-code`, `browser`, `developer-tools`
-- [ ] 检查 About 部分
-  - [ ] Description 是否清晰
-  - [ ] Website 链接到 https://webcc.dev
+- [x] 设置 Repository Topics
+- [x] 检查 About 部分（Description、Website）
 
 ---
 
-## 🌟 开发者社区推广（影响力最大）
+## 🌟 开发者社区推广（影响力最大） ⬅️ **当前阶段**
 
 ### Hacker News (Show HN)
 
