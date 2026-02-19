@@ -134,6 +134,20 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
     term.open(terminalRef.current);
     fitAddon.fit();
 
+    // Mobile touch support - focus terminal on touch
+    const handleTouch = () => {
+      term.focus();
+    };
+
+    const terminalElement = terminalRef.current;
+    if (terminalElement) {
+      terminalElement.addEventListener('touchstart', handleTouch);
+      terminalElement.addEventListener('click', handleTouch);
+    }
+
+    // Auto-focus terminal
+    term.focus();
+
     xtermRef.current = term;
     fitAddonRef.current = fitAddon;
 
@@ -224,6 +238,12 @@ function TerminalComponent({ mode = 'local', token = '', wsUrl = '' }) {
     return () => {
       if (resizeObserverRef.current) {
         resizeObserverRef.current.disconnect();
+      }
+
+      // Remove touch event listeners
+      if (terminalElement) {
+        terminalElement.removeEventListener('touchstart', handleTouch);
+        terminalElement.removeEventListener('click', handleTouch);
       }
 
       socket.off('connect', handleConnect);
