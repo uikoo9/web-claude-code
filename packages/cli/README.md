@@ -11,22 +11,14 @@
 
 ## Why Web Claude Code?
 
+Traditional Claude CLI requires a terminal application and local setup. Web Claude Code brings Claude to your browser with:
+
 - 🌐 **Browser-Based**: No local terminal required - access Claude Code from any browser
 - 🚀 **Quick Setup**: One command to start - `webcc` and you're ready
 - 🔄 **Real-time Sync**: WebSocket-powered bidirectional communication with Claude CLI
 - 💾 **History Persistence**: Terminal history saved across sessions
 - 📱 **Mobile Friendly**: Works on tablets and mobile devices
 - 🎨 **Beautiful UI**: Modern terminal interface with xterm.js
-
-## ✨ Features
-
-- 🌐 **Browser-Based Terminal**: Access Claude Code from any browser - no local terminal needed
-- 🚀 **One-Command Setup**: Just run `webcc` and you're ready to go
-- 🔄 **Real-time Sync**: WebSocket-powered bidirectional communication
-- 💾 **Session Persistence**: Terminal history saved across page refreshes
-- 📱 **Mobile Friendly**: Works on tablets and mobile devices
-- 🎨 **Modern UI**: Beautiful terminal interface powered by xterm.js
-- 🔧 **Smart Configuration**: Auto-detect `.env` or use interactive wizard
 - 🌍 **Remote Access**: Share your Claude session with online mode
 
 ## 🚀 Quick Start
@@ -45,14 +37,9 @@ webcc
 
 That's it! Your browser will automatically open with the Claude Code terminal interface. 🎉
 
-The CLI intelligently checks for a `.env` file:
-
-- ✅ **With `.env`**: Auto-loads configuration and starts immediately
-- 🔧 **Without `.env`**: Launches an interactive setup wizard
+**Note:** You need to create a `.env` file with required configuration before running.
 
 ## ⚙️ Configuration
-
-### Option 1: .env File (Recommended)
 
 Create a `.env` file in your project directory:
 
@@ -69,16 +56,6 @@ WORK_DIR=/path/to/your/project
 ```
 
 Then simply run `webcc`.
-
-### Option 2: Interactive Wizard
-
-No `.env` file? No problem! Run `webcc` and follow the interactive prompts:
-
-```bash
-webcc
-```
-
-The wizard will guide you through all required and optional settings.
 
 ## 📋 Configuration Reference
 
@@ -209,16 +186,6 @@ sudo apt-get install expect
 ```
 
 </details>
-
-## 🌟 Why Web Claude Code?
-
-Traditional Claude CLI requires a terminal application and local setup. Web Claude Code brings Claude to your browser with:
-
-- ✅ **Universal Access**: Works on any device with a browser
-- ✅ **No Terminal Needed**: Perfect for users unfamiliar with command line
-- ✅ **Remote Capable**: Access your Claude session from anywhere
-- ✅ **Session Persistence**: Never lose your conversation history
-- ✅ **Modern UX**: Beautiful, responsive interface
 
 ## 🤝 Contributing
 
