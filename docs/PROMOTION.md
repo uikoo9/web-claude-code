@@ -64,20 +64,33 @@
 - [x] 准备 Reddit 帖子内容（详见 docs/REDDIT_POSTS.md）
 - [x] 编写 Reddit 使用指南（详见 docs/REDDIT_GUIDE.md）
 - [x] 针对 r/ClaudeAI Rule 7 优化帖子内容
-- [ ] 注册 Reddit 账号
-- [ ] 积累初始 karma（10+ 推荐）
-- [ ] r/ClaudeAI - 发布项目介绍（优先级最高）
-- [ ] r/LocalLLaMA - 分享工具（第3天）
-- [ ] r/commandline - CLI 工具社区（第5天）
-- [ ] r/webdev - Web 开发者社区（第5天）
-- [ ] 注意: 每个 subreddit 规则不同，间隔1-2天发布，避免 spam
+- [x] 注册 Reddit 账号
+- [x] 实际测试发现账号年龄限制（需等待 7 天）
+- [ ] **等待期（7 天）**: 每日参与评论积累 karma（目标 10-20）
+- [ ] **第 8 天**: r/ClaudeAI - 发布项目介绍
+- [ ] **第 10 天**: r/LocalLLaMA - 分享工具
+- [ ] **第 12 天**: r/commandline 或 r/webdev
+
+**实际测试结果**:
+
+- ❌ r/ClaudeAI AutoModerator 拦截新账号
+- ✅ 已添加详细的 7 天准备期策略
+- ✅ 包含每日行动计划和 karma 积累技巧
 
 **帖子准备**:
 
 - ✅ 为 4 个 subreddit 定制不同版本的帖子
 - ✅ r/ClaudeAI 帖子符合 Rule 7 要求（强调教育价值、免费开源）
+- ✅ 添加 Flair 选择指导
 - ✅ 发布时间建议和评论应对策略
 - ✅ 各社区文化和注意事项
+
+**当前优先级调整**:
+由于 Reddit 需要 7 天等待期，建议这段时间专注于:
+
+1. Hacker News karma 积累（需要 50 karma 发 Show HN）
+2. GitHub 仓库优化（stars, topics）
+3. 准备 Product Hunt 发布
 
 ### Product Hunt
 
