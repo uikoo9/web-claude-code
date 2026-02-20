@@ -25,7 +25,7 @@
 **标题**:
 
 ```
-[Tool] Web Claude Code - Run Claude Code in your browser
+I built a free browser-based terminal for Claude Code users (open source)
 ```
 
 **正文**:
@@ -33,20 +33,23 @@
 ````markdown
 Hey everyone! 👋
 
-I built a web interface for Claude Code CLI that lets you use it directly in your browser.
+As a Claude Code user, I found myself wanting to use it on devices without terminal access (iPad, shared computers, etc.). So I built a free, open-source web interface that might help others in similar situations.
 
-**Why I made this:**
+**Note:** This is built FOR Claude Code (Anthropic's CLI tool), not WITH Claude as an AI assistant. It's a tool to help the community access Claude Code more easily.
 
-- I wanted to use Claude Code on my iPad, but there's no native terminal app
-- Sometimes I need to share a Claude session with teammates
-- Setting up Claude CLI can be tricky for non-technical users
+**Who this might help:**
+
+- **Mobile users** - Use Claude Code on tablets/phones
+- **Educators/Team leads** - Share live Claude sessions for teaching or demos
+- **Beginners** - No terminal setup required, just install and run
+- **Remote workers** - Access your Claude Code session from any browser
 
 **What it does:**
 
-- Wraps Claude Code CLI in a web terminal (xterm.js)
-- Two modes: local (localhost) or online (session sharing via webcc.dev)
-- Terminal history persists across page refreshes
-- Works on any device with a browser
+- Provides a web-based terminal that connects to Claude Code CLI
+- Two modes: local (runs on localhost) or online (session sharing)
+- Saves terminal history across page refreshes
+- Free forever, no paid tiers, fully open source
 
 **Quick start:**
 
@@ -57,19 +60,19 @@ webcc
 ```
 ````
 
-**Tech stack:**
+**Technical implementation:**
 
-- Express + Socket.IO for real-time communication
+- Express + Socket.IO for WebSocket communication
 - React + xterm.js for terminal emulation
-- Published as npm packages
+- Available as npm package
 
-**Links:**
+**100% free and open source:**
 
-- Website: https://webcc.dev
 - GitHub: https://github.com/uikoo9/web-claude-code
+- Website: https://webcc.dev
 - npm: https://www.npmjs.com/package/@webccc/cli
 
-Would love to hear your feedback or suggestions! Happy to answer any questions.
+Happy to answer questions about the implementation or how it might help your workflow!
 
 ```
 
