@@ -111,7 +111,36 @@ export function Footer() {
               </a>
             </div>
 
-            {/* Column 3: Contact */}
+            {/* Column 3: More */}
+            <div className="footer-column">
+              <h4 className="footer-title">{locale === 'zh' ? '更多' : 'More'}</h4>
+              <a
+                href={`https://b.vincentqiao.com/${locale}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link"
+              >
+                {locale === 'zh' ? '博客' : 'Blog'}
+              </a>
+              <a
+                href="https://resume.vincentqiao.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link"
+              >
+                {locale === 'zh' ? '简历' : 'Resume'}
+              </a>
+              <a
+                href="https://code.vincentqiao.com/#/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link"
+              >
+                {locale === 'zh' ? '代码集合' : 'Code Collection'}
+              </a>
+            </div>
+
+            {/* Column 4: Contact */}
             <div className="footer-column">
               <h4 className="footer-title">{locale === 'zh' ? '联系方式' : 'Contact'}</h4>
               <a
