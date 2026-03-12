@@ -115,12 +115,20 @@ export function Footer() {
             <div className="footer-column">
               <h4 className="footer-title">{locale === 'zh' ? '更多' : 'More'}</h4>
               <a
-                href={`https://b.vincentqiao.com/${locale}/`}
+                href={locale === 'zh' ? 'https://blog.vincentqiao.com/' : 'https://blog.vincentqiao.com/en/'}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="footer-link"
               >
                 {locale === 'zh' ? '博客' : 'Blog'}
+              </a>
+              <a
+                href="https://blog.csdn.net/uikoo9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link"
+              >
+                CSDN
               </a>
               <a
                 href="https://resume.vincentqiao.com/"
