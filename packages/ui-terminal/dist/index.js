@@ -69,9 +69,9 @@ exports.default = function (o) {
     s = void 0 === f ? '' : f,
     d = e.useRef(null),
     m = e.useRef(null),
-    b = e.useRef(null),
-    h = e.useRef(null),
     v = e.useRef(null),
+    h = e.useRef(null),
+    b = e.useRef(null),
     g = c(e.useState(!1), 2),
     y = g[0],
     p = g[1],
@@ -115,8 +115,16 @@ exports.default = function (o) {
               allowProposedApi: !0,
             }),
             a = new n.FitAddon();
-          (c.loadAddon(a), c.open(d.current), a.fit(), (m.current = c), (b.current = a));
-          var l = (function () {
+          (c.loadAddon(a), c.open(d.current), a.fit());
+          var l = function () {
+              c.focus();
+            },
+            f = d.current;
+          (f && (f.addEventListener('touchstart', l), f.addEventListener('click', l)),
+            c.focus(),
+            (m.current = c),
+            (v.current = a));
+          var g = (function () {
             try {
               var e = o();
               return localStorage.getItem(e) || '';
@@ -124,30 +132,30 @@ exports.default = function (o) {
               return (console.error('Failed to load history from localStorage:', e), '');
             }
           })();
-          (l && ((w.current = l), c.write(l), c.write('\r\n'), c.scrollToBottom()),
+          (g && ((w.current = g), c.write(g), c.write('\r\n'), c.scrollToBottom()),
             c.onData(function (e) {
               h.current &&
                 h.current.connected &&
                 ('online' === i ? h.current.emit('cli-input', { token: u, data: e }) : h.current.emit('cli-input', e));
             }));
-          var f = { path: '/ws', transports: ['websocket'] },
-            g = 'online' === i ? r.io(s, f) : r.io(f);
-          h.current = g;
-          var y = function () {
-              'online' === i ? g.emit('register', { type: 'browser', token: u }) : p(!0);
+          var y = { path: '/ws', transports: ['websocket'] },
+            k = 'online' === i ? r.io(s, y) : r.io(y);
+          h.current = k;
+          var S = function () {
+              'online' === i ? k.emit('register', { type: 'browser', token: u }) : p(!0);
             },
-            S = function () {
+            C = function () {
               p(!0);
             },
-            k = function () {
-              p(!1);
-            },
-            C = function () {},
             A = function () {
               p(!1);
             },
             N = function () {},
-            R = function (r) {
+            R = function () {
+              p(!1);
+            },
+            I = function () {},
+            x = function (r) {
               r.data &&
                 (c.write(r.data),
                 (function (r) {
@@ -166,30 +174,31 @@ exports.default = function (o) {
                   }
                 })(r.data));
             };
-          (g.on('connect', y),
-            g.on('registered', S),
-            g.on('disconnect', k),
-            g.on('cli-disconnected', C),
-            g.on('connect_error', A),
-            g.on('error', N),
-            g.on('cli-output', R));
-          var I = new ResizeObserver(function () {
+          (k.on('connect', S),
+            k.on('registered', C),
+            k.on('disconnect', A),
+            k.on('cli-disconnected', N),
+            k.on('connect_error', R),
+            k.on('error', I),
+            k.on('cli-output', x));
+          var F = new ResizeObserver(function () {
             requestAnimationFrame(function () {
               a.fit();
             });
           });
           return (
-            d.current && (I.observe(d.current), (v.current = I)),
+            d.current && (F.observe(d.current), (b.current = F)),
             function () {
-              (v.current && v.current.disconnect(),
-                g.off('connect', y),
-                g.off('registered', S),
-                g.off('disconnect', k),
-                g.off('cli-disconnected', C),
-                g.off('connect_error', A),
-                g.off('error', N),
-                g.off('cli-output', R),
-                g.disconnect(),
+              (b.current && b.current.disconnect(),
+                f && (f.removeEventListener('touchstart', l), f.removeEventListener('click', l)),
+                k.off('connect', S),
+                k.off('registered', C),
+                k.off('disconnect', A),
+                k.off('cli-disconnected', N),
+                k.off('connect_error', R),
+                k.off('error', I),
+                k.off('cli-output', x),
+                k.disconnect(),
                 c.dispose());
             }
           );

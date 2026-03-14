@@ -131,14 +131,6 @@ export function Footer() {
                 CSDN
               </a>
               <a
-                href="https://resume.vincentqiao.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-link"
-              >
-                {locale === 'zh' ? '简历' : 'Resume'}
-              </a>
-              <a
                 href="https://code.vincentqiao.com/#/"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -159,6 +151,14 @@ export function Footer() {
               >
                 GitHub
               </a>
+              <a
+                href="https://resume.vincentqiao.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-link"
+              >
+                {locale === 'zh' ? '简历' : 'Resume'}
+              </a>
               <a href="mailto:hello@vincentqiao.com" className="footer-link">
                 hello@vincentqiao.com
               </a>
@@ -170,7 +170,18 @@ export function Footer() {
       {/* Sub Footer */}
       <div className="sub-footer">
         <div className="container container-xl">
-          <span className="sub-footer-text">© 2026 Vincent. All rights reserved.</span>
+          <span className="sub-footer-text">
+            © 2026{' '}
+            <a
+              href="https://www.vincentqiao.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="sub-footer-link"
+            >
+              vincentqiao.com
+            </a>
+            . All rights reserved.
+          </span>
         </div>
       </div>
     </>

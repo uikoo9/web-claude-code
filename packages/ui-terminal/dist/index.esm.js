@@ -64,16 +64,16 @@ function u(i) {
     s = i.token,
     d = void 0 === s ? '' : s,
     m = i.wsUrl,
-    b = void 0 === m ? '' : m,
+    v = void 0 === m ? '' : m,
     h = r(null),
-    v = r(null),
+    b = r(null),
     g = r(null),
     p = r(null),
     y = r(null),
     w = l(t(!1), 2),
     E = w[0],
-    S = w[1],
-    k = r(''),
+    k = w[1],
+    S = r(''),
     C = r('');
   n(
     function () {
@@ -81,7 +81,7 @@ function u(i) {
         r = function () {
           return 'online' === f ? 'terminal-history-online-'.concat(d) : 'terminal-history-local';
         };
-      if ('online' !== f || (d && b)) {
+      if ('online' !== f || (d && v)) {
         C.current = r();
         var t = new c({
             cursorBlink: !0,
@@ -112,8 +112,16 @@ function u(i) {
             allowProposedApi: !0,
           }),
           n = new a();
-        (t.loadAddon(n), t.open(h.current), n.fit(), (v.current = t), (g.current = n));
-        var i = (function () {
+        (t.loadAddon(n), t.open(h.current), n.fit());
+        var i = function () {
+            t.focus();
+          },
+          l = h.current;
+        (l && (l.addEventListener('touchstart', i), l.addEventListener('click', i)),
+          t.focus(),
+          (b.current = t),
+          (g.current = n));
+        var u = (function () {
           try {
             var e = r();
             return localStorage.getItem(e) || '';
@@ -121,79 +129,80 @@ function u(i) {
             return (console.error('Failed to load history from localStorage:', e), '');
           }
         })();
-        (i && ((k.current = i), t.write(i), t.write('\r\n'), t.scrollToBottom()),
+        (u && ((S.current = u), t.write(u), t.write('\r\n'), t.scrollToBottom()),
           t.onData(function (e) {
             p.current &&
               p.current.connected &&
               ('online' === f ? p.current.emit('cli-input', { token: d, data: e }) : p.current.emit('cli-input', e));
           }));
-        var l = { path: '/ws', transports: ['websocket'] },
-          u = 'online' === f ? o(b, l) : o(l);
-        p.current = u;
-        var s = function () {
-            'online' === f ? u.emit('register', { type: 'browser', token: d }) : S(!0);
+        var s = { path: '/ws', transports: ['websocket'] },
+          m = 'online' === f ? o(v, s) : o(s);
+        p.current = m;
+        var w = function () {
+            'online' === f ? m.emit('register', { type: 'browser', token: d }) : k(!0);
           },
-          m = function () {
-            S(!0);
+          E = function () {
+            k(!0);
           },
-          w = function () {
-            S(!1);
-          },
-          E = function () {},
           N = function () {
-            S(!1);
+            k(!1);
           },
           A = function () {},
-          I = function (r) {
+          I = function () {
+            k(!1);
+          },
+          x = function () {},
+          F = function (r) {
             r.data &&
               (t.write(r.data),
               (function (r) {
                 try {
                   var t = C.current,
-                    n = k.current + r;
+                    n = S.current + r;
                   n.length > e && (n = n.slice(-5242880));
                   var o = n.split('\n');
-                  (o.length > 1e4 && (n = o.slice(-1e4).join('\n')), (k.current = n), localStorage.setItem(t, n));
+                  (o.length > 1e4 && (n = o.slice(-1e4).join('\n')), (S.current = n), localStorage.setItem(t, n));
                 } catch (e) {
                   if ((console.error('Failed to save history to localStorage:', e), 'QuotaExceededError' === e.name))
                     try {
                       var c = r.slice(-2621440);
-                      ((k.current = c), localStorage.setItem(C.current, c));
+                      ((S.current = c), localStorage.setItem(C.current, c));
                     } catch (e) {}
                 }
               })(r.data));
           };
-        (u.on('connect', s),
-          u.on('registered', m),
-          u.on('disconnect', w),
-          u.on('cli-disconnected', E),
-          u.on('connect_error', N),
-          u.on('error', A),
-          u.on('cli-output', I));
-        var x = new ResizeObserver(function () {
+        (m.on('connect', w),
+          m.on('registered', E),
+          m.on('disconnect', N),
+          m.on('cli-disconnected', A),
+          m.on('connect_error', I),
+          m.on('error', x),
+          m.on('cli-output', F));
+        var L = new ResizeObserver(function () {
           requestAnimationFrame(function () {
             n.fit();
           });
         });
         return (
-          h.current && (x.observe(h.current), (y.current = x)),
+          h.current && (L.observe(h.current), (y.current = L)),
           function () {
             (y.current && y.current.disconnect(),
-              u.off('connect', s),
-              u.off('registered', m),
-              u.off('disconnect', w),
-              u.off('cli-disconnected', E),
-              u.off('connect_error', N),
-              u.off('error', A),
-              u.off('cli-output', I),
-              u.disconnect(),
+              l && (l.removeEventListener('touchstart', i), l.removeEventListener('click', i)),
+              m.off('connect', w),
+              m.off('registered', E),
+              m.off('disconnect', N),
+              m.off('cli-disconnected', A),
+              m.off('connect_error', I),
+              m.off('error', x),
+              m.off('cli-output', F),
+              m.disconnect(),
               t.dispose());
           }
         );
       }
       console.error('Token and wsUrl are required for online mode');
     },
-    [f, d, b],
+    [f, d, v],
   );
   return e.createElement(
     'div',
@@ -219,12 +228,12 @@ function u(i) {
           'button',
           {
             onClick: function () {
-              v.current &&
-                (v.current.clear(),
+              b.current &&
+                (b.current.clear(),
                 (function () {
                   try {
                     var e = C.current;
-                    (localStorage.removeItem(e), (k.current = ''));
+                    (localStorage.removeItem(e), (S.current = ''));
                   } catch (e) {
                     console.error('Failed to clear history from localStorage:', e);
                   }

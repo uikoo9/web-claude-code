@@ -452,6 +452,16 @@ body {
   opacity: 0.6;
 }
 
+.sub-footer-link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.sub-footer-link:hover {
+  color: var(--color-primary, #2563eb);
+}
+
 /* Language Switcher */
 .lang-switcher {
   padding: 10px 14px;
